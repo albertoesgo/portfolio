@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 190">
+  <!--
+    AquaAndalucía — "A" maciza con muesca inferior + gota de agua.
+    Reproduce el isotipo: triángulo sólido (sin contraforma) con un
+    corte en V en la base y una gota blanca con núcleo verde oscuro.
+  -->
+
+  <!-- "A" maciza: silueta exterior con muesca en V en la base -->
+  <path
+    fill="#2e7d46"
+    stroke="#2e7d46"
+    stroke-width="6"
+    stroke-linejoin="round"
+    d="M100,16
+       L186,176
+       L138,176
+       L100,120
+       L62,176
+       L14,176
+       Z"
+  />
+
+  <!-- Gota — borde blanco exterior -->
+  <path
+    fill="#ffffff"
+    d="M100,50
+       C 124,86  130,104  130,118
+       A 30,30 0 1 1  70,118
+       C  70,104  76,86  100,50
+       Z"
+  />
+
+  <!-- Gota — núcleo verde oscuro interior -->
+  <path
+    fill="#1d5c2e"
+    d="M100,66
+       C 119,95  122,108  122,119
+       A 22,22 0 1 1  78,119
+       C  78,108  81,95  100,66
+       Z"
+  />
+</svg>

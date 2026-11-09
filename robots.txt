@@ -1,0 +1,3 @@
+# Borrador: no indexar hasta el lanzamiento
+User-agent: *
+Disallow: /
