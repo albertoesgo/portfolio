@@ -144,7 +144,8 @@ $('#dock').innerHTML =
 $('#pager').innerHTML = SP.map(() => '<i></i>').join('');
 
 /* ── Modo y escala ── */
-const mq = matchMedia('(max-width: 760px)');
+// Móvil en vertical u horizontal (pantalla táctil y baja) → interfaz iOS
+const mq = matchMedia('(max-width: 760px), (max-height: 520px) and (pointer: coarse)');
 function setMode() {
   mode = mq.matches ? 'phone' : 'mac';
   document.body.classList.toggle('mac', mode === 'mac');

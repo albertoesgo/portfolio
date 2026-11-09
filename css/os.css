@@ -272,7 +272,7 @@ button.widget { cursor: pointer; }
 .phone .titlebar { display: none; }
 .phone .wbody { grid-template-columns: minmax(0, 1fr); grid-auto-rows: max-content; overflow-y: auto; padding-bottom: calc(130px + env(safe-area-inset-bottom, 0px)); scrollbar-width: none; touch-action: pan-y; align-content: start; }
 .phone .media { padding: calc(14px + env(safe-area-inset-top, 0px)) 14px 0; }
-.phone .shot { aspect-ratio: 4 / 5; }
+.phone .shot { aspect-ratio: 4 / 5; max-height: 72dvh; margin-inline: auto; }
 .phone .slide.m img, .phone .shot img { object-position: top; }
 .phone .phoneshot, .phone .cap { display: none; }
 .phone .media { display: block; overflow: visible; min-height: auto; }
