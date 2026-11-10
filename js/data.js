@@ -85,7 +85,7 @@ export const filters = [
 
 export const projects = [
   {
-    id: 'aqua', name: 'AquaAndalucía', cats: ['ia'], live: false,
+    id: 'aqua', metric: { es: '−52 % de error a 30 días', en: '−52% error at 30 days' },  name: 'AquaAndalucía', cats: ['ia'], live: false,
     kind: { es: 'Trabajo Fin de Grado · IA aplicada · 2025–2026', en: "Bachelor's thesis · Applied AI · 2025–2026" },
     logo: 'img/logos/aquaandalucia.svg', plate: '#ffffff', tint: '#2e7d46', wall: 'aqua', url: { es: 'TFG · Universidad de Málaga', en: 'Thesis · University of Málaga' },
     tagline: {
@@ -160,7 +160,7 @@ export const projects = [
     },
   },
   {
-    id: 'lookit', name: 'LOOKIT', cats: ['ia', 'prod'], live: true,
+    id: 'lookit', metric: { es: '9.000+ prendas', en: '9,000+ items' },  name: 'LOOKIT', cats: ['ia', 'prod'], live: true,
     kind: { es: 'Producto propio · 2026', en: 'Own product · 2026' },
     logo: 'img/logos/lookit.svg', plate: null, tint: '#a8d400', wall: 'lookit', url: 'lookit.es',
     tagline: {
@@ -225,7 +225,7 @@ export const projects = [
     },
   },
   {
-    id: 'lucia', name: 'Lucía Gascón', cats: ['cli'], live: true,
+    id: 'lucia', metric: { es: '13 obras recorribles en 3D', en: '13 works to walk through in 3D' },  name: 'Lucía Gascón', cats: ['cli'], live: true,
     kind: { es: 'Cliente · Web de artista · 2026', en: 'Client · Artist website · 2026' },
     logo: 'img/logos/lucia-gascon.png', plate: null, tint: '#8c2f28', wall: 'lucia', url: 'luciagascon.es',
     tagline: {
@@ -288,7 +288,7 @@ export const projects = [
     },
   },
   {
-    id: 'wild', name: 'WildCamper', cats: ['cli', 'prod'], live: true,
+    id: 'wild', metric: { es: '100 % editable por el cliente', en: '100% client-editable' },  name: 'WildCamper', cats: ['cli', 'prod'], live: true,
     kind: { es: 'Cliente · Plataforma de negocio · 2026', en: 'Client · Business platform · 2026' },
     logo: 'img/logos/wildcamper.png', plate: null, tint: '#e8892b', wall: 'wild', url: 'wildcamper.es',
     tagline: {
@@ -351,7 +351,7 @@ export const projects = [
     },
   },
   {
-    id: 'detemp', name: 'DeTemporada', cats: ['prod'], live: false,
+    id: 'detemp', metric: { es: '210 productos · 451 comercios', en: '210 products · 451 shops' },  name: 'DeTemporada', cats: ['prod'], live: false,
     kind: { es: 'Producto propio · PWA · 2026', en: 'Own product · PWA · 2026' },
     logo: 'img/logos/detemporada.svg', plate: null, tint: '#f0531c', wall: 'detemp', url: 'DeTemporada',
     tagline: {
@@ -376,7 +376,7 @@ export const projects = [
     },
     stack: ['React', 'Vite', 'PWA', 'Node.js', 'Geocoding', 'E2E'],
     shots: [['detemp-home', 'kb'], ['detemp-tall', 'tall']], phone: 'detemp-mobile',
-    link: null, linkLabel: null,
+    link: 'https://de-temporada-mauve.vercel.app', linkLabel: 'DeTemporada',
     keys: 'react vite pwa offline datos data geolocalización geocoding mapa map comercios shops alimentos food temporada seasonal recetas recipes producto product tests e2e',
     case: {
       role: { es: 'Producto, datos y desarrollo.', en: 'Product, data and development.' },

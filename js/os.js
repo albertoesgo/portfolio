@@ -116,29 +116,31 @@ function chromeHTML() {
 const rv = (k) => ` rv" style="--k:${k}`;
 
 function homeHTML(cur) {
-  const L = live.lookit, D = live.detemporada;
   const total = aquaData ? aquaData.total : null;
   const pct = (v) => (lang === 'es' ? `${fmt(v, 1)} %` : `${fmt(v, 1)}%`);
+  const h = t.homeX;
+  const metric = (p) => (p.id === 'lookit' ? h.lookitM(fmt(live.lookit.products)) : p.id === 'aqua' && total ? h.aquaM(pct(total.normal[0]), pct(total.normal[90])) : tr(p.metric));
+  const card = (p, k) => `<button class="fc${k === 0 ? ' big' : ''}" data-go="${k + 1}" style="--tint:${p.tint}">
+      <img src="${shot(p.shots[0][0])}" alt="" draggable="false">
+      <span class="fcx">${appIcon(p)}<span><b>${esc(p.name)}</b><small>${esc(metric(p))}</small></span>${p.live ? `<i class="dot" title="${t.live}"></i>` : ''}</span>
+    </button>`;
   return `
   <section class="space${cur ? ' cur' : ''}" data-i="0" aria-label="${t.home}"><div class="home">
     <div class="qs"><button class="pill" data-act="lang" lang="${t.other}" aria-label="${t.langBtn}">${UI[t.other].short}</button><button class="ico" data-act="theme"></button></div>
-    <div class="widget w-profile${rv(0)}"><div class="avatar" aria-hidden="true">${profile.initials}</div><div>
+    <div class="hero">
+      <p class="hi${rv(0)}">${h.hi}</p>
+      <h1 class="${rv(1)}">${esc(profile.name)}</h1>
+      <p class="hrole${rv(2)}">${esc(tr(profile.role))} · ${esc(tr(profile.location))}</p>
+      <p class="hline${rv(3)}">${esc(tr(profile.headline))}</p>
+      <div class="actions${rv(4)}"><a class="btn" href="${cvFile(lang)}" target="_blank" rel="noopener">${ICON.doc}${t.downloadCV}</a><button class="btn sec" data-act="overview">${h.see}</button><button class="btn sec" data-act="contact">${t.contact}</button></div>
+      <dl class="facts${rv(5)}">${h.facts.map(([a, b]) => `<div><dt>${a}</dt><dd>${b}</dd></div>`).join('')}</dl>
+    </div>
+    <div class="feat${rv(2)}" aria-label="${t.projects}">${projects.map(card).join('')}</div>
+    <div class="w-profile${rv(0)}"><div class="avatar" aria-hidden="true">${profile.initials}</div><div>
       <h1>${esc(profile.name)}</h1>
       <p class="role">${esc(tr(profile.role))} · ${esc(tr(profile.location))}</p>
-      <p class="now">${esc(tr(profile.headline))}</p>
-      <div class="actions"><a class="btn" href="${cvFile(lang)}" target="_blank" rel="noopener">${ICON.doc}${t.cv}</a><button class="btn sec" data-act="about">${t.about}</button><button class="btn sec" data-act="overview">${t.projects}</button><button class="btn sec" data-act="contact">${t.contact}</button></div>
+      <div class="actions"><a class="btn" href="${cvFile(lang)}" target="_blank" rel="noopener">${ICON.doc}${t.cv}</a><button class="btn sec" data-act="contact">${t.contact}</button></div>
     </div></div>
-    <button class="widget w-wide${rv(1)}" data-go="1">
-      <div class="wl">${t.aquaW}</div>
-      <h3>${total ? `${pct(total.normal[0])} → ${pct(total.normal[90])}` : t.aquaFallback}</h3>
-      <p>${t.aquaP}</p>
-      <div class="spark">${aquaData ? sparkline(aquaData) : ''}</div>
-    </button>
-    <button class="widget${rv(2)}" data-go="2"><div class="wl"><i class="pulse"></i>LOOKIT</div><h3>${fmt(L.products)} ${t.items}</h3><p>${esc(t.lookitP(L.brands))}</p></button>
-    ${D ? `<button class="widget${rv(3)}" data-go="5"><div class="wl"><i class="pulse" style="background:var(--orange)"></i>DeTemporada</div><h3>${esc(lang === 'es' ? D.month[0].toUpperCase() + D.month.slice(1) : new Date().toLocaleDateString('en-GB', { month: 'long' }))}</h3><p>${esc(t.detempP(D))}</p></button>` : ''}
-    <button class="widget w-tl${rv(4)}" data-act="about"><div class="wl">${t.journey}</div><ol class="tl">
-      ${t.tl.map(([d, b, s], k) => `<li><small>${d}</small><span><b>${esc(b)}</b> · ${esc(s)}${k === 0 ? ` <em>${t.nowTag}</em>` : ''}</span></li>`).join('')}
-    </ol></button>
     <div class="icons${rv(2)}">${projects.map((p, k) => `<button class="dicon" data-go="${k + 1}">${appIcon(p)}<span>${esc(p.name)}</span></button>`).join('')}
       <a class="dicon" href="${cvFile(lang)}" target="_blank" rel="noopener">${SYS.doc}<span>${t.cvIcon}</span></a><button class="dicon" data-act="about">${SYS.person}<span>${t.about}</span></button></div>
   </div></section>`;
@@ -517,31 +519,44 @@ function notify({ icon, app: appName, title, body, goTo }) {
 }
 
 /* ── Dock: ampliación como en macOS (los iconos crecen y empujan a los vecinos) ── */
-const DOCK_MAX = 1.6, DOCK_R = 155;
+const DOCK_MAX = 1.55, DOCK_R = 120, DOCK_B = 50;
 let dockRest = null, dockRaf = 0, dockX = 0;
 const dockItems = () => $$(':scope > button, :scope > a', dock);
 function measureDock() { dockRest = dockItems().map((b) => { const r = b.getBoundingClientRect(); return r.left + r.width / 2; }); }
+// Solo transform (escala + desplazamiento): ningún recálculo de layout por fotograma
 function applyMag() {
   dockRaf = 0;
-  const s = scale();
-  dockItems().forEach((b, k) => {
-    const d = Math.abs(dockX - dockRest[k]) / s;
-    const m = d < DOCK_R ? 1 + (DOCK_MAX - 1) * (Math.cos((Math.PI * d) / DOCK_R) + 1) / 2 : 1;
-    b.style.setProperty('--m', m.toFixed(3));
-  });
+  const s = scale(), items = dockItems();
+  const m = items.map((b, k) => { const d = Math.abs(dockX - dockRest[k]) / s; return d < DOCK_R ? 1 + (DOCK_MAX - 1) * (Math.cos((Math.PI * d) / DOCK_R) + 1) / 2 : 1; });
+  const extra = m.map((v) => DOCK_B * (v - 1));
+  const E = extra.reduce((a, b) => a + b, 0);
+  let acc = 0, k = 0;
+  for (const el of dock.children) {
+    if (items.includes(el)) {
+      el.style.transform = `translate3d(${(acc + extra[k] / 2 - E / 2).toFixed(2)}px,0,0) scale(${m[k].toFixed(3)})`;
+      el.style.setProperty('--m', m[k].toFixed(3));
+      acc += extra[k]; k++;
+    } else el.style.transform = `translate3d(${(acc - E / 2).toFixed(2)}px,0,0)`;
+  }
+  dock.style.setProperty('--grow', `${E.toFixed(1)}px`);
+}
+function resetDock() {
+  for (const el of dock.children) { el.style.transform = ''; el.style.removeProperty('--m'); }
+  dock.style.setProperty('--grow', '0px');
 }
 function bindDock() {
-  dock.addEventListener('pointerenter', (e) => { if (mode !== 'mac' || e.pointerType !== 'mouse') return; dock.classList.remove('rest'); dockItems().forEach((b) => b.style.removeProperty('--m')); measureDock(); });
+  const on = () => { measureDock(); dock.classList.add('mag'); screen.classList.add('docking'); };
+  dock.addEventListener('pointerenter', (e) => { if (mode !== 'mac' || e.pointerType !== 'mouse') return; resetDock(); on(); });
   dock.addEventListener('pointermove', (e) => {
     if (mode !== 'mac' || e.pointerType !== 'mouse') return;
-    if (!dockRest) measureDock();
+    if (!dockRest) on();
     dockX = e.clientX;
     if (!dockRaf) dockRaf = requestAnimationFrame(applyMag);
   });
   dock.addEventListener('pointerleave', () => {
     dockRest = null; cancelAnimationFrame(dockRaf); dockRaf = 0;
-    dock.classList.add('rest');
-    dockItems().forEach((b) => b.style.removeProperty('--m'));
+    dock.classList.remove('mag'); screen.classList.remove('docking');
+    resetDock();
   });
 }
 

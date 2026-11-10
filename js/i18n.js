@@ -16,6 +16,11 @@ export const UI = {
     detempP: (d) => `En ${d.region}: ${d.items.join(', ')}.`,
     journey: 'Trayectoria', nowTag: 'ahora',
     tl: [['2026 –', 'MicroCAD', 'IA y automatización'], ['2025 – 2026', 'Babel', 'desarrollo de software'], ['2024 – 2025', 'Erasmus+', 'Gdańsk'], ['2021 – 2026', 'Ingeniería Informática', 'UMA']],
+    homeX: {
+      hi: 'Hola, soy', see: 'Ver proyectos',
+      lookitM: (n) => `${n} prendas en directo`, aquaM: (a, b) => `Embalses: ${a} → ${b} en 90 días`,
+      facts: [['Ahora', 'IA y automatización · MicroCAD'], ['Proyectos', '5 · 3 en producción'], ['Formación', 'Ing. Informática · UMA · Erasmus+']],
+    },
     cvIcon: 'CV.pdf',
     // Proyecto
     shotOf: (n) => `Captura de ${n}`, onPhone: (n) => `${n} en el móvil`,
@@ -55,6 +60,11 @@ export const UI = {
     detempP: (d) => `${d.count} products in season in Andalusia this month.`,
     journey: 'Journey', nowTag: 'now',
     tl: [['2026 –', 'MicroCAD', 'AI & automation'], ['2025 – 2026', 'Babel', 'software development'], ['2024 – 2025', 'Erasmus+', 'Gdańsk'], ['2021 – 2026', 'Computer Engineering', 'UMA']],
+    homeX: {
+      hi: "Hi, I'm", see: 'See projects',
+      lookitM: (n) => `${n} items, live`, aquaM: (a, b) => `Reservoirs: ${a} → ${b} in 90 days`,
+      facts: [['Now', 'AI & automation · MicroCAD'], ['Projects', '5 · 3 live'], ['Education', 'Computer Eng. · UMA · Erasmus+']],
+    },
     cvIcon: 'CV.pdf',
     shotOf: (n) => `Screenshot of ${n}`, onPhone: (n) => `${n} on mobile`,
     tabs: [['sim', 'Simulator'], ['hist', 'History'], ['prec', 'Accuracy'], ['app', 'The app']],
