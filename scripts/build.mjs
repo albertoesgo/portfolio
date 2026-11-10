@@ -2,6 +2,7 @@
 // Prepara el sitio: copia el CV público, recoge datos en vivo y genera la vista clásica en ES y EN.
 //   node scripts/build.mjs
 import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync, rmSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { profile, experience, education, extras, skills, projects, cvFile } from '../js/data.js';
@@ -185,3 +186,23 @@ function classic(lang) {
 writeFileSync(join(SITE, 'clasica.html'), classic('es'));
 writeFileSync(join(SITE, 'classic.html'), classic('en'));
 console.log('✓ clasica.html y classic.html');
+
+// 4. Versionado: un hash del contenido en las URL de CSS y JS (GitHub Pages cachea 10 minutos)
+const VQ = /\?v=[0-9a-f]+/g;
+const JS = ['os.js', 'data.js', 'i18n.js', 'aqua.js'];
+const hash = createHash('sha1');
+for (const f of [...JS.map((x) => `js/${x}`), 'css/os.css', 'css/clasica.css', 'data/live.json']) hash.update(readFileSync(join(SITE, f), 'utf8').replace(VQ, ''));
+const V = hash.digest('hex').slice(0, 10);
+for (const f of JS) {
+  const p = join(SITE, 'js', f);
+  const src = readFileSync(p, 'utf8');
+  const out = src.replace(/from '\.\/([\w-]+)\.js(?:\?v=[0-9a-f]+)?'/g, `from './$1.js?v=${V}'`);
+  if (out !== src) writeFileSync(p, out);
+}
+for (const f of ['index.html', 'clasica.html', 'classic.html']) {
+  const p = join(SITE, f);
+  const src = readFileSync(p, 'utf8');
+  const out = src.replace(/(href|src)="((?:css|js)\/[\w-]+\.(?:css|js))(?:\?v=[0-9a-f]+)?"/g, `$1="$2?v=${V}"`);
+  if (out !== src) writeFileSync(p, out);
+}
+console.log(`✓ versión de recursos ${V}`);

@@ -76,8 +76,7 @@ export function mountSimulator(el, data, lang = 'es') {
     <div class="viz">
       <h4>${t.simH}</h4>
       <p class="lead">${t.simLead}</p>
-      <div class="row"><select aria-label="${t.reservoir}"><option value="all">${t.all}</option>${Object.entries(data.reservoirs).map(([k, r]) => `<option value="${k}">${r.name}</option>`).join('')}</select></div>
-      <div class="chips" role="group" aria-label="${t.scenario}">${data.scenarios.map((s) => `<button class="chip" data-s="${s.key}" aria-pressed="${s.key === scen}"><i style="background:${COLOR[s.key]}"></i>${label(s)}</button>`).join('')}</div>
+      <div class="row"><select aria-label="${t.reservoir}"><option value="all">${t.all}</option>${Object.entries(data.reservoirs).map(([k, r]) => `<option value="${k}">${r.name}</option>`).join('')}</select><div class="chips" role="group" aria-label="${t.scenario}">${data.scenarios.map((s) => `<button class="chip" data-s="${s.key}" aria-pressed="${s.key === scen}"><i style="background:${COLOR[s.key]}"></i>${label(s)}</button>`).join('')}</div></div>
       <div class="readout"><b></b><span></span></div>
       <div class="svgbox">${svgEl(W, H)}<g class="g"></g><g class="lines"></g><g class="cur"></g></svg></div>
       <p class="note"></p>
