@@ -1,8 +1,8 @@
 // Escritorio del portfolio: Mac en pantallas grandes, iOS en el móvil.
 // Un gesto = un proyecto (como luciagascon.es). Enlaces directos: index.html#lookit · ?lang=en
-import { profile, experience, education, extras, skills, filters, projects, cvFile } from './data.js?v=0d1a979c0a';
-import { UI, pick, classicFile } from './i18n.js?v=0d1a979c0a';
-import { loadAqua, mountSimulator, mountHistory, mountHorizon, sparkline } from './aqua.js?v=0d1a979c0a';
+import { profile, experience, education, extras, skills, filters, projects, cvFile } from './data.js?v=e88b6e40a6';
+import { UI, pick, classicFile } from './i18n.js?v=e88b6e40a6';
+import { loadAqua, mountSimulator, mountHistory, mountHorizon, sparkline } from './aqua.js?v=e88b6e40a6';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -615,6 +615,10 @@ const readyAtMount = ready;
 mount(true);
 if (!readyAtMount) data.then(() => render(false));
 setTimeout(hideHint, 7000);
+data.then(() => {
+  // En el móvil la notificación taparía el nombre al entrar; y no sale en la imagen para compartir (?og)
+  if (mode === 'mac' && !location.search.includes('og')) setTimeout(() => notify({ icon: appIcon(projects[1]), app: t.toastApp, title: t.toastTitle, body: t.toastBody(fmt(live.lookit.products), live.lookit.brands), goTo: 2 }), 2600);
+});
 // El escritorio se asoma al siguiente para que se descubra el gesto
 setTimeout(() => {
   if (i !== 0 || drag || anyOpen() || reduced()) return;
