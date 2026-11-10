@@ -55,7 +55,7 @@ const SYS = {
 const appIcon = (p) => `<span class="ai${p.plate ? ' pad' : ''}" style="--plate:${p.plate || 'transparent'}"><img src="${p.logo}" alt="" draggable="false"></span>`;
 const shot = (n) => `img/shots/${n}.webp`;
 const SP = [{ id: 'inicio', name: 'Inicio', wall: 'home' }, ...projects];
-const spName = (k) => (k ? SP[k].name : t.home);
+const spName = (k) => (k ? tr(SP[k].name) : t.home);
 
 let live = { lookit: { products: 9000, brands: 24 }, detemporada: null };
 let aquaData = null;
@@ -122,7 +122,7 @@ function homeHTML(cur) {
   const metric = (p) => (p.id === 'lookit' ? h.lookitM(fmt(live.lookit.products)) : p.id === 'aqua' && total ? h.aquaM(pct(total.normal[0]), pct(total.normal[90])) : tr(p.metric));
   const card = (p, k) => `<button class="fc${k === 0 ? ' big' : ''}" data-go="${k + 1}" style="--tint:${p.tint}">
       <img src="${shot(p.shots[0][0])}" alt="" draggable="false">
-      <span class="fcx">${appIcon(p)}<span><b>${esc(p.name)}</b><small>${esc(metric(p))}</small></span>${p.live ? `<i class="dot" title="${t.live}"></i>` : ''}</span>
+      <span class="fcx">${appIcon(p)}<span><b>${esc(tr(p.name))}</b><small>${esc(metric(p))}</small></span>${p.live ? `<i class="dot" title="${t.live}"></i>` : ''}</span>
     </button>`;
   return `
   <section class="space${cur ? ' cur' : ''}" data-i="0" aria-label="${t.home}"><div class="home">
@@ -141,7 +141,7 @@ function homeHTML(cur) {
       <p class="role">${esc(tr(profile.role))} · ${esc(tr(profile.location))}</p>
       <div class="actions"><a class="btn" href="${cvFile(lang)}" target="_blank" rel="noopener">${ICON.doc}${t.cv}</a><button class="btn sec" data-act="contact">${t.contact}</button></div>
     </div></div>
-    <div class="icons${rv(2)}">${projects.map((p, k) => `<button class="dicon" data-go="${k + 1}">${appIcon(p)}<span>${esc(p.name)}</span></button>`).join('')}
+    <div class="icons${rv(2)}">${projects.map((p, k) => `<button class="dicon" data-go="${k + 1}">${appIcon(p)}<span>${esc(tr(p.short || p.name))}</span></button>`).join('')}
       <a class="dicon" href="${cvFile(lang)}" target="_blank" rel="noopener">${SYS.doc}<span>${t.cvIcon}</span></a><button class="dicon" data-act="about">${SYS.person}<span>${t.about}</span></button></div>
   </div></section>`;
 }
@@ -150,8 +150,8 @@ function projectHTML(p, k, cur) {
   let stats = tr(p.stats);
   if (p.id === 'lookit') stats = stats.map((s, j) => (j === 1 ? [fmt(live.lookit.products), s[1]] : j === 0 ? [String(live.lookit.brands), s[1]] : s));
   const slides = `<div class="shot">
-      ${p.shots.map(([n, fx]) => `<div class="slide ${fx}"><img src="${shot(n)}" alt="${esc(t.shotOf(p.name))}" loading="lazy" draggable="false"></div>`).join('')}
-      ${p.phone ? `<div class="slide m phone-only"><img src="${shot(p.phone)}" alt="${esc(t.onPhone(p.name))}" loading="lazy" draggable="false"></div>` : ''}
+      ${p.shots.map(([n, fx]) => `<div class="slide ${fx}"><img src="${shot(n)}" alt="${esc(t.shotOf(tr(p.name)))}" loading="lazy" draggable="false"></div>`).join('')}
+      ${p.phone ? `<div class="slide m phone-only"><img src="${shot(p.phone)}" alt="${esc(t.onPhone(tr(p.name)))}" loading="lazy" draggable="false"></div>` : ''}
       <div class="pips">${p.shots.map(() => '<i></i>').join('')}</div>
     </div>`;
   const media = p.aqua
@@ -160,12 +160,12 @@ function projectHTML(p, k, cur) {
        <div class="pane" data-p="app">${slides}<p class="cap">${t.appCap}</p></div>`
     : `${slides}${p.phone ? `<div class="phoneshot"><img src="${shot(p.phone)}" alt="" loading="lazy" draggable="false"></div>` : ''}<p class="cap">${t.realShot} · ${esc(tr(p.url))}</p>`;
   return `
-  <section class="space${cur ? ' cur' : ''}" data-i="${k + 1}" aria-label="${esc(p.name)}"><div class="win">
-    <div class="titlebar"><div class="lights"><button class="c" data-act="home" aria-label="${t.toHome}"></button><button class="m" data-act="overview" aria-label="${t.toAll}"></button><button class="x" data-act="max" aria-label="${t.maximize}"></button></div><div class="ttl">${esc(p.name)}<small>${esc(tr(p.url))}</small></div><div></div></div>
+  <section class="space${cur ? ' cur' : ''}" data-i="${k + 1}" aria-label="${esc(tr(p.name))}"><div class="win">
+    <div class="titlebar"><div class="lights"><button class="c" data-act="home" aria-label="${t.toHome}"></button><button class="m" data-act="overview" aria-label="${t.toAll}"></button><button class="x" data-act="max" aria-label="${t.maximize}"></button></div><div class="ttl">${esc(tr(p.name))}<small>${esc(tr(p.url))}</small></div><div></div></div>
     <div class="wbody">
       <div class="media" style="--tint:${p.tint}">${media}</div>
       <div class="info">
-        <div class="phead${rv(0)}">${appIcon(p)}<div><div class="kind">${esc(tr(p.kind))}${p.live ? `<span class="live"><i></i>${t.live}</span>` : ''}</div><h2>${esc(p.name)}</h2></div></div>
+        <div class="phead${rv(0)}">${appIcon(p)}<div><div class="kind">${esc(tr(p.kind))}${p.live ? `<span class="live"><i></i>${t.live}</span>` : ''}</div><h2>${esc(tr(p.name))}</h2></div></div>
         <p class="tag${rv(1)}">${esc(tr(p.tagline))}</p>
         <div class="stats${rv(2)}">${stats.map(([a, b]) => `<div class="stat"><b data-v="${esc(a)}">${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
         <div class="group${rv(3)}"><div class="gh">${t.highlights}</div><ul>${tr(p.proves).map((x) => `<li>${ICON.check}<span>${esc(x)}</span></li>`).join('')}</ul></div>
@@ -193,7 +193,7 @@ function render(animate) {
 function dockHTML() {
   const item = (attrs, icon, label, cls = '') => `<button class="${cls}" ${attrs} aria-label="${esc(label)}">${icon}<span class="tip">${esc(label)}</span><span class="lbl">${esc(label)}</span></button>`;
   return item('data-go="0"', SYS.home, t.home) +
-    projects.map((p, k) => item(`data-go="${k + 1}"`, appIcon(p), p.name, 'only-mac')).join('') +
+    projects.map((p, k) => item(`data-go="${k + 1}"`, appIcon(p), tr(p.name), 'only-mac')).join('') +
     '<span class="sepv only-mac" aria-hidden="true"></span>' +
     item('data-act="overview"', SYS.grid, t.projects) +
     item('data-act="about"', SYS.person, t.about) +
@@ -239,7 +239,7 @@ function go(n, instant, reveal) {
   if (changed) arrive(spaces[i]);
   const id = SP[i].id;
   if ((location.hash.slice(1) || 'inicio') !== id) history.replaceState(null, '', i ? `#${id}` : location.pathname + location.search);
-  document.title = i ? `${SP[i].name} · ${profile.name}` : `${profile.name} · ${tr(profile.role)}`;
+  document.title = i ? `${tr(SP[i].name)} · ${profile.name}` : `${profile.name} · ${tr(profile.role)}`;
   if (prev !== i || instant || reveal) startSlides();
   if (i > 0 && !hinted) hideHint();
 }
@@ -372,7 +372,7 @@ function onClick(e) {
     overview: openOv, spot: openSpot, about: () => sheet(t.about, aboutHTML()), contact: () => sheet(t.contact, contactHTML()),
     close: closeAll, home: () => go(0), prev: () => go(i - 1), next: () => go(i + 1),
     max: () => spaces[i].classList.toggle('max'),
-    case: () => { const p = projects[i - 1]; if (p) sheet(t.caseOf(p.name), caseHTML(p)); },
+    case: () => { const p = projects[i - 1]; if (p) sheet(t.caseOf(tr(p.name)), caseHTML(p)); },
     theme: () => { theme = isDark() ? 'light' : 'dark'; store.set('ae-theme', theme); withTransition(applyTheme); },
     lang: () => setLang(t.other),
     copy: async () => {
@@ -418,10 +418,10 @@ function aboutHTML() {
 }
 function caseHTML(p) {
   const c = p.case, h = t.c;
-  return `<div class="case-hero">${appIcon(p)}<div><div class="kind">${esc(tr(p.kind))}${p.live ? `<span class="live"><i></i>${t.live}</span>` : ''}</div><h2>${esc(p.name)}</h2></div></div>
+  return `<div class="case-hero">${appIcon(p)}<div><div class="kind">${esc(tr(p.kind))}${p.live ? `<span class="live"><i></i>${t.live}</span>` : ''}</div><h2>${esc(tr(p.name))}</h2></div></div>
     <p class="lead big">${esc(tr(p.tagline))}</p>
     <div class="stats">${tr(p.stats).map(([a, b]) => `<div class="stat"><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
-    <figure class="case-shot" style="--tint:${p.tint}"><img src="${shot(p.shots[0][0])}" alt="${esc(t.shotOf(p.name))}" loading="lazy"></figure>
+    <figure class="case-shot" style="--tint:${p.tint}"><img src="${shot(p.shots[0][0])}" alt="${esc(t.shotOf(tr(p.name)))}" loading="lazy"></figure>
     <div class="myrole"><b>${h.role}</b><span>${esc(tr(c.role))}</span></div>
     <h3>${h.problem}</h3><p>${esc(tr(c.problem))}</p>
     <h3>${h.solution}</h3><p>${esc(tr(c.solution))}</p>
@@ -442,7 +442,7 @@ function contactHTML() {
 let filter = 'all';
 function overviewHTML() {
   $('#filters').innerHTML = filters.map(([k, l]) => `<button data-f="${k}" aria-pressed="${k === filter}">${esc(tr(l))}</button>`).join('');
-  $('#ovgrid').innerHTML = projects.map((p, k) => `<button class="oc${filter !== 'all' && !p.cats.includes(filter) ? ' dim' : ''}" data-go="${k + 1}" style="--k:${k}"><div class="th"><img src="${shot(p.shots[0][0])}" alt="" loading="lazy">${appIcon(p)}${p.live ? `<span class="live"><i></i>${t.live}</span>` : ''}</div><small>${esc(tr(p.kind))}</small><b>${esc(p.name)}</b><span>${esc(tr(p.tagline))}</span></button>`).join('');
+  $('#ovgrid').innerHTML = projects.map((p, k) => `<button class="oc${filter !== 'all' && !p.cats.includes(filter) ? ' dim' : ''}" data-go="${k + 1}" style="--k:${k}"><div class="th"><img src="${shot(p.shots[0][0])}" alt="" loading="lazy">${appIcon(p)}${p.live ? `<span class="live"><i></i>${t.live}</span>` : ''}</div><small>${esc(tr(p.kind))}</small><b>${esc(tr(p.name))}</b><span>${esc(tr(p.tagline))}</span></button>`).join('');
 }
 function openOv() { closeAll(); $('#ov').classList.add('open'); $('#ov-in').scrollTop = 0; setTimeout(() => $('#ov .xbtn').focus({ preventScroll: true }), 60); }
 function closeAll() { ['#ov', '#sp', '#sheet'].forEach((s) => $(s)?.classList.remove('open')); }
@@ -491,7 +491,7 @@ function search(q) {
     { name: s.contact[0], sub: s.contact[1], keys: s.contact[2], act: 'contact', icon: SYS.mail },
     { name: s.classic[0], sub: s.classic[1], keys: s.classic[2], href: classicFile(lang), icon: SYS.list },
   ];
-  const all = [...projects.map((p, k) => ({ name: p.name, sub: p.stack.join(' · '), keys: `${p.keys} ${p.name} ${tr(p.tagline)}`, go: k + 1, icon: appIcon(p) })), ...extra];
+  const all = [...projects.map((p, k) => ({ name: tr(p.name), sub: p.stack.join(' · '), keys: `${p.keys} ${tr(p.name)} ${tr(p.tagline)}`, go: k + 1, icon: appIcon(p) })), ...extra];
   results = q2 ? all.filter((r) => q2.split(/\s+/).every((w) => norm(`${r.keys} ${r.name}`).includes(w))) : all;
   sel = 0; renderRes(q);
 }

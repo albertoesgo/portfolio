@@ -10,7 +10,7 @@ export const UI = {
     spEmpty: (q) => `Nada con «${q}». Prueba con una tecnología (PyTorch, three.js, Supabase) o un tema (sequía, moda, 3D).`,
     hintMac: 'Desliza con dos dedos, usa la rueda o ← → para pasar de proyecto', hintPhone: 'Desliza para ver mis proyectos',
     // Inicio
-    aquaW: 'AquaAndalucía · embalses de Málaga', aquaFallback: 'Previsión a 90 días',
+    aquaFallback: 'Previsión a 90 días',
     aquaP: 'Llenado de los 7 embalses hoy y dentro de 90 días en un año normal, según mi modelo. <b>Prueba otros escenarios.</b>',
     items: 'prendas', lookitP: (b) => `de ${b} marcas españolas, en directo desde lookit.es.`,
     detempP: (d) => `En ${d.region}: ${d.items.join(', ')}.`,
@@ -54,7 +54,7 @@ export const UI = {
     spPlaceholder: 'Search a project or a technology: PyTorch, 3D, Supabase…',
     spEmpty: (q) => `Nothing for "${q}". Try a technology (PyTorch, three.js, Supabase) or a topic (drought, fashion, 3D).`,
     hintMac: 'Swipe with two fingers, scroll or use ← → to change project', hintPhone: 'Swipe to see my projects',
-    aquaW: 'AquaAndalucía · Málaga reservoirs', aquaFallback: '90-day forecast',
+    aquaFallback: '90-day forecast',
     aquaP: 'Fill level of the 7 reservoirs today and in 90 days in a normal year, according to my model. <b>Try other scenarios.</b>',
     items: 'items', lookitP: (b) => `from ${b} Spanish brands, live from lookit.es.`,
     detempP: (d) => `${d.count} products in season in Andalusia this month.`,

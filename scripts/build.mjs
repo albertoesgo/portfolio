@@ -71,10 +71,10 @@ function classic(lang) {
     <article class="proj" id="${p.id}" style="--tint:${p.tint}">
       <header class="ph">
         <img class="logo${p.plate ? ' pad' : ''}" src="${p.logo}" alt="" width="64" height="64" style="background:${p.plate || 'transparent'}">
-        <div><p class="kind"><span class="num">${String(i + 1).padStart(2, '0')}</span> ${esc(tr(p.kind))}${p.live ? ` <span class="live"><i></i>${t.live}</span>` : ''}</p><h3>${esc(p.name)}</h3></div>
+        <div><p class="kind"><span class="num">${String(i + 1).padStart(2, '0')}</span> ${esc(tr(p.kind))}${p.live ? ` <span class="live"><i></i>${t.live}</span>` : ''}</p><h3>${esc(tr(p.name))}</h3></div>
       </header>
       <p class="tagline">${esc(tr(p.tagline))}</p>
-      <figure class="shot"><img src="img/shots/${p.shots[0][0]}.webp" alt="${esc(t.shotOf(p.name))}" loading="lazy" width="1280" height="800"></figure>
+      <figure class="shot"><img src="img/shots/${p.shots[0][0]}.webp" alt="${esc(t.shotOf(tr(p.name)))}" loading="lazy" width="1280" height="800"></figure>
       <dl class="stats">${stats(p).map(([a, b]) => `<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join('')}</dl>
       <div class="cols">
         <div>
@@ -138,7 +138,7 @@ function classic(lang) {
 
   <section id="projects">
     <h2>${k.index}</h2>
-    <ol class="index">${projects.map((p, i) => `<li><a href="#${p.id}"><span class="num">${String(i + 1).padStart(2, '0')}</span><b>${esc(p.name)}</b><span class="it">${esc(tr(p.tagline))}</span></a></li>`).join('')}</ol>
+    <ol class="index">${projects.map((p, i) => `<li><a href="#${p.id}"><span class="num">${String(i + 1).padStart(2, '0')}</span><b>${esc(tr(p.name))}</b><span class="it">${esc(tr(p.tagline))}</span></a></li>`).join('')}</ol>
     ${projects.map(project).join('')}
   </section>
 

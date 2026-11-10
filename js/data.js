@@ -85,8 +85,8 @@ export const filters = [
 
 export const projects = [
   {
-    id: 'aqua', metric: { es: '−52 % de error a 30 días', en: '−52% error at 30 days' },  name: 'AquaAndalucía', cats: ['ia'], live: false,
-    kind: { es: 'Trabajo Fin de Grado · IA aplicada · 2025–2026', en: "Bachelor's thesis · Applied AI · 2025–2026" },
+    id: 'aqua', metric: { es: '−52 % de error a 30 días', en: '−52% error at 30 days' },  name: { es: 'Predicción espaciotemporal de embalses', en: 'Spatio-temporal reservoir forecasting' }, short: { es: 'TFG', en: 'Thesis' }, cats: ['ia'], live: false,
+    kind: { es: 'Trabajo Fin de Grado · Deep learning · 2025–2026', en: "Bachelor's thesis · Deep learning · 2025–2026" },
     logo: 'img/logos/aquaandalucia.svg', plate: '#ffffff', tint: '#2e7d46', wall: 'aqua', url: { es: 'TFG · Universidad de Málaga', en: 'Thesis · University of Málaga' },
     tagline: {
       es: 'Un sistema de IA que predice el agua de los 7 embalses de Málaga a 90 días y simula sequías antes de que lleguen.',
