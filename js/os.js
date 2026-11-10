@@ -1,8 +1,8 @@
 // Escritorio del portfolio: Mac en pantallas grandes, iOS en el móvil.
 // Un gesto = un proyecto (como luciagascon.es). Enlaces directos: index.html#lookit · ?lang=en
-import { profile, experience, education, extras, skills, filters, projects, cvFile } from './data.js?v=e88b6e40a6';
-import { UI, pick, classicFile } from './i18n.js?v=e88b6e40a6';
-import { loadAqua, mountSimulator, mountHistory, mountHorizon, sparkline } from './aqua.js?v=e88b6e40a6';
+import { profile, experience, education, extras, skills, filters, projects, cvFile } from './data.js?v=913a26e713';
+import { UI, pick, classicFile } from './i18n.js?v=913a26e713';
+import { loadAqua, mountSimulator, mountHistory, mountHorizon, sparkline } from './aqua.js?v=913a26e713';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -91,6 +91,7 @@ function chromeHTML() {
     <div class="track" id="track"></div>
     <nav class="pager" id="pager" aria-label="${t.projects}">
       <button class="pg" data-act="prev" aria-label="${t.prev}">${ICON.left}</button>
+      <button class="pgt" data-act="next">${esc(t.hintPhone)}</button>
       <span class="dots">${SP.map((s, k) => `<button data-go="${k}" aria-label="${esc(spName(k))}"><i></i></button>`).join('')}</span>
       <button class="pg" data-act="next" aria-label="${t.next}">${ICON.right}</button>
     </nav>
@@ -227,7 +228,8 @@ function go(n, instant, reveal) {
   $$('.wall').forEach((w, k) => w.classList.toggle('on', k === i));
   $$('#pager .dots button').forEach((d, k) => { d.classList.toggle('on', k === i); d.toggleAttribute('aria-current', k === i); });
   $('#pager [data-act="prev"]').disabled = i === 0;
-  $('#pager [data-act="next"]').disabled = i === SP.length - 1;
+  $('#pager .pg[data-act="next"]').disabled = i === SP.length - 1;
+  $('#pager').classList.toggle('first', i === 0);
   $$('#dock [data-go]').forEach((b) => b.classList.toggle('on', +b.dataset.go === i));
   spaces.forEach((s, k) => { s.inert = k !== i; });
   const changed = prev !== i || reveal;
@@ -289,7 +291,7 @@ addEventListener('hashchange', () => { const k = SP.findIndex((s) => s.id === lo
 /* ── Gestos: dedo o ratón (un arrastre horizontal no cuenta como clic) ── */
 const anyOpen = () => ['#ov', '#sp', '#sheet'].some((s) => $(s)?.classList.contains('open'));
 function onDown(e) {
-  if (anyOpen() || e.button > 0) return;
+  if (e.pointerType === 'touch' || anyOpen() || e.button > 0) return;
   if (e.target.closest('input, select, textarea, .chips, .seg')) return;
   if (e.pointerType === 'mouse' && e.target.closest('.info, .viz, button, a')) return;
   drag = { x: e.clientX, y: e.clientY, dx: 0, axis: null, id: e.pointerId, t: performance.now() };
@@ -306,14 +308,34 @@ addEventListener('pointermove', (e) => {
   drag.dx = dx;
   track.style.transform = `translate3d(calc(${-i * 100}% + ${dx * edge}px),0,0)`;
 });
-addEventListener('pointerup', (e) => {
-  if (!drag || e.pointerId !== drag.id) return;
+function endDrag() {
   const d = drag; drag = null; track.classList.remove('drag');
-  if (d.axis !== 'x') return;
+  if (!d || d.axis !== 'x') return;
   suppressClick = performance.now();
   const v = d.dx / (performance.now() - d.t);
-  go(d.dx < -60 || v < -0.4 ? i + 1 : d.dx > 60 || v > 0.4 ? i - 1 : i);
-});
+  go(d.dx < -50 || v < -0.35 ? i + 1 : d.dx > 50 || v > 0.35 ? i - 1 : i);
+}
+addEventListener('pointerup', (e) => { if (drag && e.pointerId === drag.id) endDrag(); });
+// Gestos con el dedo: se decide el eje en los primeros píxeles y, si es horizontal, el gesto es nuestro
+function onTouchStart(e) {
+  if (anyOpen() || e.touches.length > 1 || e.target.closest('input, select, textarea, .chips, .seg')) { drag = null; return; }
+  const p = e.touches[0];
+  drag = { x: p.clientX, y: p.clientY, dx: 0, axis: null, id: 'touch', t: performance.now() };
+}
+function onTouchMove(e) {
+  if (!drag || drag.id !== 'touch') return;
+  const p = e.touches[0], dx = p.clientX - drag.x, dy = p.clientY - drag.y;
+  if (!drag.axis && Math.hypot(dx, dy) > 8) {
+    drag.axis = Math.abs(dx) > Math.abs(dy) * 1.1 ? 'x' : 'y';
+    if (drag.axis === 'x') track.classList.add('drag');
+  }
+  if (drag.axis !== 'x') return;
+  e.preventDefault();
+  const edge = (i === 0 && dx > 0) || (i === SP.length - 1 && dx < 0) ? 0.3 : 1;
+  drag.dx = dx;
+  track.style.transform = `translate3d(calc(${-i * 100}% + ${dx * edge}px),0,0)`;
+}
+function onTouchEnd() { if (drag && drag.id === 'touch') endDrag(); }
 // Si el navegador se queda el gesto (scroll vertical), solo se recoloca la pista
 addEventListener('pointercancel', () => {
   if (!drag) return;
@@ -567,6 +589,10 @@ function mount(animate) {
   dock.innerHTML = dockHTML();
   overviewHTML();
   track.addEventListener('pointerdown', onDown);
+  track.addEventListener('touchstart', onTouchStart, { passive: true });
+  track.addEventListener('touchmove', onTouchMove, { passive: false });
+  track.addEventListener('touchend', onTouchEnd);
+  track.addEventListener('touchcancel', onTouchEnd);
   screen.addEventListener('wheel', onWheel, { passive: false });
   screen.addEventListener('click', onClick);
   ['#ov', '#sp', '#sheet'].forEach((s) => $(s).addEventListener('click', (e) => { if (e.target === $(s) || e.target.id === 'ovgrid' || e.target.id === 'ov-in') closeAll(); }));

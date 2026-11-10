@@ -43,7 +43,7 @@ export const UI = {
     },
     toastApp: 'LOOKIT', toastTitle: 'Catálogo actualizado', toastBody: (n, b) => `${n} prendas de ${b} marcas españolas. Toca para verlo.`, nowT: 'ahora',
     // Vista clásica
-    k: { index: 'Proyectos destacados', viewDesktop: 'Ver como escritorio', updated: 'Actualizado el', now: 'Ahora', based: 'Ubicación', languages: 'Idiomas', backTop: 'Volver arriba', contactLead: '¿Tienes un proyecto o una vacante? Escríbeme.' },
+    k: { index: 'Proyectos destacados', more: 'Ver caso de estudio completo', less: 'Ocultar detalle', viewDesktop: 'Ver como escritorio', updated: 'Actualizado el', now: 'Ahora', based: 'Ubicación', languages: 'Idiomas', backTop: 'Volver arriba', contactLead: '¿Tienes un proyecto o una vacante? Escríbeme.' },
   },
   en: {
     locale: 'en-GB', other: 'es', otherLabel: 'Español', short: 'EN',
@@ -84,7 +84,7 @@ export const UI = {
       classic: ['Classic view', 'All the content on one page', 'classic view text accessible page'],
     },
     toastApp: 'LOOKIT', toastTitle: 'Catalogue updated', toastBody: (n, b) => `${n} items from ${b} Spanish brands. Tap to see it.`, nowT: 'now',
-    k: { index: 'Selected projects', viewDesktop: 'View as a desktop', updated: 'Updated on', now: 'Now', based: 'Based in', languages: 'Languages', backTop: 'Back to top', contactLead: 'Got a project or a role? Drop me a line.' },
+    k: { index: 'Selected projects', more: 'Read the full case study', less: 'Hide details', viewDesktop: 'View as a desktop', updated: 'Updated on', now: 'Now', based: 'Based in', languages: 'Languages', backTop: 'Back to top', contactLead: 'Got a project or a role? Drop me a line.' },
   },
 };
 

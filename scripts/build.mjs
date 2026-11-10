@@ -57,6 +57,7 @@ try {
 writeFileSync(join(SITE, 'data', 'live.json'), JSON.stringify(live));
 
 // 3. Vista clásica: una página editorial por idioma (buscadores, lectores de pantalla y quien prefiera leer)
+const ICON_HOME = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3.2 2.8 11h2.7v9h5v-6h3v6h5v-9h2.7z"/></svg>';
 const CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 function classic(lang) {
   const t = UI[lang], k = t.k, c = t.c, tr = (x) => pick(x, lang);
@@ -77,20 +78,17 @@ function classic(lang) {
       <p class="tagline">${esc(tr(p.tagline))}</p>
       <figure class="shot"><img src="img/shots/${p.shots[0][0]}.webp" alt="${esc(t.shotOf(tr(p.name)))}" loading="lazy" width="1280" height="800"></figure>
       <dl class="stats">${stats(p).map(([a, b]) => `<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join('')}</dl>
-      <div class="cols">
-        <div>
-          <p class="myrole"><b>${c.role}</b> ${esc(tr(p.case.role))}</p>
-          <h4>${c.problem}</h4><p>${esc(tr(p.case.problem))}</p>
-          <h4>${c.solution}</h4><p>${esc(tr(p.case.solution))}</p>
-        </div>
-        <aside>
-          <h4>${t.highlights}</h4><ul class="checks">${tr(p.proves).map((x) => `<li>${CHECK}<span>${esc(x)}</span></li>`).join('')}</ul>
-        </aside>
-      </div>
-      <h4>${c.arch}</h4><dl class="arch">${tr(p.case.arch).map(([a, b]) => `<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join('')}</dl>
-      <h4>${c.decisions}</h4><ol class="dec">${tr(p.case.decisions).map((d) => `<li>${esc(d)}</li>`).join('')}</ol>
-      <h4>${c.impact}</h4><ul class="checks">${tr(p.case.impact).map((d) => `<li>${CHECK}<span>${esc(d)}</span></li>`).join('')}</ul>
-      <h4>${c.next}</h4><p>${esc(tr(p.case.next))}</p>
+      <ul class="checks hl">${tr(p.proves).map((x) => `<li>${CHECK}<span>${esc(x)}</span></li>`).join('')}</ul>
+      <details class="more">
+        <summary><span class="open">${k.more}</span><span class="close">${k.less}</span></summary>
+        <p class="myrole"><b>${c.role}</b> ${esc(tr(p.case.role))}</p>
+        <h4>${c.problem}</h4><p>${esc(tr(p.case.problem))}</p>
+        <h4>${c.solution}</h4><p>${esc(tr(p.case.solution))}</p>
+        <h4>${c.arch}</h4><dl class="arch">${tr(p.case.arch).map(([a, b]) => `<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join('')}</dl>
+        <h4>${c.decisions}</h4><ol class="dec">${tr(p.case.decisions).map((d) => `<li>${esc(d)}</li>`).join('')}</ol>
+        <h4>${c.impact}</h4><ul class="checks">${tr(p.case.impact).map((d) => `<li>${CHECK}<span>${esc(d)}</span></li>`).join('')}</ul>
+        <h4>${c.next}</h4><p>${esc(tr(p.case.next))}</p>
+      </details>
       <footer class="pf"><p class="stack">${p.stack.map((x) => `<span>${esc(x)}</span>`).join('')}</p>${p.link ? `<a class="btn sec" href="${p.link}" rel="noopener">${esc(t.open(p.linkLabel))}</a>` : ''}</footer>
     </article>`;
   return `<!doctype html>
@@ -119,7 +117,7 @@ function classic(lang) {
     <div class="tools">
       <a class="pill" href="${classicFile(t.other)}" hreflang="${t.other}" lang="${t.other}" title="${t.langBtn}" data-lang="${t.other}">${UI[t.other].short}</a>
       <button class="ico" id="theme" type="button" aria-label="${t.toDark}" data-dark="${t.toDark}" data-light="${t.toLight}"></button>
-      <a class="desk" href="./?lang=${lang}">${k.viewDesktop}</a>
+      <a class="desk" href="./?lang=${lang}"><span class="l">${k.viewDesktop}</span><span class="s">${ICON_HOME}</span></a>
     </div>
   </div>
 </header>
@@ -164,7 +162,7 @@ function classic(lang) {
     <p><a class="mail" href="mailto:${profile.email}">${profile.email}</a></p>
     <p class="cta"><a class="btn" href="${cvFile(lang)}" rel="noopener">${t.downloadCV}</a><a class="btn sec" href="${profile.links.linkedin}" rel="noopener">LinkedIn ↗</a><a class="btn sec" href="${profile.links.github}" rel="noopener">GitHub ↗</a></p>
   </section>
-  <footer class="foot">${esc(profile.name)} · ${esc(tr(profile.location))} · ${k.updated} ${esc(updated)} · <a href="#top">${k.backTop} ↑</a></footer>
+  <footer class="foot">${esc(profile.name)} · ${esc(tr(profile.location))} · ${k.updated} ${esc(updated)} · <a href="#top">${k.backTop} ↑</a> · <a href="./?lang=${lang}">${k.viewDesktop}</a></footer>
 </main>
 <script>
   // Tema claro/oscuro y recordar el idioma (compartido con el escritorio)

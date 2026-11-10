@@ -496,3 +496,14 @@ button.widget { cursor: pointer; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .rv, .oc { opacity: 1 !important; transform: none !important; }
 }
+
+/* Inicio del móvil: compacto y por encima del paginador; en el inicio el paginador invita a deslizar */
+.phone .home { bottom: calc(150px + env(safe-area-inset-bottom, 0px)); align-content: start; }
+.phone .w-profile { padding: 14px 18px 12px; gap: 8px; }
+.phone .avatar { width: 68px; height: 68px; font-size: 25px; }
+.phone .icons { margin-top: 16px; gap: 16px 4px; }
+.pgt { display: none; border: 0; background: none; color: var(--label); font: 600 14px var(--sf); padding: 0 4px; cursor: pointer; white-space: nowrap; }
+.phone #pager.first .dots { display: none; }
+.phone #pager.first .pgt { display: block; }
+.phone #pager.first .pg[data-act="next"] svg { animation: nudge 1.4s ease-in-out infinite; }
+.phone .hint { display: none; }

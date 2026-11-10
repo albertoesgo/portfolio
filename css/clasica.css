@@ -130,3 +130,21 @@ h1 { font-size: clamp(42px, 7.4vw, 80px); line-height: 1; letter-spacing: -.04em
   .btn { padding: 11px 18px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* Proyectos recogidos: lo esencial a la vista y el caso de estudio desplegable */
+.hl { margin-top: 20px; }
+.more { margin-top: 18px; border-top: .5px solid var(--sep); }
+.more > summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; padding: 10px 18px; border-radius: 980px; background: var(--fill); color: var(--blue); font-weight: 600; font-size: 15px; }
+.more > summary::-webkit-details-marker { display: none; }
+.more > summary::after { content: ''; width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-2px); transition: transform .25s ease; }
+.more[open] > summary::after { transform: rotate(-135deg) translate(-2px, 0); }
+.more .close, .more[open] .open { display: none; }
+.more[open] .close { display: inline; }
+.more > summary:hover { background: color-mix(in srgb, var(--blue) 12%, transparent); }
+.desk .s { display: none; }
+@media (max-width: 760px) {
+  .desk { display: grid !important; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--fill); color: var(--label); }
+  .desk .l { display: none; }
+  .desk .s { display: grid; }
+  .desk svg { width: 16px; height: 16px; }
+}
