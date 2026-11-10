@@ -22,6 +22,10 @@
 <style>
   @font-face { font-family: 'Inter'; src: url(fonts/inter-latin-ext.woff2) format('woff2'); font-weight: 100 900; font-display: swap; }
 </style>
+<script>
+  // Tema e idioma antes del primer pintado (sin parpadeo)
+  try { var t = localStorage.getItem('ae-theme'); if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
 <link rel="stylesheet" href="css/os.css">
 <script type="module" src="js/os.js"></script>
 </head>
@@ -29,7 +33,7 @@
 <div id="app"></div>
 <noscript>
   <p style="font:17px/1.5 -apple-system, system-ui, sans-serif; padding: 24px">
-    Este escritorio necesita JavaScript. Tienes todo el contenido en la <a href="clasica.html">vista clásica</a>.
+    Este escritorio necesita JavaScript. Tienes todo el contenido en la <a href="clasica.html">vista clásica</a> · <a href="classic.html">Classic view (English)</a>.
   </p>
 </noscript>
 </body>

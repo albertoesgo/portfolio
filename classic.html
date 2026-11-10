@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Alberto Estrada Gómez · AI &amp; Automation Engineer</title>
+<meta name="description" content="I design and build AI systems and complete digital products: from data and models to the interface that makes them useful.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="alternate" hreflang="es" href="clasica.html">
+<link rel="alternate" hreflang="en" href="classic.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<script>try { var t = localStorage.getItem('ae-theme'); if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t; } catch (e) {}</script>
+<style>@font-face { font-family: 'Inter'; src: url(fonts/inter-latin-ext.woff2) format('woff2'); font-weight: 100 900; font-display: swap; }</style>
+<link rel="stylesheet" href="css/clasica.css">
+</head>
+<body>
+<header class="bar">
+  <div class="in">
+    <a class="me" href="#top"><span class="mono">AE</span>Alberto Estrada</a>
+    <nav aria-label="Menu"><a href="#projects">Projects</a><a href="#experience">Experience</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+    <div class="tools">
+      <a class="pill" href="clasica.html" hreflang="es" lang="es" title="Ver en español" data-lang="es">ES</a>
+      <button class="ico" id="theme" type="button" aria-label="Switch to dark mode" data-dark="Switch to dark mode" data-light="Switch to light mode"></button>
+      <a class="desk" href="./?lang=en">View as a desktop</a>
+    </div>
+  </div>
+</header>
+<main class="wrap" id="top">
+  <section class="hero">
+    <div class="avatar" aria-hidden="true">AE</div>
+    <p class="role">AI &amp; Automation Engineer · Málaga, Spain</p>
+    <h1>Alberto Estrada Gómez</h1>
+    <p class="lead">I design and build AI systems and complete digital products: from data and models to the interface that makes them useful.</p>
+    <p class="cta"><a class="btn" href="cv/Alberto_Estrada_Gomez_CV_EN.pdf" rel="noopener">Download CV</a><a class="btn sec" href="mailto:albertoestradag19@gmail.com">Email me</a><a class="btn sec" href="https://www.linkedin.com/in/alberto-estrada-g%C3%B3mez-a742b4303/" rel="noopener">LinkedIn ↗</a><a class="btn sec" href="https://github.com/albertoesgo" rel="noopener">GitHub ↗</a></p>
+    <dl class="facts">
+      <div><dt>Now</dt><dd>AI &amp; Process Automation Engineer · MicroCAD Informática</dd></div>
+      <div><dt>Based in</dt><dd>Málaga, Spain</dd></div>
+      <div><dt>Languages</dt><dd>Spanish (native) · English (C1)</dd></div>
+    </dl>
+  </section>
+
+  <section id="projects">
+    <h2>Selected projects</h2>
+    <ol class="index"><li><a href="#aqua"><span class="num">01</span><b>AquaAndalucía</b><span class="it">An AI system that forecasts the water in Málaga's 7 reservoirs 90 days ahead and simulates droughts before they hit.</span></a></li><li><a href="#lookit"><span class="num">02</span><b>LOOKIT</b><span class="it">The search engine for Spanish fashion: 24 brands and 9,000+ items in a single search, refreshed every hour.</span></a></li><li><a href="#lucia"><span class="num">03</span><b>Lucía Gascón</b><span class="it">A 3D exhibition you walk through in the browser: every gesture takes you to the next painting.</span></a></li><li><a href="#wild"><span class="num">04</span><b>WildCamper</b><span class="it">Camper van sales, rentals and bookings, with a panel from which the owner controls the whole site.</span></a></li><li><a href="#detemp"><span class="num">05</span><b>DeTemporada</b><span class="it">What's in season in your region this month, what it costs and where to buy it nearby.</span></a></li></ol>
+    
+    <article class="proj" id="aqua" style="--tint:#2e7d46">
+      <header class="ph">
+        <img class="logo pad" src="img/logos/aquaandalucia.svg" alt="" width="64" height="64" style="background:#ffffff">
+        <div><p class="kind"><span class="num">01</span> Bachelor's thesis · Applied AI · 2025–2026</p><h3>AquaAndalucía</h3></div>
+      </header>
+      <p class="tagline">An AI system that forecasts the water in Málaga's 7 reservoirs 90 days ahead and simulates droughts before they hit.</p>
+      <figure class="shot"><img src="img/shots/aqua-dashboard.webp" alt="Screenshot of AquaAndalucía" loading="lazy" width="1280" height="800"></figure>
+      <dl class="stats"><div><dt>−52%</dt><dd>30-day error vs. the baseline</dd></div><div><dt>11</dt><dd>models benchmarked, from ARIMA to graph networks</dd></div><div><dt>60,000+</dt><dd>daily records over 25 years</dd></div></dl>
+      <div class="cols">
+        <div>
+          <p class="myrole"><b>My role</b> Solo project: research, data engineering, modelling, backend and frontend.</p>
+          <h4>The challenge</h4><p>In 2024 Málaga's reservoirs hit their record low: 24% average capacity, after four straight years of decline. Anticipating how much water there will be in the coming weeks, and what happens if it doesn't rain, is key to planning; but the data is scattered and classic seasonal models break down in an unprecedented drought.</p>
+          <h4>The solution</h4><p>I designed and built a complete forecasting platform: a pipeline unifying 25 years of hydrological and weather data, a benchmark of 11 models across three families, training on the University of Málaga's Picasso supercomputer, and a web app that turns the model into decisions, with a map, model comparison, scenario simulator and natural-language assistant.</p>
+        </div>
+        <aside>
+          <h4>Highlights</h4><ul class="checks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>End-to-end AI system: data, research, supercomputer training, API and web product.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Research-grade rigour: multi-horizon evaluation against a baseline, no inflated metrics.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Simulation of 5 climate scenarios across all 7 reservoirs at once with a graph neural network.</span></li></ul>
+        </aside>
+      </div>
+      <h4>Architecture</h4><dl class="arch"><div><dt>Data</dt><dd>SAIH Hidrosur + AEMET · 2000–2024 · pandas, reproducible notebooks and scripts</dd></div><div><dt>Models</dt><dd>ARIMA, SARIMA, Prophet, Random Forest, XGBoost, 4 LSTM variants and a GCN-LSTM in PyTorch</dd></div><div><dt>Training</dt><dd>Picasso supercomputer (University of Málaga HPC)</dd></div><div><dt>Serving</dt><dd>FastAPI + PyTorch · Express 5 BFF with SQLite, Drizzle and Zod · LLM assistant (OpenAI) with a fallback parser</dd></div><div><dt>Product</dt><dd>React 18, Vite, Tailwind, Recharts, Leaflet and Framer Motion</dd></div></dl>
+      <h4>Key technical decisions</h4><ol class="dec"><li>Honest evaluation: measure at 7, 14, 30 and 60 days with chained forecasts against persistence, because one day ahead any model, the baseline included, scores R² ≈ 0.999.</li><li>Hydrological features: 30-day cumulative rainfall and cyclical day-of-year encoding, because rain reaches the reservoir with a delay and cumulatively.</li><li>Predict the daily change instead of the absolute level, so drought or rain simulations produce physically coherent trajectories.</li><li>A graph network (GCN-LSTM) that models the 7 reservoirs as a connected system and simulates them jointly.</li><li>Scenarios anchored in real years (2002, 2010, 2017, 2023) plus a stress test with 30% less rain than the driest year.</li><li>Each model family on its own horizon: the weather-aware LSTM leads from 7 to 60 days and monthly SARIMA from 1 to 6 months; together they cover the full planning range.</li></ol>
+      <h4>Results</h4><ul class="checks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>At 30 days, the multivariate LSTM cuts the error by 52% against the baseline (RMSE 5.7 vs. 12.0 capacity points).</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>At 60 days it holds an NSE of 0.70 while the baseline drops to 0.07: it keeps forecasting where simple methods stop working.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>A 90-day simulator for all 7 reservoirs and 5 scenarios, with alert levels and an assistant that turns questions into simulations.</span></li></ul>
+      <h4>Next step</h4><p>A global LSTM for all 7 reservoirs, uncertainty bands with conformal prediction and automatically refreshed daily data.</p>
+      <footer class="pf"><p class="stack"><span>Python</span><span>PyTorch</span><span>GNN · LSTM</span><span>FastAPI</span><span>Express</span><span>React</span><span>HPC Picasso</span></p></footer>
+    </article>
+    <article class="proj" id="lookit" style="--tint:#a8d400">
+      <header class="ph">
+        <img class="logo" src="img/logos/lookit.svg" alt="" width="64" height="64" style="background:transparent">
+        <div><p class="kind"><span class="num">02</span> Own product · 2026 <span class="live"><i></i>Live</span></p><h3>LOOKIT</h3></div>
+      </header>
+      <p class="tagline">The search engine for Spanish fashion: 24 brands and 9,000+ items in a single search, refreshed every hour.</p>
+      <figure class="shot"><img src="img/shots/lookit-home.webp" alt="Screenshot of LOOKIT" loading="lazy" width="1280" height="800"></figure>
+      <dl class="stats"><div><dt>24</dt><dd>Spanish brands</dd></div><div><dt>9,063</dt><dd>items indexed</dd></div><div><dt>1 h</dt><dd>between catalogue refreshes</dd></div></dl>
+      <div class="cols">
+        <div>
+          <p class="myrole"><b>My role</b> Founder and sole engineer: product, design, development, data and content.</p>
+          <h4>The challenge</h4><p>Independent Spanish fashion is spread across dozens of stores: comparing prices, finding a size or catching a drop means opening one site per brand.</p>
+          <h4>The solution</h4><p>A platform that ingests 24 brand catalogues every hour, normalises them into a single index and offers natural-language search, a comparison tool, a shareable wardrobe and alerts for drops, price cuts and restocks. Purchases happen on each brand's official store.</p>
+        </div>
+        <aside>
+          <h4>Highlights</h4><ul class="checks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>A live product I build and run on my own: data, search, notifications, SEO and content.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>AI with judgement: my own search engine handles most queries and the LLM only steps in when needed, cutting cost and latency.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Privacy by design: account-free alerts with HMAC keys and AES-256-GCM encrypted data.</span></li></ul>
+        </aside>
+      </div>
+      <h4>Architecture</h4><dl class="arch"><div><dt>Ingestion</dt><dd>Public Shopify catalogues · rate-limited concurrent fetching · per-store cache (1 h)</dd></div><div><dt>Catalogue</dt><dd>Static JSON regenerated via ISR · two-stage home load so it feels instant</dd></div><div><dt>Search</dt><dd>Custom parser for brand, item, colour, size, price and sales + Gemini as a last resort</dd></div><div><dt>Alerts</dt><dd>Upstash Redis · Web Push (VAPID) · Resend · distributed lock for the hourly run</dd></div><div><dt>Platform</dt><dd>Next.js 16, React 19, Tailwind 4, Zustand and Framer Motion on Vercel</dd></div></dl>
+      <h4>Key technical decisions</h4><ol class="dec"><li>Independent per-store caching and a catalogue served as static JSON: scales to dozens of brands with no servers of my own and near-zero cost.</li><li>Search that understands intent and relaxes the query when there are no exact matches; the LLM is a fallback, not the main path.</li><li>Account-free identity: each device generates a key, the server only stores its HMAC and everything else is encrypted. Double opt-in email and one-click unsubscribe (RFC 8058).</li><li>Drop detection with thresholds (10 new items in 24 h, 5 for small brands) so restocks do not create noise.</li><li>Programmatic SEO: brand and category pages, sitemap, llms.txt and an installable PWA.</li></ol>
+      <h4>Results</h4><ul class="checks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>24 brands and 9,000+ items indexed and refreshed hourly, live at lookit.es.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Web push and email alerts without asking anyone to sign up.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Social content generated from code with Remotion, AI background removal and Whisper-synced voiceover.</span></li></ul>
+      <h4>Next step</h4><p>Public usage metrics, personalised recommendations and more brands.</p>
+      <footer class="pf"><p class="stack"><span>Next.js 16</span><span>React 19</span><span>TypeScript</span><span>Redis</span><span>Web Push</span><span>Gemini</span><span>Vercel</span></p><a class="btn sec" href="https://lookit.es" rel="noopener">Open lookit.es ↗</a></footer>
+    </article>
+    <article class="proj" id="lucia" style="--tint:#8c2f28">
+      <header class="ph">
+        <img class="logo" src="img/logos/lucia-gascon.png" alt="" width="64" height="64" style="background:transparent">
+        <div><p class="kind"><span class="num">03</span> Client · Artist website · 2026 <span class="live"><i></i>Live</span></p><h3>Lucía Gascón</h3></div>
+      </header>
+      <p class="tagline">A 3D exhibition you walk through in the browser: every gesture takes you to the next painting.</p>
+      <figure class="shot"><img src="img/shots/lucia-3d-b.webp" alt="Screenshot of Lucía Gascón" loading="lazy" width="1280" height="800"></figure>
+      <dl class="stats"><div><dt>13</dt><dd>works to walk through in 3D</dd></div><div><dt>1:1</dt><dd>real scale, like a museum</dd></div><div><dt>CMS</dt><dd>custom and serverless</dd></div></dl>
+      <div class="cols">
+        <div>
+          <p class="myrole"><b>My role</b> Product design, 3D development, backend and deployment.</p>
+          <h4>The challenge</h4><p>A painter wanted a website that felt like visiting an exhibition, not browsing a catalogue, and that could be managed without depending on anyone.</p>
+          <h4>The solution</h4><p>A virtual gallery in three.js where the camera moves along a rail with a stop in front of each painting, a classic view for those who prefer to read, and a custom admin panel to manage works and rooms.</p>
+        </div>
+        <aside>
+          <h4>Highlights</h4><ul class="checks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Bespoke experience: the site turns the artist's world into a visit, not a template.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>WebGL that only loads when needed and runs on mobile, with a classic fallback view.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Full client autonomy: a custom serverless CMS to upload work and restyle the room.</span></li></ul>
+        </aside>
+      </div>
+      <h4>Architecture</h4><dl class="arch"><div><dt>Experience</dt><dd>three.js · rail-guided camera · one gesture = one painting</dd></div><div><dt>Performance</dt><dd>Lazy-loaded 3D engine · WebGL detection with a classic fallback</dd></div><div><dt>Backend</dt><dd>Cloudflare Pages Functions + KV · no servers to maintain</dd></div><div><dt>Management</dt><dd>Custom admin panel: works, copy and room colours</dd></div></dl>
+      <h4>Key technical decisions</h4><ol class="dec"><li>Rail-guided navigation: one gesture takes you to the next painting, so nobody gets lost in 3D space.</li><li>Real scale (1 unit = 1 metre, paintings hung at 1.5 m): every work is shown at its true size, like in a museum.</li><li>Visitors choose how to enter, like a museum directory: 3D walk-through or classic view.</li><li>Serverless backend on the Cloudflare edge: minimal cost and nothing for the client to maintain.</li></ol>
+      <h4>Results</h4><ul class="checks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>luciagascon.es is live, with 13 works to walk through in 3D.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>The artist updates the exhibition independently from the panel.</span></li></ul>
+      <h4>Next step</h4><p>A walk-through video for social media and new themed rooms.</p>
+      <footer class="pf"><p class="stack"><span>three.js</span><span>WebGL</span><span>JavaScript</span><span>Cloudflare Pages</span><span>Functions</span><span>KV</span></p><a class="btn sec" href="https://luciagascon.es" rel="noopener">Open luciagascon.es ↗</a></footer>
+    </article>
+    <article class="proj" id="wild" style="--tint:#e8892b">
+      <header class="ph">
+        <img class="logo" src="img/logos/wildcamper.png" alt="" width="64" height="64" style="background:transparent">
+        <div><p class="kind"><span class="num">04</span> Client · Business platform · 2026 <span class="live"><i></i>Live</span></p><h3>WildCamper</h3></div>
+      </header>
+      <p class="tagline">Camper van sales, rentals and bookings, with a panel from which the owner controls the whole site.</p>
+      <figure class="shot"><img src="img/shots/wild-home.webp" alt="Screenshot of WildCamper" loading="lazy" width="1280" height="800"></figure>
+      <dl class="stats"><div><dt>100%</dt><dd>of the site editable, no code</dd></div><div><dt>RLS</dt><dd>database-level security</dd></div><div><dt>PWA</dt><dd>installable and offline</dd></div></dl>
+      <div class="cols">
+        <div>
+          <p class="myrole"><b>My role</b> Full build: public site, database, security and admin panel.</p>
+          <h4>The challenge</h4><p>A van conversion workshop needed to sell and rent vans, manage bookings and showcase its work, and update everything without depending on a developer.</p>
+          <h4>The solution</h4><p>A platform with seven public sections, a dynamic catalogue, booking calendar and work gallery on Supabase, with an admin panel that controls 100% of the content and look of the site.</p>
+        </div>
+        <aside>
+          <h4>Highlights</h4><ul class="checks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Professional security: real authentication, Row Level Security and tests that block credentials in the code.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Built for the business: the client changes copy, colours, catalogue and availability without touching code.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Lightweight, build-free architecture: fast, cheap to host and easy to maintain.</span></li></ul>
+        </aside>
+      </div>
+      <h4>Architecture</h4><dl class="arch"><div><dt>Front end</dt><dd>Modular HTML, CSS and JavaScript, no build step · CSS-variable design system</dd></div><div><dt>Data</dt><dd>Supabase (PostgreSQL) · RLS schema · Storage for images</dd></div><div><dt>Security</dt><dd>Supabase Auth · public reads, admin-only writes · XSS escaping</dd></div><div><dt>Platform</dt><dd>PWA with a service worker · Cloudflare · Shopify Buy Button</dd></div><div><dt>Quality</dt><dd>Tests with Node's native runner on logic and structure</dd></div></dl>
+      <h4>Key technical decisions</h4><ol class="dec"><li>Security enforced in the database, not the front end: RLS policies that only let authenticated admins write.</li><li>Automated tests that fail if credentials ever appear in the code.</li><li>Full customisation from the panel: copy, colours, stats, contact details, catalogue and blocked dates.</li><li>No framework or build step: fast loading and minimal maintenance.</li></ol>
+      <h4>Results</h4><ul class="checks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>wildcamper.es is live and managed directly by the client.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Bookings with a calendar and availability managed from the panel.</span></li></ul>
+      <h4>Next step</h4><p>A Shopify online store and an interactive before-and-after of the conversions.</p>
+      <footer class="pf"><p class="stack"><span>JavaScript</span><span>Supabase</span><span>PostgreSQL · RLS</span><span>Cloudflare</span><span>Shopify</span><span>PWA</span></p><a class="btn sec" href="https://wildcamper.es" rel="noopener">Open wildcamper.es ↗</a></footer>
+    </article>
+    <article class="proj" id="detemp" style="--tint:#f0531c">
+      <header class="ph">
+        <img class="logo" src="img/logos/detemporada.svg" alt="" width="64" height="64" style="background:transparent">
+        <div><p class="kind"><span class="num">05</span> Own product · PWA · 2026</p><h3>DeTemporada</h3></div>
+      </header>
+      <p class="tagline">What's in season in your region this month, what it costs and where to buy it nearby.</p>
+      <figure class="shot"><img src="img/shots/detemp-home.webp" alt="Screenshot of DeTemporada" loading="lazy" width="1280" height="800"></figure>
+      <dl class="stats"><div><dt>210</dt><dd>products with recipes</dd></div><div><dt>451</dt><dd>geolocated local shops</dd></div><div><dt>17</dt><dd>Spanish regions</dd></div></dl>
+      <div class="cols">
+        <div>
+          <p class="myrole"><b>My role</b> Product, data and development.</p>
+          <h4>The challenge</h4><p>Knowing what is in season locally, at what price and where to buy it from local producers means digging through scattered, hard-to-use sources.</p>
+          <h4>The solution</h4><p>A PWA that combines official seasonal calendars with a directory of verified local shops: product pages with photo, indicative price, calendar and recipe, monthly highlights, a shareable shopping list and shops sorted by distance.</p>
+        </div>
+        <aside>
+          <h4>Highlights</h4><ul class="checks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Data engineering: seasons from official sources and a verified, geocoded shop directory built with my own scripts.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Offline-first product: no backend, installable and fully usable without a connection.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Quality verified with end-to-end tests in a real browser.</span></li></ul>
+        </aside>
+      </div>
+      <h4>Architecture</h4><dl class="arch"><div><dt>Data</dt><dd>Spanish Ministry of Agriculture, fishing and hunting seasons, PDO/PGI specifications · 210 entries</dd></div><div><dt>Shops</dt><dd>Geocoding script with caching and manual overrides · 451 shops</dd></div><div><dt>Images</dt><dd>Wikimedia Commons with author and licence on every entry</dd></div><div><dt>App</dt><dd>React + Vite · PWA with offline cache · optional API on Vercel</dd></div><div><dt>Quality</dt><dd>E2E tests with real clicks in headless Chrome</dd></div></dl>
+      <h4>Key technical decisions</h4><ol class="dec"><li>Official sources for every season, including regional products with protected designations of origin.</li><li>Everything client-side: no backend to maintain, installable and fast even offline.</li><li>Automatic monthly highlights: &quot;Just in&quot; and &quot;Last days&quot;.</li><li>Openly licensed images with attribution on every entry.</li></ol>
+      <h4>Results</h4><ul class="checks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>210 products and 451 shops across all 17 regions.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Core flows covered by end-to-end tests.</span></li></ul>
+      <h4>Next step</h4><p>Own domain and public launch.</p>
+      <footer class="pf"><p class="stack"><span>React</span><span>Vite</span><span>PWA</span><span>Node.js</span><span>Geocoding</span><span>E2E</span></p></footer>
+    </article>
+  </section>
+
+  <section id="experience">
+    <h2>Experience</h2>
+    <ol class="tl"><li><small>Sep 2026 – present</small><div><b>AI &amp; Process Automation Engineer</b> · MicroCAD Informática<p>Founding team of the AI &amp; Automation department. Automations with Power Automate and Python, API integrations with SharePoint, internal apps and Power BI dashboards.</p></div></li><li><small>Nov 2025 – May 2026</small><div><b>Software Developer Intern</b> · Babel<p>Modernised a business management system with Oracle APEX and OutSystems ODC: data model, business logic, process automation and AI proofs of concept.</p></div></li></ol>
+    <h2>Education</h2>
+    <ol class="tl"><li><small>2021 – 2026</small><div><b>BSc in Computer Engineering · Computing major</b><p>University of Málaga</p></div></li><li><small>2024 – 2025</small><div><b>Erasmus+ · Computer Science</b><p>Gdańsk University of Technology (Poland) · taught in English</p></div></li></ol>
+  </section>
+
+  <section id="about">
+    <h2>About</h2>
+    <p class="body">I am a computer engineer from the University of Málaga, with a major in Computing. I work where three worlds that rarely meet come together: artificial intelligence, business process automation and web products.</p><p class="body">Today I am part of the founding team of MicroCAD's AI &amp; Automation department, where I design automations and integrations that remove manual work. Before that I modernised business management systems at Babel, spent a year in Gdańsk on Erasmus+, and launched my own products and client websites that are live today.</p>
+    <h3>How I work with AI</h3><p class="body">I use AI agents as a force multiplier: I define the architecture, the data model and the quality bar, and they speed up implementation. For my thesis I set up my own auditing agents that checked the notebooks for data leakage, plus the web app and the write-up. Everything goes through my review and testing before it reaches production.</p>
+    <h3>Skills</h3>
+    <dl class="kv"><div><dt>AI &amp; data</dt><dd>Python, PyTorch (LSTM, GNN), scikit-learn, XGBoost, pandas, statsmodels, LLMs</dd></div><div><dt>Web product</dt><dd>TypeScript, React, Next.js, three.js, Tailwind, PWA</dd></div><div><dt>Backend &amp; cloud</dt><dd>FastAPI, Node.js, Express, SQL, Supabase, Redis, Cloudflare, Vercel</dd></div><div><dt>Automation</dt><dd>Power Automate, Power BI, SharePoint, API integrations</dd></div><div><dt>Languages</dt><dd>Spanish (native) · English (C1)</dd></div><div><dt>Volunteering</dt><dd>Erasmus Student Network (2026 – present) · Fundación Madre Coraje (2025)</dd></div></dl>
+  </section>
+
+  <section id="contact" class="contact">
+    <h2>Let's talk</h2>
+    <p class="lead">Got a project or a role? Drop me a line.</p>
+    <p><a class="mail" href="mailto:albertoestradag19@gmail.com">albertoestradag19@gmail.com</a></p>
+    <p class="cta"><a class="btn" href="cv/Alberto_Estrada_Gomez_CV_EN.pdf" rel="noopener">Download CV</a><a class="btn sec" href="https://www.linkedin.com/in/alberto-estrada-g%C3%B3mez-a742b4303/" rel="noopener">LinkedIn ↗</a><a class="btn sec" href="https://github.com/albertoesgo" rel="noopener">GitHub ↗</a></p>
+  </section>
+  <footer class="foot">Alberto Estrada Gómez · Málaga, Spain · Updated on 10 November 2026 · <a href="#top">Back to top ↑</a></footer>
+</main>
+<script>
+  // Tema claro/oscuro y recordar el idioma (compartido con el escritorio)
+  (function () {
+    var root = document.documentElement, b = document.getElementById('theme'), mq = matchMedia('(prefers-color-scheme: dark)');
+    var sun = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.1M12 19.3v2.1M4.7 4.7l1.5 1.5M17.8 17.8l1.5 1.5M2.6 12h2.1M19.3 12h2.1M4.7 19.3l1.5-1.5M17.8 6.2l1.5-1.5"/></svg>';
+    var moon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.4 14.7A8.6 8.6 0 0 1 9.3 3.6a8.6 8.6 0 1 0 11.1 11.1z"/></svg>';
+    var dark = function () { return root.dataset.theme ? root.dataset.theme === 'dark' : mq.matches; };
+    var paint = function () { b.innerHTML = dark() ? sun : moon; b.setAttribute('aria-label', dark() ? b.dataset.light : b.dataset.dark); b.title = b.getAttribute('aria-label'); };
+    b.addEventListener('click', function () { var t = dark() ? 'light' : 'dark'; root.dataset.theme = t; try { localStorage.setItem('ae-theme', t); } catch (e) {} paint(); });
+    mq.addEventListener('change', paint); paint();
+    try { localStorage.setItem('ae-lang', 'en'); } catch (e) {}
+  })();
+</script>
+</body>
+</html>

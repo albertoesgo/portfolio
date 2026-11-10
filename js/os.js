@@ -1,11 +1,32 @@
 // Escritorio del portfolio: Mac en pantallas grandes, iOS en el móvil.
-// Un gesto = un proyecto (como luciagascon.es). Enlaces directos: index.html#lookit
-import { profile, experience, education, extras, skills, cv, filters, projects } from './data.js';
+// Un gesto = un proyecto (como luciagascon.es). Enlaces directos: index.html#lookit · ?lang=en
+import { profile, experience, education, extras, skills, filters, projects, cvFile } from './data.js';
+import { UI, pick, classicFile } from './i18n.js';
 import { loadAqua, mountSimulator, mountHistory, mountHorizon, sparkline } from './aqua.js';
 
 const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const nf = (n) => n.toLocaleString('es-ES');
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+const store = {
+  get: (k) => { try { return localStorage.getItem(k); } catch { return null; } },
+  set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* sin almacenamiento */ } },
+};
+
+/* ── Idioma: ?lang= → elección guardada → idioma del navegador ── */
+const LANGS = ['es', 'en'];
+const qLang = new URLSearchParams(location.search).get('lang');
+let lang = LANGS.includes(qLang) ? qLang : LANGS.includes(store.get('ae-lang')) ? store.get('ae-lang') : /^es\b/i.test(navigator.language || 'es') ? 'es' : 'en';
+let t = UI[lang];
+const tr = (x) => pick(x, lang);
+// Números con separador de miles siempre (9.063 / 9,063)
+const fmt = (n, d = 0) => {
+  const [a, b] = n.toFixed(d).split('.');
+  const g = a.replace(/\B(?=(\d{3})+(?!\d))/g, lang === 'es' ? '.' : ',');
+  return b ? `${g}${lang === 'es' ? ',' : '.'}${b}` : g;
+};
+
 const ICON = {
   home: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.2 2.8 11h2.7v9h5v-6h3v6h5v-9h2.7z"/></svg>',
   grid: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>',
@@ -14,171 +35,241 @@ const ICON = {
   doc: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2.5h8l5 5V20a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 20V4A1.5 1.5 0 0 1 6 2.5zm7.5 1v4.5H18zM8 12h8v1.5H8zm0 3.5h8V17H8z"/></svg>',
   person: '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20.5c0-4.1 3.6-7 8-7s8 2.9 8 7z"/></svg>',
   list: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="5" width="16" height="2.4" rx="1.2"/><rect x="4" y="10.8" width="16" height="2.4" rx="1.2"/><rect x="4" y="16.6" width="11" height="2.4" rx="1.2"/></svg>',
+  sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.1M12 19.3v2.1M4.7 4.7l1.5 1.5M17.8 17.8l1.5 1.5M2.6 12h2.1M19.3 12h2.1M4.7 19.3l1.5-1.5M17.8 6.2l1.5-1.5"/></svg>',
+  moon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.4 14.7A8.6 8.6 0 0 1 9.3 3.6a8.6 8.6 0 1 0 11.1 11.1z"/></svg>',
+  left: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m14.5 5.5-6.5 6.5 6.5 6.5"/></svg>',
+  right: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></svg>',
+  x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M7 7l10 10M17 7 7 17"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
 };
-const glyph = (name, bg) => `<span class="ai" style="--plate:${bg}">${ICON[name]}</span>`;
+const glyph = (name, bg, color = '#fff') => `<span class="ai sys" style="--plate:${bg};color:${color}">${ICON[name]}</span>`;
 const SYS = {
-  home: glyph('home', 'linear-gradient(160deg,#8e8e93,#48484a)'),
-  grid: glyph('grid', 'linear-gradient(160deg,#5e5ce6,#3634a3)'),
-  search: glyph('search', 'linear-gradient(160deg,#64d2ff,#0a84ff)'),
-  mail: glyph('mail', 'linear-gradient(160deg,#5ac8fa,#007aff)'),
-  doc: `<span class="ai" style="--plate:linear-gradient(160deg,#f2f2f7,#c7c7cc);color:#8e8e93">${ICON.doc.replace('<svg', '<svg style="color:#8e8e93"')}</span>`,
-  person: glyph('person', 'linear-gradient(160deg,#34c3c8,#0a63c9)'),
+  home: glyph('home', 'linear-gradient(170deg,#9a9aa0,#4a4a4e)'),
+  grid: glyph('grid', 'linear-gradient(170deg,#7d7af5,#3634a3)'),
+  search: glyph('search', 'linear-gradient(170deg,#7ddcff,#0a84ff)'),
+  mail: glyph('mail', 'linear-gradient(170deg,#6fd0ff,#0a6cff)'),
+  doc: glyph('doc', 'linear-gradient(170deg,#ffffff,#d6d6dc)', '#8e8e93'),
+  person: glyph('person', 'linear-gradient(170deg,#4fd3d7,#0a63c9)'),
+  list: glyph('list', 'linear-gradient(170deg,#9a9aa0,#4a4a4e)'),
 };
-const appIcon = (p) => `<span class="ai${p.plate ? ' pad' : ''}${p.wide ? ' wide' : ''}" style="--plate:${p.plate || 'transparent'}"><img src="${p.logo}" alt="" draggable="false"></span>`;
+const appIcon = (p) => `<span class="ai${p.plate ? ' pad' : ''}" style="--plate:${p.plate || 'transparent'}"><img src="${p.logo}" alt="" draggable="false"></span>`;
 const shot = (n) => `img/shots/${n}.webp`;
 const SP = [{ id: 'inicio', name: 'Inicio', wall: 'home' }, ...projects];
-const CV_HINT = { ai: 'Ofertas de ML, datos o IA', automation: 'IA aplicada, automatización y consultoría', fullstack: 'Desarrollo de software y producto' };
+const spName = (k) => (k ? SP[k].name : t.home);
 
 let live = { lookit: { products: 9000, brands: 24 }, detemporada: null };
 let aquaData = null;
-let mode = 'mac', i = 0, slideTimer = null, drag = null, hinted = false;
+let mode = 'mac', i = 0, slideTimer = null, drag = null, hinted = false, suppressClick = 0;
+let screen, track, dock, spaces = [], charts = [];
+
+/* ── Tema: claro, oscuro o el del sistema ── */
+const sysDark = matchMedia('(prefers-color-scheme: dark)');
+let theme = ['light', 'dark'].includes(store.get('ae-theme')) ? store.get('ae-theme') : null;
+const isDark = () => (theme ? theme === 'dark' : sysDark.matches);
+const withTransition = (fn) => (document.startViewTransition && !reduced() ? document.startViewTransition(fn) : fn());
+function applyTheme() {
+  const root = document.documentElement;
+  if (theme) root.dataset.theme = theme; else delete root.dataset.theme;
+  $$('meta[name="theme-color"]').forEach((m) => { m.content = theme ? (isDark() ? '#000000' : '#f2f2f7') : (m.media.includes('dark') ? '#000000' : '#f2f2f7'); });
+  $$('[data-act="theme"]').forEach((b) => { b.innerHTML = isDark() ? ICON.sun : ICON.moon; b.setAttribute('aria-label', isDark() ? t.toLight : t.toDark); b.title = b.getAttribute('aria-label'); });
+}
+sysDark.addEventListener('change', () => { if (!theme) applyTheme(); });
 
 /* ── Estructura ── */
 const app = document.getElementById('app');
-app.innerHTML = `
-  <a class="skip" href="clasica.html">Ir a la vista clásica</a>
-  <main class="screen" id="screen" aria-label="Escritorio de ${esc(profile.name)}">
+function chromeHTML() {
+  return `
+  <a class="skip" href="${classicFile(lang)}">${t.skip}</a>
+  <main class="screen" id="screen" aria-label="${esc(t.desktopOf(profile.name))}">
     <div class="walls">${SP.map((s) => `<div class="wall w-${s.wall}"></div>`).join('')}</div>
-    <nav class="menubar" aria-label="Menú">
+    <nav class="menubar" aria-label="${t.menu}">
       <div class="l"><span class="mono" aria-hidden="true">${profile.initials}</span><b>${esc(profile.short)}</b>
-        <button data-act="overview">Proyectos</button><button data-act="about">Sobre mí</button><button data-act="cv">CV</button><button data-act="contact">Contacto</button></div>
-      <div class="r"><a href="clasica.html">Vista clásica</a><button data-act="spot" aria-label="Buscar (⌘K)">${ICON.search.replace('<svg', '<svg width="14" height="14"')}</button><span id="clock"></span></div>
+        <button data-act="overview">${t.projects}</button><button data-act="about">${t.about}</button><a href="${cvFile(lang)}" target="_blank" rel="noopener">${t.cv}</a><button data-act="contact">${t.contact}</button></div>
+      <div class="r"><button class="pill" data-act="lang" lang="${t.other}" aria-label="${t.langBtn}" title="${t.langBtn}">${UI[t.other].short}</button><button class="ico" data-act="theme"></button>
+        <a href="${classicFile(lang)}">${t.classic}</a><button class="ico" data-act="spot" aria-label="${t.searchK}" title="${t.searchK}">${ICON.search}</button><span id="clock"></span></div>
     </nav>
     <div class="track" id="track"></div>
-    <div class="pager" id="pager" aria-hidden="true"></div>
-    <div class="hint" id="hint"></div>
+    <nav class="pager" id="pager" aria-label="${t.projects}">
+      <button class="pg" data-act="prev" aria-label="${t.prev}">${ICON.left}</button>
+      <span class="dots">${SP.map((s, k) => `<button data-go="${k}" aria-label="${esc(spName(k))}"><i></i></button>`).join('')}</span>
+      <button class="pg" data-act="next" aria-label="${t.next}">${ICON.right}</button>
+    </nav>
+    <div class="hint" id="hint" aria-hidden="true"></div>
     <nav class="dock" id="dock" aria-label="Dock"></nav>
-    <div class="overlay ov" id="ov" role="dialog" aria-label="Todos los proyectos">
-      <div class="ov-head"><h2>Proyectos</h2><div class="seg" id="filters" role="group" aria-label="Filtrar"></div></div>
-      <div class="ov-grid" id="ovgrid"></div>
+    <div class="overlay ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="ov-title">
+      <div class="ov-in" id="ov-in">
+        <div class="grab" aria-hidden="true"></div>
+        <div class="ov-head"><h2 id="ov-title">${t.myProjects}</h2><div class="seg" id="filters" role="group" aria-label="${t.filter}"></div><button class="xbtn" data-act="close" aria-label="${t.close}">${ICON.x}</button></div>
+        <div class="ov-grid" id="ovgrid"></div>
+      </div>
     </div>
-    <div class="overlay sp" id="sp" role="dialog" aria-label="Buscar">
-      <div class="spbox"><div class="spin">${ICON.search}<input id="spq" placeholder="Busca un proyecto o una tecnología: PyTorch, 3D, Supabase…" autocomplete="off" aria-label="Buscar"></div><div class="spres" id="spres"></div></div>
+    <div class="overlay sp" id="sp" role="dialog" aria-label="${t.search}">
+      <div class="spbox"><div class="spin">${ICON.search}<input id="spq" placeholder="${esc(t.spPlaceholder)}" autocomplete="off" aria-label="${t.search}"></div><div class="spres" id="spres"></div></div>
     </div>
     <div class="overlay sheetwrap" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
-      <div class="sheet"><div class="sheet-head"><b id="sheet-title"></b><button data-act="close" aria-label="Cerrar">×</button></div><div class="sheet-body" id="sheet-body"></div></div>
+      <div class="sheet" id="sheet-panel"><div class="grab" aria-hidden="true"></div><div class="sheet-head"><b id="sheet-title"></b><button class="xbtn" data-act="close" aria-label="${t.close}">${ICON.x}</button></div><div class="sheet-body" id="sheet-body"></div></div>
     </div>
     <button class="toast" id="toast" aria-live="polite"></button>
   </main>`;
-const screen = $('#screen'), track = $('#track');
+}
 
-function homeHTML() {
+const rv = (k) => ` rv" style="--k:${k}`;
+
+function homeHTML(cur) {
   const L = live.lookit, D = live.detemporada;
   const total = aquaData ? aquaData.total : null;
+  const pct = (v) => (lang === 'es' ? `${fmt(v, 1)} %` : `${fmt(v, 1)}%`);
   return `
-  <section class="space" data-i="0" aria-label="Inicio"><div class="home">
-    <div class="widget w-profile"><div class="avatar" aria-hidden="true">${profile.initials}</div><div>
+  <section class="space${cur ? ' cur' : ''}" data-i="0" aria-label="${t.home}"><div class="home">
+    <div class="qs"><button class="pill" data-act="lang" lang="${t.other}" aria-label="${t.langBtn}">${UI[t.other].short}</button><button class="ico" data-act="theme"></button></div>
+    <div class="widget w-profile${rv(0)}"><div class="avatar" aria-hidden="true">${profile.initials}</div><div>
       <h1>${esc(profile.name)}</h1>
-      <p class="role">${esc(profile.role)} · ${esc(profile.location)}</p>
-      <p class="now">${esc(profile.headline)}</p>
-      <div class="actions"><button class="btn" data-act="cv">${ICON.doc.replace('<svg', '<svg width="15" height="15"')}CV</button><button class="btn sec" data-act="about">Sobre mí</button><button class="btn sec" data-act="overview">Proyectos</button><button class="btn sec" data-act="contact">Contacto</button></div>
+      <p class="role">${esc(tr(profile.role))} · ${esc(tr(profile.location))}</p>
+      <p class="now">${esc(tr(profile.headline))}</p>
+      <div class="actions"><a class="btn" href="${cvFile(lang)}" target="_blank" rel="noopener">${ICON.doc}${t.cv}</a><button class="btn sec" data-act="about">${t.about}</button><button class="btn sec" data-act="overview">${t.projects}</button><button class="btn sec" data-act="contact">${t.contact}</button></div>
     </div></div>
-    <button class="widget w-wide" data-go="1">
-      <div class="wl">AquaAndalucía · embalses de Málaga</div>
-      <h3>${total ? `${nf(total.normal[0])} % → ${nf(total.normal[90])} %` : 'Predicción a 90 días'}</h3>
-      <p>Llenado de los 7 embalses en el último dato y dentro de 90 días con un año normal, según mi modelo. <b>Prueba otros escenarios.</b></p>
+    <button class="widget w-wide${rv(1)}" data-go="1">
+      <div class="wl">${t.aquaW}</div>
+      <h3>${total ? `${pct(total.normal[0])} → ${pct(total.normal[90])}` : t.aquaFallback}</h3>
+      <p>${t.aquaP}</p>
       <div class="spark">${aquaData ? sparkline(aquaData) : ''}</div>
     </button>
-    <button class="widget" data-go="2"><div class="wl"><i class="pulse"></i>LOOKIT</div><h3>${nf(L.products)} prendas</h3><p>de ${L.brands} marcas españolas, leídas de lookit.es.</p></button>
-    ${D ? `<button class="widget" data-go="5"><div class="wl"><i class="pulse" style="background:var(--orange)"></i>DeTemporada</div><h3>${esc(D.month[0].toUpperCase() + D.month.slice(1))}</h3><p>En ${esc(D.region)}: ${D.items.map(esc).join(', ')}.</p></button>` : ''}
-    <button class="widget w-tl" data-act="about"><div class="wl">Trayectoria</div><ol class="tl">
-      <li><small>2026 –</small><span><b>MicroCAD</b> · IA y automatización</span></li>
-      <li><small>2025 – 2026</small><span><b>Babel</b> · desarrollo (prácticas)</span></li>
-      <li><small>2024 – 2025</small><span><b>Erasmus+</b> · Gdańsk</span></li>
-      <li><small>2021 – 2026</small><span><b>Ingeniería Informática</b> · UMA</span></li>
+    <button class="widget${rv(2)}" data-go="2"><div class="wl"><i class="pulse"></i>LOOKIT</div><h3>${fmt(L.products)} ${t.items}</h3><p>${esc(t.lookitP(L.brands))}</p></button>
+    ${D ? `<button class="widget${rv(3)}" data-go="5"><div class="wl"><i class="pulse" style="background:var(--orange)"></i>DeTemporada</div><h3>${esc(lang === 'es' ? D.month[0].toUpperCase() + D.month.slice(1) : new Date().toLocaleDateString('en-GB', { month: 'long' }))}</h3><p>${esc(t.detempP(D))}</p></button>` : ''}
+    <button class="widget w-tl${rv(4)}" data-act="about"><div class="wl">${t.journey}</div><ol class="tl">
+      ${t.tl.map(([d, b, s], k) => `<li><small>${d}</small><span><b>${esc(b)}</b> · ${esc(s)}${k === 0 ? ` <em>${t.nowTag}</em>` : ''}</span></li>`).join('')}
     </ol></button>
-    <div class="icons">${projects.map((p, k) => `<button class="dicon" data-go="${k + 1}">${appIcon(p)}<span>${esc(p.name)}</span></button>`).join('')}
-      <button class="dicon" data-act="cv">${SYS.doc}<span>CV.pdf</span></button><button class="dicon" data-act="about">${SYS.person}<span>Sobre mí</span></button></div>
+    <div class="icons${rv(2)}">${projects.map((p, k) => `<button class="dicon" data-go="${k + 1}">${appIcon(p)}<span>${esc(p.name)}</span></button>`).join('')}
+      <a class="dicon" href="${cvFile(lang)}" target="_blank" rel="noopener">${SYS.doc}<span>${t.cvIcon}</span></a><button class="dicon" data-act="about">${SYS.person}<span>${t.about}</span></button></div>
   </div></section>`;
 }
 
-function projectHTML(p, k) {
-  const stats = p.id === 'lookit' ? [['24', 'marcas españolas'], [nf(live.lookit.products), 'prendas'], ['1 h', 'entre actualizaciones']] : p.stats;
+function projectHTML(p, k, cur) {
+  let stats = tr(p.stats);
+  if (p.id === 'lookit') stats = stats.map((s, j) => (j === 1 ? [fmt(live.lookit.products), s[1]] : j === 0 ? [String(live.lookit.brands), s[1]] : s));
   const slides = `<div class="shot">
-      ${p.shots.map(([n, fx]) => `<div class="slide ${fx}"><img src="${shot(n)}" alt="Captura de ${esc(p.name)}" loading="lazy" draggable="false"></div>`).join('')}
-      ${p.phone ? `<div class="slide m phone-only"><img src="${shot(p.phone)}" alt="${esc(p.name)} en el móvil" loading="lazy" draggable="false"></div>` : ''}
+      ${p.shots.map(([n, fx]) => `<div class="slide ${fx}"><img src="${shot(n)}" alt="${esc(t.shotOf(p.name))}" loading="lazy" draggable="false"></div>`).join('')}
+      ${p.phone ? `<div class="slide m phone-only"><img src="${shot(p.phone)}" alt="${esc(t.onPhone(p.name))}" loading="lazy" draggable="false"></div>` : ''}
       <div class="pips">${p.shots.map(() => '<i></i>').join('')}</div>
     </div>`;
   const media = p.aqua
-    ? `<div class="mtabs"><div class="seg" role="group" aria-label="Contenido">${[['sim', 'Simulador'], ['hist', 'Histórico'], ['prec', 'Precisión'], ['app', 'La app']].map(([k2, l], j) => `<button data-pane="${k2}" aria-pressed="${j === 0}">${l}</button>`).join('')}</div></div>
+    ? `<div class="mtabs"><div class="seg" role="group">${t.tabs.map(([k2, l], j) => `<button data-pane="${k2}" aria-pressed="${j === 0}">${l}</button>`).join('')}</div></div>
        <div class="pane on" data-p="sim"></div><div class="pane" data-p="hist"></div><div class="pane" data-p="prec"></div>
-       <div class="pane" data-p="app">${slides}<p class="cap">Capturas reales de la app del TFG (React + FastAPI)</p></div>`
-    : `${slides}${p.phone ? `<div class="phoneshot"><img src="${shot(p.phone)}" alt="" loading="lazy" draggable="false"></div>` : ''}<p class="cap">Captura real · ${esc(p.url)}</p>`;
+       <div class="pane" data-p="app">${slides}<p class="cap">${t.appCap}</p></div>`
+    : `${slides}${p.phone ? `<div class="phoneshot"><img src="${shot(p.phone)}" alt="" loading="lazy" draggable="false"></div>` : ''}<p class="cap">${t.realShot} · ${esc(tr(p.url))}</p>`;
   return `
-  <section class="space" data-i="${k + 1}" aria-label="${esc(p.name)}"><div class="win">
-    <div class="titlebar"><div class="lights"><button class="c" data-act="home" aria-label="Volver a Inicio"></button><button class="m" data-act="overview" aria-label="Ver todos los proyectos"></button><button class="x" data-act="max" aria-label="Ampliar ventana"></button></div><div class="ttl">${esc(p.name)}<small>${esc(p.url)}</small></div><div></div></div>
+  <section class="space${cur ? ' cur' : ''}" data-i="${k + 1}" aria-label="${esc(p.name)}"><div class="win">
+    <div class="titlebar"><div class="lights"><button class="c" data-act="home" aria-label="${t.toHome}"></button><button class="m" data-act="overview" aria-label="${t.toAll}"></button><button class="x" data-act="max" aria-label="${t.maximize}"></button></div><div class="ttl">${esc(p.name)}<small>${esc(tr(p.url))}</small></div><div></div></div>
     <div class="wbody">
       <div class="media" style="--tint:${p.tint}">${media}</div>
       <div class="info">
-        <div class="kind">${esc(p.kind)}</div>
-        <h2>${esc(p.name)}</h2>
-        <p class="tag">${esc(p.tagline)}</p>
-        <div class="stats">${stats.map(([a, b]) => `<div class="stat"><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
-        <div class="group"><div class="gh">Qué demuestra</div><ul>${p.proves.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>
-        <div class="stack">${p.stack.map((x) => `<span>${esc(x)}</span>`).join('')}</div>
-        <div class="actions"><button class="btn" data-act="case">Caso de estudio</button>${p.link ? `<a class="btn sec" href="${p.link}" target="_blank" rel="noopener">${esc(p.linkLabel)} ↗</a>` : ''}</div>
+        <div class="phead${rv(0)}">${appIcon(p)}<div><div class="kind">${esc(tr(p.kind))}${p.live ? `<span class="live"><i></i>${t.live}</span>` : ''}</div><h2>${esc(p.name)}</h2></div></div>
+        <p class="tag${rv(1)}">${esc(tr(p.tagline))}</p>
+        <div class="stats${rv(2)}">${stats.map(([a, b]) => `<div class="stat"><b data-v="${esc(a)}">${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
+        <div class="group${rv(3)}"><div class="gh">${t.highlights}</div><ul>${tr(p.proves).map((x) => `<li>${ICON.check}<span>${esc(x)}</span></li>`).join('')}</ul></div>
+        <div class="stack${rv(4)}">${p.stack.map((x) => `<span>${esc(x)}</span>`).join('')}</div>
+        <div class="actions${rv(5)}"><button class="btn" data-act="case">${t.caseBtn}</button>${p.link ? `<a class="btn sec" href="${p.link}" target="_blank" rel="noopener">${esc(p.linkLabel)} ↗</a>` : ''}</div>
       </div>
     </div>
   </div></section>`;
 }
 
-function render() {
-  track.innerHTML = homeHTML() + projects.map(projectHTML).join('');
+function render(animate) {
+  track.innerHTML = homeHTML(!animate && i === 0) + projects.map((p, k) => projectHTML(p, k, !animate && i === k + 1)).join('');
+  spaces = $$('.space', track);
+  charts = [];
   if (aquaData) {
-    const sp = track.querySelector('[data-i="1"]');
-    mountSimulator($('[data-p="sim"]', sp), aquaData);
-    mountHistory($('[data-p="hist"]', sp), aquaData);
-    mountHorizon($('[data-p="prec"]', sp));
+    const sp = spaces[1];
+    charts.push(mountSimulator($('[data-p="sim"]', sp), aquaData, lang), mountHorizon($('[data-p="prec"]', sp), lang));
+    mountHistory($('[data-p="hist"]', sp), aquaData, lang);
   }
-  go(i, true);
+  applyTheme();
+  if (animate) void track.offsetWidth; // fija el estado inicial para que la entrada se anime
+  go(i, true, animate);
 }
 
-$('#dock').innerHTML =
-  `<button data-go="0" aria-label="Inicio">${SYS.home}<span class="tip">Inicio</span></button>` +
-  projects.map((p, k) => `<button class="only-mac" data-go="${k + 1}" aria-label="${esc(p.name)}">${appIcon(p)}<span class="tip">${esc(p.name)}</span></button>`).join('') +
-  '<span class="sepv"></span>' +
-  `<button data-act="overview" aria-label="Todos los proyectos">${SYS.grid}<span class="tip">Todos los proyectos</span></button>` +
-  `<button data-act="about" aria-label="Sobre mí">${SYS.person}<span class="tip">Sobre mí</span></button>` +
-  `<button data-act="spot" aria-label="Buscar">${SYS.search}<span class="tip">Buscar (⌘K)</span></button>` +
-  `<button data-act="contact" aria-label="Contacto">${SYS.mail}<span class="tip">Contacto</span></button>`;
-$('#pager').innerHTML = SP.map(() => '<i></i>').join('');
+function dockHTML() {
+  const item = (attrs, icon, label, cls = '') => `<button class="${cls}" ${attrs} aria-label="${esc(label)}">${icon}<span class="tip">${esc(label)}</span><span class="lbl">${esc(label)}</span></button>`;
+  return item('data-go="0"', SYS.home, t.home) +
+    projects.map((p, k) => item(`data-go="${k + 1}"`, appIcon(p), p.name, 'only-mac')).join('') +
+    '<span class="sepv only-mac" aria-hidden="true"></span>' +
+    item('data-act="overview"', SYS.grid, t.projects) +
+    item('data-act="about"', SYS.person, t.about) +
+    `<a class="only-mac" href="${cvFile(lang)}" target="_blank" rel="noopener" aria-label="CV">${SYS.doc}<span class="tip">CV</span></a>` +
+    item('data-act="spot"', SYS.search, t.searchK, 'only-mac') +
+    item('data-act="contact"', SYS.mail, t.contact);
+}
 
 /* ── Modo y escala ── */
 // Móvil en vertical u horizontal (pantalla táctil y baja) → interfaz iOS
 const mq = matchMedia('(max-width: 760px), (max-height: 520px) and (pointer: coarse)');
-function setMode() {
+function applyMode() {
   mode = mq.matches ? 'phone' : 'mac';
   document.body.classList.toggle('mac', mode === 'mac');
   document.body.classList.toggle('phone', mode === 'phone');
   const s = mode === 'mac' ? Math.min(1.25, Math.max(0.72, innerWidth / 1440)) : 1;
   document.documentElement.style.setProperty('--s', s);
-  $('#hint').textContent = mode === 'mac' ? 'Desliza con dos dedos, usa la rueda o ← → para pasar de proyecto' : 'Desliza para pasar de proyecto';
-  go(i, true);
+  $('#hint').innerHTML = mode === 'mac' ? esc(t.hintMac) : `${esc(t.hintPhone)} <span class="arr">${ICON.right}</span>`;
 }
 const scale = () => (mode === 'mac' ? +getComputedStyle(document.documentElement).getPropertyValue('--s') || 1 : 1);
-mq.addEventListener('change', setMode);
-addEventListener('resize', () => { if (mode === 'mac') setMode(); });
+mq.addEventListener('change', () => { applyMode(); go(i, true); });
+addEventListener('resize', () => { if (mode === 'mac') applyMode(); });
 
 /* ── Navegación ── */
-function go(n, instant) {
+function go(n, instant, reveal) {
+  const prev = i;
   i = Math.max(0, Math.min(SP.length - 1, n));
   track.classList.toggle('drag', !!instant);
   track.style.transform = `translate3d(${-i * 100}%,0,0)`;
   if (instant) requestAnimationFrame(() => track.classList.remove('drag'));
-  document.querySelectorAll('.wall').forEach((w, k) => w.classList.toggle('on', k === i));
-  document.querySelectorAll('#pager i').forEach((d, k) => d.classList.toggle('on', k === i));
-  document.querySelectorAll('#dock [data-go]').forEach((b) => b.classList.toggle('on', +b.dataset.go === i));
-  track.querySelectorAll('.space').forEach((s, k) => { s.inert = k !== i; });
+  $$('.wall').forEach((w, k) => w.classList.toggle('on', k === i));
+  $$('#pager .dots button').forEach((d, k) => { d.classList.toggle('on', k === i); d.toggleAttribute('aria-current', k === i); });
+  $('#pager [data-act="prev"]').disabled = i === 0;
+  $('#pager [data-act="next"]').disabled = i === SP.length - 1;
+  $$('#dock [data-go]').forEach((b) => b.classList.toggle('on', +b.dataset.go === i));
+  spaces.forEach((s, k) => { s.inert = k !== i; });
+  const changed = prev !== i || reveal;
+  spaces.forEach((s, k) => s.classList.toggle('cur', k === i));
+  if (prev !== i && spaces[prev]) {
+    const w = spaces[prev];
+    w.classList.add('was'); clearTimeout(w.wasT); w.wasT = setTimeout(() => w.classList.remove('was'), 700);
+  }
+  if (changed) arrive(spaces[i]);
   const id = SP[i].id;
   if ((location.hash.slice(1) || 'inicio') !== id) history.replaceState(null, '', i ? `#${id}` : location.pathname + location.search);
-  document.title = i ? `${SP[i].name} · ${profile.name}` : `${profile.name} · ${profile.role}`;
-  startSlides();
-  if (i > 0 && !hinted) { hinted = true; $('#hint').classList.add('gone'); }
+  document.title = i ? `${SP[i].name} · ${profile.name}` : `${profile.name} · ${tr(profile.role)}`;
+  if (prev !== i || instant || reveal) startSlides();
+  if (i > 0 && !hinted) hideHint();
+}
+// Al llegar a un proyecto: las cifras cuentan y las curvas del TFG se dibujan
+function arrive(sp) {
+  if (!sp || reduced()) return;
+  $$('.stat b[data-v]', sp).forEach(countUp);
+  if (sp === spaces[1]) charts.forEach((c) => c.replay());
+}
+function countUp(b) {
+  const final = b.dataset.v;
+  const m = final.match(/^([^\d]*)(\d[\d.,]*)(.*)$/);
+  if (!m || m[3].includes(':')) return;
+  const [, pre, num, post] = m;
+  const dec = lang === 'es' ? ',' : '.', grp = lang === 'es' ? '.' : ',';
+  const decimals = num.includes(dec) ? num.split(dec)[1].length : 0;
+  const val = parseFloat(num.split(grp).join('').replace(dec, '.'));
+  if (!(val >= 5 || decimals)) return;
+  const t0 = performance.now(), D = 1200 + Math.min(600, Math.log10(val + 1) * 150);
+  const step = (now) => {
+    const k = Math.min(1, (now - t0 - 250) / D);
+    if (k < 0) { b.textContent = pre + fmt(0, decimals) + post; return requestAnimationFrame(step); }
+    const e = 1 - Math.pow(1 - k, 4);
+    b.textContent = k < 1 ? pre + fmt(val * e, decimals) + post : final;
+    if (k < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
 }
 function startSlides() {
   clearInterval(slideTimer);
   track.querySelectorAll('.slide.on').forEach((s) => s.classList.remove('on'));
-  const sp = track.children[i];
+  const sp = spaces[i];
   if (!sp || i === 0) return;
   const appPane = sp.querySelector('[data-p="app"]');
   if (appPane && !appPane.classList.contains('on')) return;
@@ -190,23 +281,26 @@ function startSlides() {
   show();
   if (slides.length > 1) slideTimer = setInterval(() => { k = (k + 1) % slides.length; show(); }, 6000);
 }
+function hideHint() { hinted = true; $('#hint')?.classList.add('gone'); }
 addEventListener('hashchange', () => { const k = SP.findIndex((s) => s.id === location.hash.slice(1)); if (k >= 0 && k !== i) go(k); });
 
-/* ── Gestos: dedo o ratón ── */
-const anyOpen = () => ['#ov', '#sp', '#sheet'].some((s) => $(s).classList.contains('open'));
-track.addEventListener('pointerdown', (e) => {
-  if (anyOpen() || e.target.closest('button, a, input, select, svg, .seg') || (mode === 'mac' && e.target.closest('.info'))) return;
+/* ── Gestos: dedo o ratón (un arrastre horizontal no cuenta como clic) ── */
+const anyOpen = () => ['#ov', '#sp', '#sheet'].some((s) => $(s)?.classList.contains('open'));
+function onDown(e) {
+  if (anyOpen() || e.button > 0) return;
+  if (e.target.closest('input, select, textarea, .chips, .seg')) return;
+  if (e.pointerType === 'mouse' && e.target.closest('.info, .viz, button, a')) return;
   drag = { x: e.clientX, y: e.clientY, dx: 0, axis: null, id: e.pointerId, t: performance.now() };
-});
+}
 addEventListener('pointermove', (e) => {
   if (!drag || e.pointerId !== drag.id) return;
   const dx = (e.clientX - drag.x) / scale(), dy = (e.clientY - drag.y) / scale();
   if (!drag.axis && Math.hypot(dx, dy) > 8) {
-    drag.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+    drag.axis = Math.abs(dx) > Math.abs(dy) * 1.1 ? 'x' : 'y';
     if (drag.axis === 'x') { track.classList.add('drag'); try { track.setPointerCapture(drag.id); } catch { /* sin captura */ } }
   }
   if (drag.axis !== 'x') return;
-  const edge = (i === 0 && dx > 0) || (i === SP.length - 1 && dx < 0) ? 0.35 : 1;
+  const edge = (i === 0 && dx > 0) || (i === SP.length - 1 && dx < 0) ? 0.3 : 1;
   drag.dx = dx;
   track.style.transform = `translate3d(calc(${-i * 100}% + ${dx * edge}px),0,0)`;
 });
@@ -214,18 +308,26 @@ addEventListener('pointerup', (e) => {
   if (!drag || e.pointerId !== drag.id) return;
   const d = drag; drag = null; track.classList.remove('drag');
   if (d.axis !== 'x') return;
+  suppressClick = performance.now();
   const v = d.dx / (performance.now() - d.t);
-  go(d.dx < -70 || v < -0.45 ? i + 1 : d.dx > 70 || v > 0.45 ? i - 1 : i);
+  go(d.dx < -60 || v < -0.4 ? i + 1 : d.dx > 60 || v > 0.4 ? i - 1 : i);
 });
-addEventListener('pointercancel', () => { if (drag) { drag = null; track.classList.remove('drag'); go(i); } });
+// Si el navegador se queda el gesto (scroll vertical), solo se recoloca la pista
+addEventListener('pointercancel', () => {
+  if (!drag) return;
+  const d = drag; drag = null; track.classList.remove('drag');
+  if (d.axis === 'x') track.style.transform = `translate3d(${-i * 100}%,0,0)`;
+});
+// Tras deslizar no se abre lo que hubiera bajo el dedo
+addEventListener('click', (e) => { if (performance.now() - suppressClick < 350) { e.preventDefault(); e.stopPropagation(); } }, true);
 
 /* ── Trackpad y rueda: un gesto = un proyecto; pellizcar = vista general ── */
 let acc = 0, accT = 0, lock = false;
-screen.addEventListener('wheel', (e) => {
+function onWheel(e) {
   if (e.ctrlKey) { e.preventDefault(); if (e.deltaY > 2) openOv(); else if (e.deltaY < -2) closeAll(); return; }
   if (anyOpen()) return;
   const horiz = Math.abs(e.deltaX) > Math.abs(e.deltaY);
-  if (!horiz && (mode === 'phone' || e.target.closest('.info, .viz, .home'))) return;
+  if (!horiz && (mode === 'phone' || e.target.closest('.info, .viz, .home, .dock'))) return;
   e.preventDefault();
   const now = performance.now();
   if (now - accT > 220) acc = 0;
@@ -233,12 +335,13 @@ screen.addEventListener('wheel', (e) => {
   if (lock) return;
   acc += horiz ? e.deltaX : e.deltaY;
   if (Math.abs(acc) > 60) { go(i + Math.sign(acc)); acc = 0; lock = true; setTimeout(() => (lock = false), 700); }
-}, { passive: false });
+}
 
 /* ── Teclado ── */
 addEventListener('keydown', (e) => {
   if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openSpot(); return; }
   if (e.key === 'Escape') { closeAll(); return; }
+  if ($('#ov').classList.contains('open') && e.key === 'ArrowDown') { e.preventDefault(); closeAll(); return; }
   if (anyOpen() || (e.target instanceof Element && e.target.closest('input, select, textarea'))) return;
   if (e.key === 'ArrowRight') { e.preventDefault(); go(i + 1); }
   else if (e.key === 'ArrowLeft') { e.preventDefault(); go(i - 1); }
@@ -247,31 +350,48 @@ addEventListener('keydown', (e) => {
 });
 
 /* ── Acciones ── */
-screen.addEventListener('click', (e) => {
+function onClick(e) {
   const pane = e.target.closest('[data-pane]');
   if (pane) {
     const media = pane.closest('.media');
     media.querySelectorAll('[data-pane]').forEach((b) => b.setAttribute('aria-pressed', b === pane));
     media.querySelectorAll('.pane').forEach((p) => p.classList.toggle('on', p.dataset.p === pane.dataset.pane));
+    if (pane.dataset.pane === 'sim' || pane.dataset.pane === 'prec') charts.forEach((c) => c.replay());
     startSlides();
     return;
   }
+  const inDock = e.target.closest('#dock > *');
+  if (inDock) bounce(inDock);
   const g = e.target.closest('[data-go]');
   if (g) { closeAll(); go(+g.dataset.go); return; }
   const a = e.target.closest('[data-act]');
   if (!a) return;
   ({
-    overview: openOv, spot: openSpot, about: () => sheet('Sobre mí', aboutHTML()), cv: () => sheet('Currículum', cvHTML()),
-    contact: () => sheet('Contacto', contactHTML()), close: closeAll, home: () => go(0),
-    max: () => track.children[i].classList.toggle('max'),
-    case: () => { const p = projects[i - 1]; if (p) sheet(`Caso de estudio · ${p.name}`, caseHTML(p)); },
+    overview: openOv, spot: openSpot, about: () => sheet(t.about, aboutHTML()), contact: () => sheet(t.contact, contactHTML()),
+    close: closeAll, home: () => go(0), prev: () => go(i - 1), next: () => go(i + 1),
+    max: () => spaces[i].classList.toggle('max'),
+    case: () => { const p = projects[i - 1]; if (p) sheet(t.caseOf(p.name), caseHTML(p)); },
+    theme: () => { theme = isDark() ? 'light' : 'dark'; store.set('ae-theme', theme); withTransition(applyTheme); },
+    lang: () => setLang(t.other),
     copy: async () => {
-      try { await navigator.clipboard.writeText(profile.email); a.textContent = 'Copiado'; }
-      catch { getSelection().selectAllChildren($('#sheet code')); a.textContent = 'Selecciónalo y cópialo'; }
+      try { await navigator.clipboard.writeText(profile.email); a.textContent = t.copied; }
+      catch { getSelection().selectAllChildren($('#sheet code')); a.textContent = t.copyManual; }
     },
   })[a.dataset.act]?.();
-});
-$('#toast').addEventListener('click', () => { const t = $('#toast'); t.classList.remove('show'); if (t.dataset.go) go(+t.dataset.go); });
+}
+function bounce(el) {
+  const icon = el.querySelector('.ai');
+  if (!icon || mode !== 'mac' || reduced()) return;
+  icon.animate([{ transform: 'none' }, { transform: 'translateY(-38%)', offset: 0.28 }, { transform: 'none', offset: 0.56 }, { transform: 'translateY(-14%)', offset: 0.76 }, { transform: 'none' }],
+    { duration: 720, easing: 'cubic-bezier(.3,.7,.4,1)' });
+}
+function setLang(l) {
+  lang = l; t = UI[l]; store.set('ae-lang', l);
+  document.documentElement.lang = l;
+  const u = new URL(location.href);
+  if (u.searchParams.has('lang')) { u.searchParams.set('lang', l); history.replaceState(null, '', u); }
+  withTransition(() => mount(false));
+}
 
 /* ── Hojas ── */
 function sheet(title, html) {
@@ -280,130 +400,213 @@ function sheet(title, html) {
   $('#sheet-body').innerHTML = html;
   $('#sheet-body').scrollTop = 0;
   $('#sheet').classList.add('open');
-  setTimeout(() => $('#sheet [data-act="close"]').focus({ preventScroll: true }), 50);
+  setTimeout(() => $('#sheet .xbtn').focus({ preventScroll: true }), 60);
 }
 const li = (b, small, span) => `<div class="li"><b>${esc(b)}</b>${small ? `<small>${esc(small)}</small>` : ''}${span ? `<span>${esc(span)}</span>` : ''}</div>`;
+const cvBtn = (cls = 'btn') => `<a class="${cls}" href="${cvFile(lang)}" target="_blank" rel="noopener">${ICON.doc}${t.downloadCV}</a>`;
 function aboutHTML() {
-  return `<h2>${esc(profile.name)}</h2><p class="lead">${esc(profile.role)} · ${esc(profile.location)}</p>
-    ${profile.bio.map((p) => `<p>${esc(p)}</p>`).join('')}
-    <h3>Cómo trabajo con IA</h3><p>${esc(profile.aiWork)}</p>
-    <h3>Experiencia</h3><div class="list">${experience.map((e) => li(`${e.role} · ${e.org}`, e.date, e.text)).join('')}</div>
-    <h3>Formación</h3><div class="list">${education.map((e) => li(e.title, e.date, e.org)).join('')}</div>
-    <h3>Habilidades</h3><div class="list">${skills.map(([k, v]) => li(k, '', v)).join('')}</div>
-    <h3>Idiomas y voluntariado</h3><div class="list">${extras.map(([k, v]) => li(k, '', v)).join('')}</div>
-    <div class="actions" style="margin-top:20px"><button class="btn" data-act="cv">Descargar CV</button><a class="btn sec" href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a><a class="btn sec" href="${profile.links.github}" target="_blank" rel="noopener">GitHub ↗</a></div>`;
+  return `<div class="about-hero"><div class="avatar" aria-hidden="true">${profile.initials}</div><div><h2>${esc(profile.name)}</h2><p class="lead">${esc(tr(profile.role))} · ${esc(tr(profile.location))}</p></div></div>
+    ${tr(profile.bio).map((p) => `<p>${esc(p)}</p>`).join('')}
+    <h3>${t.aiWork}</h3><p>${esc(tr(profile.aiWork))}</p>
+    <h3>${t.experience}</h3><div class="list">${experience.map((e) => li(`${tr(e.role)} · ${e.org}`, tr(e.date), tr(e.text))).join('')}</div>
+    <h3>${t.education}</h3><div class="list">${education.map((e) => li(tr(e.title), e.date, tr(e.org))).join('')}</div>
+    <h3>${t.skills}</h3><div class="list">${skills.map(([k, v]) => li(tr(k), '', tr(v))).join('')}</div>
+    <h3>${t.extras}</h3><div class="list">${extras.map(([k, v]) => li(tr(k), '', tr(v))).join('')}</div>
+    <div class="actions" style="margin-top:22px">${cvBtn()}<a class="btn sec" href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a><a class="btn sec" href="${profile.links.github}" target="_blank" rel="noopener">GitHub ↗</a></div>`;
 }
 function caseHTML(p) {
-  const c = p.case;
-  return `<h2>${esc(p.name)}</h2><p class="lead">${esc(p.tagline)}</p>
-    <h3>El problema</h3><p>${esc(c.problem)}</p>
-    <h3>Qué hice</h3><p>${esc(c.did)}</p>
-    <h3>Decisiones</h3><ul>${c.decisions.map((d) => `<li>${esc(d)}</li>`).join('')}</ul>
-    <h3>Lo que no salió bien</h3><p>${esc(c.wrong)}</p>
-    <h3>Resultado</h3><p>${esc(c.result)}</p>
-    <h3>Siguiente paso</h3><p>${esc(c.next)}</p>
-    <div class="stack" style="margin-top:18px">${p.stack.map((x) => `<span>${esc(x)}</span>`).join('')}</div>
-    ${p.link ? `<div class="actions" style="margin-top:16px"><a class="btn" href="${p.link}" target="_blank" rel="noopener">Abrir ${esc(p.linkLabel)} ↗</a></div>` : ''}`;
-}
-function cvHTML() {
-  return `<h2>Elige la versión</h2><p class="lead">El mismo CV, ordenado según el tipo de puesto. Una página, en español o en inglés.</p>
-    <div class="cvgrid">${cv.map((c) => `<div class="cvcard"><b>${esc(c.label)}</b><span style="font-size:13px;color:var(--label2)">${esc(CV_HINT[c.key])}</span>
-      <div class="actions"><a class="btn" href="cv/${c.key}/Alberto_Estrada_Gomez_CV_ES.pdf" download>ES</a><a class="btn sec" href="cv/${c.key}/Alberto_Estrada_Gomez_CV_EN.pdf" download>EN</a></div></div>`).join('')}</div>`;
+  const c = p.case, h = t.c;
+  return `<div class="case-hero">${appIcon(p)}<div><div class="kind">${esc(tr(p.kind))}${p.live ? `<span class="live"><i></i>${t.live}</span>` : ''}</div><h2>${esc(p.name)}</h2></div></div>
+    <p class="lead big">${esc(tr(p.tagline))}</p>
+    <div class="stats">${tr(p.stats).map(([a, b]) => `<div class="stat"><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
+    <figure class="case-shot" style="--tint:${p.tint}"><img src="${shot(p.shots[0][0])}" alt="${esc(t.shotOf(p.name))}" loading="lazy"></figure>
+    <div class="myrole"><b>${h.role}</b><span>${esc(tr(c.role))}</span></div>
+    <h3>${h.problem}</h3><p>${esc(tr(c.problem))}</p>
+    <h3>${h.solution}</h3><p>${esc(tr(c.solution))}</p>
+    <h3>${h.arch}</h3><div class="arch">${tr(c.arch).map(([k, v]) => `<div class="ar"><b>${esc(k)}</b><span>${esc(v)}</span></div>`).join('')}</div>
+    <h3>${h.decisions}</h3><ol class="dec">${tr(c.decisions).map((d) => `<li>${esc(d)}</li>`).join('')}</ol>
+    <h3>${h.impact}</h3><ul class="impact">${tr(c.impact).map((d) => `<li>${ICON.check}<span>${esc(d)}</span></li>`).join('')}</ul>
+    <h3>${h.next}</h3><p>${esc(tr(c.next))}</p>
+    <h3>${h.stack}</h3><div class="stack">${p.stack.map((x) => `<span>${esc(x)}</span>`).join('')}</div>
+    ${p.link ? `<div class="actions" style="margin-top:22px"><a class="btn" href="${p.link}" target="_blank" rel="noopener">${esc(t.open(p.linkLabel))}</a></div>` : ''}`;
 }
 function contactHTML() {
-  return `<h2>Hablemos</h2><p class="lead">${esc(profile.location)} · en español o en inglés.</p>
-    <div class="copyrow"><code>${esc(profile.email)}</code><button class="btn sec" data-act="copy">Copiar</button><a class="btn sec" href="mailto:${profile.email}">Escribir</a></div>
-    <div class="actions" style="margin-top:14px"><a class="btn" href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a><a class="btn sec" href="${profile.links.github}" target="_blank" rel="noopener">GitHub ↗</a></div>`;
+  return `<h2>${t.talk}</h2><p class="lead">${esc(t.talkSub(tr(profile.location)))}</p>
+    <div class="copyrow"><code>${esc(profile.email)}</code><span class="actions"><button class="btn sec" data-act="copy">${t.copy}</button><a class="btn" href="mailto:${profile.email}">${t.write}</a></span></div>
+    <div class="actions" style="margin-top:14px"><a class="btn sec" href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a><a class="btn sec" href="${profile.links.github}" target="_blank" rel="noopener">GitHub ↗</a>${cvBtn('btn sec')}</div>`;
 }
 
-/* ── Vista general ── */
+/* ── Vista general («Mis proyectos») ── */
 let filter = 'all';
-$('#filters').innerHTML = filters.map(([k, l]) => `<button data-f="${k}" aria-pressed="${k === 'all'}">${l}</button>`).join('');
-$('#ovgrid').innerHTML = projects.map((p, k) => `<button class="oc" data-go="${k + 1}" data-cats="${p.cats.join(' ')}"><div class="th"><img src="${shot(p.shots[0][0])}" alt="" loading="lazy">${appIcon(p)}</div><b>${esc(p.name)}</b><span>${esc(p.tagline)}</span></button>`).join('');
-$('#filters').addEventListener('click', (e) => {
-  const b = e.target.closest('[data-f]'); if (!b) return;
-  filter = b.dataset.f;
-  $('#filters').querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', x === b));
-  $('#ovgrid').querySelectorAll('.oc').forEach((c) => c.classList.toggle('dim', filter !== 'all' && !c.dataset.cats.split(' ').includes(filter)));
-});
-function openOv() { closeAll(); $('#ov').classList.add('open'); }
-function closeAll() { ['#ov', '#sp', '#sheet'].forEach((s) => $(s).classList.remove('open')); }
-['#ov', '#sp', '#sheet'].forEach((s) => $(s).addEventListener('click', (e) => { if (e.target === $(s)) closeAll(); }));
+function overviewHTML() {
+  $('#filters').innerHTML = filters.map(([k, l]) => `<button data-f="${k}" aria-pressed="${k === filter}">${esc(tr(l))}</button>`).join('');
+  $('#ovgrid').innerHTML = projects.map((p, k) => `<button class="oc${filter !== 'all' && !p.cats.includes(filter) ? ' dim' : ''}" data-go="${k + 1}" style="--k:${k}"><div class="th"><img src="${shot(p.shots[0][0])}" alt="" loading="lazy">${appIcon(p)}${p.live ? `<span class="live"><i></i>${t.live}</span>` : ''}</div><small>${esc(tr(p.kind))}</small><b>${esc(p.name)}</b><span>${esc(tr(p.tagline))}</span></button>`).join('');
+}
+function openOv() { closeAll(); $('#ov').classList.add('open'); $('#ov-in').scrollTop = 0; setTimeout(() => $('#ov .xbtn').focus({ preventScroll: true }), 60); }
+function closeAll() { ['#ov', '#sp', '#sheet'].forEach((s) => $(s)?.classList.remove('open')); }
+
+/* ── Deslizar hacia abajo para cerrar (móvil) ── */
+function swipeToClose(panel, scroller) {
+  let y0 = null, x0 = 0, dy = 0, t0 = 0, active = false;
+  panel.addEventListener('touchstart', (e) => {
+    if (mode !== 'phone' || e.touches.length > 1 || e.target.closest('input, select, textarea, .seg, .chips')) { y0 = null; return; }
+    y0 = e.touches[0].clientY; x0 = e.touches[0].clientX; dy = 0; t0 = performance.now(); active = false;
+  }, { passive: true });
+  panel.addEventListener('touchmove', (e) => {
+    if (y0 === null) return;
+    const d = e.touches[0].clientY - y0, dx = e.touches[0].clientX - x0;
+    if (!active) {
+      const fromHead = e.target.closest('.grab, .sheet-head, .ov-head');
+      if (d > 6 && d > Math.abs(dx) && (fromHead || scroller.scrollTop <= 0)) { active = true; panel.classList.add('dragging'); }
+      else if (Math.abs(d) > 6 || Math.abs(dx) > 6) { y0 = null; return; }
+      else return;
+    }
+    e.preventDefault();
+    dy = Math.max(0, d);
+    panel.style.transform = `translate3d(0,${dy}px,0)`;
+  }, { passive: false });
+  const end = () => {
+    if (y0 === null) return;
+    y0 = null;
+    if (!active) return;
+    active = false; panel.classList.remove('dragging');
+    const v = dy / (performance.now() - t0);
+    panel.style.transform = '';
+    if (dy > 110 || v > 0.55) closeAll();
+  };
+  panel.addEventListener('touchend', end);
+  panel.addEventListener('touchcancel', end);
+}
 
 /* ── Spotlight ── */
 const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-const EXTRA = [
-  { name: 'Sobre mí', sub: 'Experiencia, formación, habilidades', keys: 'sobre mi experiencia microcad babel trabajo universidad uma gdansk erasmus formacion idiomas ingles habilidades', act: 'about', icon: SYS.person },
-  { name: 'CV', sub: 'IA y datos · Automatización · Full-stack · ES / EN', keys: 'cv curriculum pdf descargar resume', act: 'cv', icon: SYS.doc },
-  { name: 'Contacto', sub: 'Correo, LinkedIn y GitHub', keys: 'contacto email correo linkedin github', act: 'contact', icon: SYS.mail },
-  { name: 'Vista clásica', sub: 'Todo el contenido en una página', keys: 'vista clasica texto accesible pagina', href: 'clasica.html', icon: glyph('list', 'linear-gradient(160deg,#8e8e93,#48484a)') },
-];
 let sel = 0, results = [];
 function search(q) {
-  const t = norm(q.trim());
-  const all = [...projects.map((p, k) => ({ name: p.name, sub: p.stack.join(' · '), keys: `${p.keys} ${p.name} ${p.tagline}`, go: k + 1, icon: appIcon(p) })), ...EXTRA];
-  results = t ? all.filter((r) => t.split(/\s+/).every((w) => norm(`${r.keys} ${r.name}`).includes(w))) : all;
+  const s = t.sp, q2 = norm(q.trim());
+  const extra = [
+    { name: s.about[0], sub: s.about[1], keys: s.about[2], act: 'about', icon: SYS.person },
+    { name: s.cv[0], sub: s.cv[1], keys: s.cv[2], href: cvFile(lang), blank: true, icon: SYS.doc },
+    { name: s.contact[0], sub: s.contact[1], keys: s.contact[2], act: 'contact', icon: SYS.mail },
+    { name: s.classic[0], sub: s.classic[1], keys: s.classic[2], href: classicFile(lang), icon: SYS.list },
+  ];
+  const all = [...projects.map((p, k) => ({ name: p.name, sub: p.stack.join(' · '), keys: `${p.keys} ${p.name} ${tr(p.tagline)}`, go: k + 1, icon: appIcon(p) })), ...extra];
+  results = q2 ? all.filter((r) => q2.split(/\s+/).every((w) => norm(`${r.keys} ${r.name}`).includes(w))) : all;
   sel = 0; renderRes(q);
 }
 function renderRes(q) {
   $('#spres').innerHTML = results.length
     ? results.map((r, k) => `<button class="${k === sel ? 'sel' : ''}" data-k="${k}">${r.icon}<span><b>${esc(r.name)}</b><small>${esc(r.sub)}</small></span></button>`).join('')
-    : `<div class="spempty">Nada con «${esc(q)}». Prueba con una tecnología (PyTorch, three.js, Supabase) o un tema (sequía, moda, 3D).</div>`;
+    : `<div class="spempty">${esc(t.spEmpty(q))}</div>`;
 }
-function pick(r) {
+function pickResult(r) {
   if (!r) return;
   closeAll();
-  if (r.href) location.href = r.href;
+  if (r.href) { if (r.blank) open(r.href, '_blank', 'noopener'); else location.href = r.href; }
   else if (r.go !== undefined) go(r.go);
-  else screen.querySelector(`[data-act="${r.act}"]`)?.click();
+  else ({ about: () => sheet(t.about, aboutHTML()), contact: () => sheet(t.contact, contactHTML()) })[r.act]?.();
 }
 function openSpot() { closeAll(); $('#sp').classList.add('open'); const q = $('#spq'); q.value = ''; search(''); setTimeout(() => q.focus({ preventScroll: true }), 30); }
-$('#spq').addEventListener('input', (e) => search(e.target.value));
-$('#spq').addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowDown') { e.preventDefault(); sel = Math.min(results.length - 1, sel + 1); renderRes(e.target.value); }
-  else if (e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(0, sel - 1); renderRes(e.target.value); }
-  else if (e.key === 'Enter') pick(results[sel]);
-});
-$('#spres').addEventListener('click', (e) => { const b = e.target.closest('[data-k]'); if (b) pick(results[+b.dataset.k]); });
 
 /* ── Notificación ── */
 let toastT;
 function notify({ icon, app: appName, title, body, goTo }) {
-  const t = $('#toast');
-  t.innerHTML = `${icon}<div><div class="t1"><span>${esc(appName)}</span><span>ahora</span></div><b>${esc(title)}</b><p>${esc(body)}</p></div>`;
-  t.dataset.go = goTo ?? '';
-  t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 6500);
+  const el = $('#toast');
+  el.innerHTML = `${icon}<div><div class="t1"><span>${esc(appName)}</span><span>${t.nowT}</span></div><b>${esc(title)}</b><p>${esc(body)}</p></div>`;
+  el.dataset.go = goTo ?? '';
+  el.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('show'), 6500);
 }
 
-/* ── Reloj y Dock ── */
-const tick = () => { const d = new Date(); $('#clock').textContent = `${d.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' }).replace(',', '')}  ${d.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}`; };
-tick(); setInterval(tick, 30000);
-const dock = $('#dock');
-dock.addEventListener('pointermove', (e) => {
-  if (mode !== 'mac' || e.pointerType !== 'mouse') return;
-  dock.querySelectorAll('button').forEach((b) => { const r = b.getBoundingClientRect(); const d = Math.abs(e.clientX - (r.left + r.width / 2)) / scale(); b.style.transform = `scale(${1 + Math.max(0, 1 - d / 140) * 0.42})`; });
-});
-dock.addEventListener('pointerleave', () => dock.querySelectorAll('button').forEach((b) => (b.style.transform = '')));
+/* ── Dock: ampliación como en macOS (los iconos crecen y empujan a los vecinos) ── */
+const DOCK_MAX = 1.6, DOCK_R = 155;
+let dockRest = null, dockRaf = 0, dockX = 0;
+const dockItems = () => $$(':scope > button, :scope > a', dock);
+function measureDock() { dockRest = dockItems().map((b) => { const r = b.getBoundingClientRect(); return r.left + r.width / 2; }); }
+function applyMag() {
+  dockRaf = 0;
+  const s = scale();
+  dockItems().forEach((b, k) => {
+    const d = Math.abs(dockX - dockRest[k]) / s;
+    const m = d < DOCK_R ? 1 + (DOCK_MAX - 1) * (Math.cos((Math.PI * d) / DOCK_R) + 1) / 2 : 1;
+    b.style.setProperty('--m', m.toFixed(3));
+  });
+}
+function bindDock() {
+  dock.addEventListener('pointerenter', (e) => { if (mode !== 'mac' || e.pointerType !== 'mouse') return; dock.classList.remove('rest'); dockItems().forEach((b) => b.style.removeProperty('--m')); measureDock(); });
+  dock.addEventListener('pointermove', (e) => {
+    if (mode !== 'mac' || e.pointerType !== 'mouse') return;
+    if (!dockRest) measureDock();
+    dockX = e.clientX;
+    if (!dockRaf) dockRaf = requestAnimationFrame(applyMag);
+  });
+  dock.addEventListener('pointerleave', () => {
+    dockRest = null; cancelAnimationFrame(dockRaf); dockRaf = 0;
+    dock.classList.add('rest');
+    dockItems().forEach((b) => b.style.removeProperty('--m'));
+  });
+}
+
+/* ── Montaje (se repite al cambiar de idioma) ── */
+function mount(animate) {
+  app.innerHTML = chromeHTML();
+  screen = $('#screen'); track = $('#track'); dock = $('#dock');
+  dock.innerHTML = dockHTML();
+  overviewHTML();
+  track.addEventListener('pointerdown', onDown);
+  screen.addEventListener('wheel', onWheel, { passive: false });
+  screen.addEventListener('click', onClick);
+  ['#ov', '#sp', '#sheet'].forEach((s) => $(s).addEventListener('click', (e) => { if (e.target === $(s) || e.target.id === 'ovgrid' || e.target.id === 'ov-in') closeAll(); }));
+  $('#filters').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-f]'); if (!b) return;
+    filter = b.dataset.f;
+    $$('#filters button').forEach((x) => x.setAttribute('aria-pressed', x === b));
+    $$('#ovgrid .oc').forEach((c) => c.classList.toggle('dim', filter !== 'all' && !projects[+c.dataset.go - 1].cats.includes(filter)));
+  });
+  $('#spq').addEventListener('input', (e) => search(e.target.value));
+  $('#spq').addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); sel = Math.min(results.length - 1, sel + 1); renderRes(e.target.value); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(0, sel - 1); renderRes(e.target.value); }
+    else if (e.key === 'Enter') pickResult(results[sel]);
+  });
+  $('#spres').addEventListener('click', (e) => { const b = e.target.closest('[data-k]'); if (b) pickResult(results[+b.dataset.k]); });
+  $('#toast').addEventListener('click', () => { const el = $('#toast'); el.classList.remove('show'); if (el.dataset.go) go(+el.dataset.go); });
+  swipeToClose($('#sheet-panel'), $('#sheet-body'));
+  swipeToClose($('#ov-in'), $('#ov-in'));
+  bindDock();
+  applyMode();
+  if (hinted) $('#hint').classList.add('gone');
+  tick();
+  render(animate);
+}
+
+/* ── Reloj ── */
+function tick() {
+  const c = $('#clock'); if (!c) return;
+  const d = new Date();
+  c.textContent = `${d.toLocaleDateString(t.locale, { weekday: 'short', day: 'numeric', month: 'short' }).replace(',', '')}  ${d.toLocaleTimeString(t.locale, { hour: '2-digit', minute: '2-digit' })}`;
+}
+setInterval(tick, 30000);
 
 /* ── Arranque ── */
-setTimeout(() => { hinted = true; $('#hint').classList.add('gone'); }, 7000);
+document.documentElement.lang = lang;
 const start = SP.findIndex((s) => s.id === location.hash.slice(1));
 i = start > 0 ? start : 0;
-setMode();
-render();
-Promise.all([
+let ready = false;
+const data = Promise.all([
   fetch('data/live.json').then((r) => (r.ok ? r.json() : null)).catch(() => null),
   loadAqua().catch(() => null),
-]).then(([l, a]) => {
-  if (l) live = { ...live, ...l };
-  aquaData = a;
-  render();
+]).then(([l, a]) => { if (l) live = { ...live, ...l }; aquaData = a; ready = true; });
+await Promise.race([data, sleep(900)]);
+const readyAtMount = ready;
+mount(true);
+if (!readyAtMount) data.then(() => render(false));
+setTimeout(hideHint, 7000);
+data.then(() => {
   // En el móvil la notificación taparía el nombre al entrar; y no sale en la imagen para compartir (?og)
-  if (mode === 'mac' && !location.search.includes('og')) setTimeout(() => notify({ icon: appIcon(projects[1]), app: 'LOOKIT', title: 'Catálogo actualizado', body: `${nf(live.lookit.products)} prendas de ${live.lookit.brands} marcas españolas. Toca para verlo.`, goTo: 2 }), 2500);
+  if (mode === 'mac' && !location.search.includes('og')) setTimeout(() => notify({ icon: appIcon(projects[1]), app: t.toastApp, title: t.toastTitle, body: t.toastBody(fmt(live.lookit.products), live.lookit.brands), goTo: 2 }), 2600);
 });
 // El escritorio se asoma al siguiente para que se descubra el gesto
 setTimeout(() => {
-  if (i !== 0 || drag || anyOpen()) return;
-  track.style.transform = 'translate3d(-6%,0,0)';
+  if (i !== 0 || drag || anyOpen() || reduced()) return;
+  track.style.transform = 'translate3d(-7%,0,0)';
   setTimeout(() => { if (i === 0 && !drag) track.style.transform = 'translate3d(0,0,0)'; }, 650);
-}, 1400);
+}, 1600);

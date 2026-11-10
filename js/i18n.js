@@ -1,0 +1,83 @@
+// Textos de la interfaz (escritorio y vista clásica) en español e inglés.
+export const UI = {
+  es: {
+    locale: 'es-ES', other: 'en', otherLabel: 'English', short: 'ES',
+    skip: 'Ir a la vista clásica', desktopOf: (n) => `Escritorio de ${n}`, menu: 'Menú',
+    projects: 'Proyectos', myProjects: 'Mis proyectos', about: 'Sobre mí', cv: 'CV', contact: 'Contacto', classic: 'Vista clásica', desktop: 'Volver al escritorio',
+    search: 'Buscar', searchK: 'Buscar (⌘K)', close: 'Cerrar', done: 'Listo', filter: 'Filtrar', home: 'Inicio', prev: 'Proyecto anterior', next: 'Proyecto siguiente',
+    toDark: 'Activar modo oscuro', toLight: 'Activar modo claro', langBtn: 'Ver en inglés',
+    spPlaceholder: 'Busca un proyecto o una tecnología: PyTorch, 3D, Supabase…',
+    spEmpty: (q) => `Nada con «${q}». Prueba con una tecnología (PyTorch, three.js, Supabase) o un tema (sequía, moda, 3D).`,
+    hintMac: 'Desliza con dos dedos, usa la rueda o ← → para pasar de proyecto', hintPhone: 'Desliza para ver mis proyectos',
+    // Inicio
+    aquaW: 'AquaAndalucía · embalses de Málaga', aquaFallback: 'Previsión a 90 días',
+    aquaP: 'Llenado de los 7 embalses hoy y dentro de 90 días en un año normal, según mi modelo. <b>Prueba otros escenarios.</b>',
+    items: 'prendas', lookitP: (b) => `de ${b} marcas españolas, en directo desde lookit.es.`,
+    detempP: (d) => `En ${d.region}: ${d.items.join(', ')}.`,
+    journey: 'Trayectoria', nowTag: 'ahora',
+    tl: [['2026 –', 'MicroCAD', 'IA y automatización'], ['2025 – 2026', 'Babel', 'desarrollo de software'], ['2024 – 2025', 'Erasmus+', 'Gdańsk'], ['2021 – 2026', 'Ingeniería Informática', 'UMA']],
+    cvIcon: 'CV.pdf',
+    // Proyecto
+    shotOf: (n) => `Captura de ${n}`, onPhone: (n) => `${n} en el móvil`,
+    tabs: [['sim', 'Simulador'], ['hist', 'Histórico'], ['prec', 'Precisión'], ['app', 'La app']],
+    appCap: 'Capturas reales de la app del TFG (React + FastAPI)', realShot: 'Captura real',
+    highlights: 'Lo que aporta', caseBtn: 'Caso de estudio', live: 'En producción',
+    toHome: 'Volver a Inicio', toAll: 'Ver todos los proyectos', maximize: 'Ampliar ventana',
+    // Hojas
+    aiWork: 'Cómo trabajo con IA', experience: 'Experiencia', education: 'Formación', skills: 'Habilidades', extras: 'Idiomas y voluntariado',
+    downloadCV: 'Descargar CV', cvSub: 'PDF · una página',
+    caseOf: (n) => `Caso de estudio · ${n}`,
+    c: { role: 'Mi papel', problem: 'El reto', solution: 'La solución', arch: 'Arquitectura', decisions: 'Decisiones técnicas', impact: 'Resultados', next: 'Siguiente paso', stack: 'Tecnologías' },
+    open: (l) => `Abrir ${l} ↗`,
+    talk: 'Hablemos', talkSub: (loc) => `${loc} · en español o en inglés.`, copy: 'Copiar', copied: 'Copiado', copyManual: 'Selecciónalo y cópialo', write: 'Escribir',
+    sp: {
+      about: ['Sobre mí', 'Experiencia, formación y habilidades', 'sobre mi experiencia microcad babel trabajo universidad uma gdansk erasmus formacion idiomas ingles habilidades'],
+      cv: ['CV', 'PDF de una página', 'cv curriculum pdf descargar resume'],
+      contact: ['Contacto', 'Correo, LinkedIn y GitHub', 'contacto email correo linkedin github'],
+      classic: ['Vista clásica', 'Todo el contenido en una página', 'vista clasica texto accesible pagina'],
+    },
+    toastApp: 'LOOKIT', toastTitle: 'Catálogo actualizado', toastBody: (n, b) => `${n} prendas de ${b} marcas españolas. Toca para verlo.`, nowT: 'ahora',
+    // Vista clásica
+    k: { index: 'Proyectos destacados', viewDesktop: 'Ver como escritorio', updated: 'Actualizado el', now: 'Ahora', based: 'Ubicación', languages: 'Idiomas', backTop: 'Volver arriba', contactLead: '¿Tienes un proyecto o una vacante? Escríbeme.' },
+  },
+  en: {
+    locale: 'en-GB', other: 'es', otherLabel: 'Español', short: 'EN',
+    skip: 'Skip to the classic view', desktopOf: (n) => `${n}'s desktop`, menu: 'Menu',
+    projects: 'Projects', myProjects: 'My projects', about: 'About', cv: 'CV', contact: 'Contact', classic: 'Classic view', desktop: 'Back to the desktop',
+    search: 'Search', searchK: 'Search (⌘K)', close: 'Close', done: 'Done', filter: 'Filter', home: 'Home', prev: 'Previous project', next: 'Next project',
+    toDark: 'Switch to dark mode', toLight: 'Switch to light mode', langBtn: 'Ver en español',
+    spPlaceholder: 'Search a project or a technology: PyTorch, 3D, Supabase…',
+    spEmpty: (q) => `Nothing for "${q}". Try a technology (PyTorch, three.js, Supabase) or a topic (drought, fashion, 3D).`,
+    hintMac: 'Swipe with two fingers, scroll or use ← → to change project', hintPhone: 'Swipe to see my projects',
+    aquaW: 'AquaAndalucía · Málaga reservoirs', aquaFallback: '90-day forecast',
+    aquaP: 'Fill level of the 7 reservoirs today and in 90 days in a normal year, according to my model. <b>Try other scenarios.</b>',
+    items: 'items', lookitP: (b) => `from ${b} Spanish brands, live from lookit.es.`,
+    detempP: (d) => `${d.count} products in season in Andalusia this month.`,
+    journey: 'Journey', nowTag: 'now',
+    tl: [['2026 –', 'MicroCAD', 'AI & automation'], ['2025 – 2026', 'Babel', 'software development'], ['2024 – 2025', 'Erasmus+', 'Gdańsk'], ['2021 – 2026', 'Computer Engineering', 'UMA']],
+    cvIcon: 'CV.pdf',
+    shotOf: (n) => `Screenshot of ${n}`, onPhone: (n) => `${n} on mobile`,
+    tabs: [['sim', 'Simulator'], ['hist', 'History'], ['prec', 'Accuracy'], ['app', 'The app']],
+    appCap: 'Real screenshots of the thesis app (React + FastAPI)', realShot: 'Real screenshot',
+    highlights: 'Highlights', caseBtn: 'Case study', live: 'Live',
+    toHome: 'Back to Home', toAll: 'See all projects', maximize: 'Enlarge window',
+    aiWork: 'How I work with AI', experience: 'Experience', education: 'Education', skills: 'Skills', extras: 'Languages & volunteering',
+    downloadCV: 'Download CV', cvSub: 'PDF · one page',
+    caseOf: (n) => `Case study · ${n}`,
+    c: { role: 'My role', problem: 'The challenge', solution: 'The solution', arch: 'Architecture', decisions: 'Key technical decisions', impact: 'Results', next: 'Next step', stack: 'Technologies' },
+    open: (l) => `Open ${l} ↗`,
+    talk: "Let's talk", talkSub: (loc) => `${loc} · in English or Spanish.`, copy: 'Copy', copied: 'Copied', copyManual: 'Select it and copy', write: 'Email me',
+    sp: {
+      about: ['About', 'Experience, education and skills', 'about experience microcad babel work university uma gdansk erasmus education languages english skills'],
+      cv: ['CV', 'One-page PDF', 'cv resume curriculum pdf download'],
+      contact: ['Contact', 'Email, LinkedIn and GitHub', 'contact email linkedin github'],
+      classic: ['Classic view', 'All the content on one page', 'classic view text accessible page'],
+    },
+    toastApp: 'LOOKIT', toastTitle: 'Catalogue updated', toastBody: (n, b) => `${n} items from ${b} Spanish brands. Tap to see it.`, nowT: 'now',
+    k: { index: 'Selected projects', viewDesktop: 'View as a desktop', updated: 'Updated on', now: 'Now', based: 'Based in', languages: 'Languages', backTop: 'Back to top', contactLead: 'Got a project or a role? Drop me a line.' },
+  },
+};
+
+// Texto en el idioma pedido: { es, en } → cadena; el resto se devuelve tal cual.
+export const pick = (x, lang) => (x && typeof x === 'object' && !Array.isArray(x) && 'es' in x ? x[lang] : x);
+export const classicFile = (lang) => (lang === 'en' ? 'classic.html' : 'clasica.html');
