@@ -438,6 +438,8 @@ button.widget { cursor: pointer; }
 .phone .qs { display: flex; grid-column: 1 / 3; justify-content: flex-end; gap: 8px; margin-bottom: -4px; }
 .phone .qs button { min-width: 44px; height: 36px; border: 0; border-radius: 980px; display: grid; place-items: center; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); color: var(--label); font-size: 13px; font-weight: 700; letter-spacing: .02em; cursor: pointer; padding: 0 12px; }
 .phone .qs svg { width: 16px; height: 16px; }
+.phone .qs .cls { margin-right: auto; display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 980px; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); color: var(--label); font-size: 14px; font-weight: 600; }
+.phone .qs .cls svg { width: 15px; height: 15px; }
 .phone .w-profile { grid-column: 1 / 3; grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 10px; padding: 26px 18px 22px; }
 .phone .avatar { width: 80px; height: 80px; font-size: 28px; }
 .phone .w-profile h1 { font-size: 26px; line-height: 31px; }

@@ -1,8 +1,8 @@
 // Escritorio del portfolio: Mac en pantallas grandes, iOS en el móvil.
 // Un gesto = un proyecto (como luciagascon.es). Enlaces directos: index.html#lookit · ?lang=en
-import { profile, experience, education, extras, skills, filters, projects, cvFile } from './data.js?v=7035366311';
-import { UI, pick, classicFile } from './i18n.js?v=7035366311';
-import { loadAqua, mountSimulator, mountHistory, mountHorizon, sparkline } from './aqua.js?v=7035366311';
+import { profile, experience, education, extras, skills, filters, projects, cvFile } from './data.js?v=0d1a979c0a';
+import { UI, pick, classicFile } from './i18n.js?v=0d1a979c0a';
+import { loadAqua, mountSimulator, mountHistory, mountHorizon, sparkline } from './aqua.js?v=0d1a979c0a';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -126,7 +126,7 @@ function homeHTML(cur) {
     </button>`;
   return `
   <section class="space${cur ? ' cur' : ''}" data-i="0" aria-label="${t.home}"><div class="home">
-    <div class="qs"><button class="pill" data-act="lang" lang="${t.other}" aria-label="${t.langBtn}">${UI[t.other].short}</button><button class="ico" data-act="theme"></button></div>
+    <div class="qs"><a class="cls" href="${classicFile(lang)}">${ICON.list}<span>${t.classic}</span></a><button class="pill" data-act="lang" lang="${t.other}" aria-label="${t.langBtn}">${UI[t.other].short}</button><button class="ico" data-act="theme"></button></div>
     <div class="hero">
       <p class="hi${rv(0)}">${h.hi}</p>
       <h1 class="${rv(1)}">${esc(profile.name)}</h1>
@@ -414,7 +414,7 @@ function aboutHTML() {
     <h3>${t.education}</h3><div class="list">${education.map((e) => li(tr(e.title), e.date, tr(e.org))).join('')}</div>
     <h3>${t.skills}</h3><div class="list">${skills.map(([k, v]) => li(tr(k), '', tr(v))).join('')}</div>
     <h3>${t.extras}</h3><div class="list">${extras.map(([k, v]) => li(tr(k), '', tr(v))).join('')}</div>
-    <div class="actions" style="margin-top:22px">${cvBtn()}<a class="btn sec" href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a><a class="btn sec" href="${profile.links.github}" target="_blank" rel="noopener">GitHub ↗</a></div>`;
+    <div class="actions" style="margin-top:22px">${cvBtn()}<a class="btn sec" href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a><a class="btn sec" href="${profile.links.github}" target="_blank" rel="noopener">GitHub ↗</a><a class="btn sec" href="${classicFile(lang)}">${t.classic}</a></div>`;
 }
 function caseHTML(p) {
   const c = p.case, h = t.c;
