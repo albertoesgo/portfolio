@@ -312,4 +312,17 @@ button.widget { cursor: pointer; }
 .phone .toast { top: calc(10px + env(safe-area-inset-top, 0px)); left: 10px; right: 10px; width: auto; transform: translateY(-160%); }
 .phone .toast.show { transform: none; }
 
+/* Inicio en el móvil: limpio al abrir. Solo quién eres, dos botones y los proyectos.
+   Los widgets de datos (embalses, LOOKIT, DeTemporada, trayectoria) quedan para la versión de ordenador. */
+.phone .home > button.widget { display: none; }
+.phone .home { padding-top: 10px; }
+.phone .w-profile { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 10px; padding: 24px 18px 20px; }
+.phone .avatar { width: 76px; height: 76px; font-size: 27px; }
+.phone .w-profile h1 { font-size: 25px; line-height: 30px; }
+.phone .w-profile .role { font-size: 15px; }
+.phone .w-profile .now, .phone .w-profile [data-act="about"], .phone .w-profile [data-act="overview"] { display: none; }
+.phone .w-profile .actions { justify-content: center; margin-top: 14px; }
+.phone .w-profile .btn { padding: 9px 20px; font-size: 15px; }
+.phone .icons { margin-top: 30px; gap: 20px 4px; }
+
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
