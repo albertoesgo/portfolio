@@ -17,11 +17,11 @@ export const profile = {
   },
   bio: {
     es: [
-      'Ingeniero de IA aplicada por la Universidad de Málaga (mención en Computación). Me especializo en convertir modelos —de redes neuronales para series temporales a LLMs— en sistemas fiables, medibles y en producción.',
+      'Ingeniero informático por la Universidad de Málaga, con mención en Computación. Me especializo en convertir modelos —de redes neuronales para series temporales a LLMs— en sistemas fiables, medibles y en producción.',
       'Formo parte del equipo fundador del departamento de IA y automatización de MicroCAD, donde diseño automatizaciones e integraciones entre sistemas para las distintas áreas de negocio. En paralelo construyo y opero productos propios y plataformas para clientes, de la base de datos a la interfaz.',
     ],
     en: [
-      'Applied AI engineer from the University of Málaga (Computing major). I specialise in turning models — from neural networks for time series to LLMs — into reliable, measurable systems running in production.',
+      'Computer engineer from the University of Málaga, with a major in Computing. I specialise in turning models — from neural networks for time series to LLMs — into reliable, measurable systems running in production.',
       "I am part of the founding team of MicroCAD's AI & Automation department, where I design automations and system integrations for teams across the business. Alongside that, I build and run my own products and client platforms, from database to interface.",
     ],
   },
