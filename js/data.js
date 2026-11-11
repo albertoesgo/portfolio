@@ -12,8 +12,8 @@ export const profile = {
   role: { es: 'Ingeniero de IA y automatización', en: 'AI & Automation Engineer' },
   location: { es: 'Málaga', en: 'Málaga, Spain' },
   headline: {
-    es: 'Desarrollo sistemas de machine learning de extremo a extremo —datos, modelado, evaluación y despliegue— y los productos web que los ponen en producción.',
-    en: 'I build end-to-end machine learning systems — data, modelling, evaluation and deployment — and the web products that put them into production.',
+    es: 'Machine learning en producción, del dato a la interfaz.',
+    en: 'Machine learning in production, from data to interface.',
   },
   bio: {
     es: [
