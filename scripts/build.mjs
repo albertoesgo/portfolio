@@ -151,7 +151,8 @@ function classic(lang) {
   <section id="about">
     <h2>${t.about}</h2>
     ${tr(profile.bio).map((p) => `<p class="body">${esc(p)}</p>`).join('')}
-    <h3>${t.aiWork}</h3><p class="body">${esc(tr(profile.aiWork))}</p>
+    <h3>${t.focusH}</h3><div class="focus">${tr(profile.focus).map(([a, b]) => `<div><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
+    <h3>${t.howWork}</h3><ul class="checks">${tr(profile.principles).map((d) => `<li>${CHECK}<span>${esc(d)}</span></li>`).join('')}</ul>
     <h3>${t.skills}</h3>
     <dl class="kv">${[...skills, ...extras].map(([a, b]) => `<div><dt>${esc(tr(a))}</dt><dd>${esc(tr(b))}</dd></div>`).join('')}</dl>
   </section>

@@ -19,7 +19,7 @@ export const UI = {
     homeX: {
       hi: 'Hola, soy', see: 'Ver proyectos',
       lookitM: (n) => `${n} prendas en directo`, aquaM: (a, b) => `Embalses: ${a} → ${b} en 90 días`,
-      facts: [['Ahora', 'IA y automatización · MicroCAD'], ['Proyectos', '5 · 3 en producción'], ['Formación', 'Ing. Informática · UMA · Erasmus+']],
+      facts: [['Ahora', 'IA y automatización · MicroCAD'], ['Proyectos', '5 · 4 en producción'], ['Formación', 'Ing. Informática · UMA · Erasmus+']],
     },
     cvIcon: 'CV.pdf',
     // Proyecto
@@ -29,7 +29,7 @@ export const UI = {
     highlights: 'Lo que aporta', caseBtn: 'Caso de estudio', live: 'En producción',
     toHome: 'Volver a Inicio', toAll: 'Ver todos los proyectos', maximize: 'Ampliar ventana',
     // Hojas
-    aiWork: 'Cómo trabajo con IA', experience: 'Experiencia', education: 'Formación', skills: 'Habilidades', extras: 'Idiomas y voluntariado',
+    focusH: 'Especialización', howWork: 'Cómo trabajo', experience: 'Experiencia', education: 'Formación', skills: 'Habilidades', extras: 'Idiomas y voluntariado',
     downloadCV: 'Descargar CV', cvSub: 'PDF · una página',
     caseOf: (n) => `Caso de estudio · ${n}`,
     c: { role: 'Mi papel', problem: 'El reto', solution: 'La solución', arch: 'Arquitectura', decisions: 'Decisiones técnicas', impact: 'Resultados', next: 'Siguiente paso', stack: 'Tecnologías' },
@@ -63,7 +63,7 @@ export const UI = {
     homeX: {
       hi: "Hi, I'm", see: 'See projects',
       lookitM: (n) => `${n} items, live`, aquaM: (a, b) => `Reservoirs: ${a} → ${b} in 90 days`,
-      facts: [['Now', 'AI & automation · MicroCAD'], ['Projects', '5 · 3 live'], ['Education', 'Computer Eng. · UMA · Erasmus+']],
+      facts: [['Now', 'AI & automation · MicroCAD'], ['Projects', '5 · 4 live'], ['Education', 'Computer Eng. · UMA · Erasmus+']],
     },
     cvIcon: 'CV.pdf',
     shotOf: (n) => `Screenshot of ${n}`, onPhone: (n) => `${n} on mobile`,
@@ -71,7 +71,7 @@ export const UI = {
     appCap: 'Real screenshots of the thesis app (React + FastAPI)', realShot: 'Real screenshot',
     highlights: 'Highlights', caseBtn: 'Case study', live: 'Live',
     toHome: 'Back to Home', toAll: 'See all projects', maximize: 'Enlarge window',
-    aiWork: 'How I work with AI', experience: 'Experience', education: 'Education', skills: 'Skills', extras: 'Languages & volunteering',
+    focusH: 'Focus areas', howWork: 'How I work', experience: 'Experience', education: 'Education', skills: 'Skills', extras: 'Languages & volunteering',
     downloadCV: 'Download CV', cvSub: 'PDF · one page',
     caseOf: (n) => `Case study · ${n}`,
     c: { role: 'My role', problem: 'The challenge', solution: 'The solution', arch: 'Architecture', decisions: 'Key technical decisions', impact: 'Results', next: 'Next step', stack: 'Technologies' },

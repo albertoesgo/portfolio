@@ -14,7 +14,7 @@
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <script>try { var t = localStorage.getItem('ae-theme'); if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t; } catch (e) {}</script>
 <style>@font-face { font-family: 'Inter'; src: url(fonts/inter-latin-ext.woff2) format('woff2'); font-weight: 100 900; font-display: swap; }</style>
-<link rel="stylesheet" href="css/clasica.css?v=913a26e713">
+<link rel="stylesheet" href="css/clasica.css?v=4810f5ef74">
 </head>
 <body>
 <header class="bar">
@@ -133,7 +133,7 @@
     <article class="proj" id="detemp" style="--tint:#f0531c">
       <header class="ph">
         <img class="logo" src="img/logos/detemporada.svg" alt="" width="64" height="64" style="background:transparent">
-        <div><p class="kind"><span class="num">05</span> Producto propio · PWA · 2026</p><h3>DeTemporada</h3></div>
+        <div><p class="kind"><span class="num">05</span> Producto propio · PWA · 2026 <span class="live"><i></i>En producción</span></p><h3>DeTemporada</h3></div>
       </header>
       <p class="tagline">PWA offline-first que cruza calendarios oficiales de temporada con un directorio geocodificado de comercios locales en las 17 comunidades.</p>
       <figure class="shot"><img src="img/shots/detemp-home.webp" alt="Captura de DeTemporada" loading="lazy" width="1280" height="800"></figure>
@@ -162,10 +162,11 @@
 
   <section id="about">
     <h2>Sobre mí</h2>
-    <p class="body">Soy ingeniero informático por la Universidad de Málaga, con mención en Computación. Trabajo donde se cruzan tres mundos que pocas veces van juntos: la inteligencia artificial, la automatización de procesos en empresa y el producto web.</p><p class="body">Hoy formo parte del equipo fundador del departamento de IA y automatización de MicroCAD, donde diseño automatizaciones e integraciones que eliminan trabajo manual. Antes modernicé sistemas de gestión empresarial en Babel, estudié un año en Gdańsk con Erasmus+ y lancé productos propios y webs para clientes que hoy están en producción.</p>
-    <h3>Cómo trabajo con IA</h3><p class="body">Uso agentes de IA como multiplicador: yo defino la arquitectura, el modelo de datos y los criterios de calidad, y ellos aceleran la implementación. En el TFG configuré agentes auditores propios que revisaban fugas de datos en los notebooks, la app web y la memoria. Todo pasa por mi revisión y por pruebas antes de llegar a producción.</p>
+    <p class="body">Ingeniero de IA aplicada por la Universidad de Málaga (mención en Computación). Me especializo en convertir modelos —de redes neuronales para series temporales a LLMs— en sistemas fiables, medibles y en producción.</p><p class="body">Formo parte del equipo fundador del departamento de IA y automatización de MicroCAD, donde diseño automatizaciones e integraciones entre sistemas para las distintas áreas de negocio. En paralelo construyo y opero productos propios y plataformas para clientes, de la base de datos a la interfaz.</p>
+    <h3>Especialización</h3><div class="focus"><div><b>Machine learning y forecasting</b><span>Deep learning para series temporales (LSTM, redes de grafos), feature engineering y evaluación multi-horizonte frente a baselines, con entrenamiento en HPC.</span></div><div><b>Aplicaciones con LLMs</b><span>LLMs integrados en producto con criterio de coste y latencia: parsers deterministas primero, el modelo como fallback y extracción estructurada de intención.</span></div><div><b>Automatización e integración</b><span>Flujos con Power Automate y Python, integración de APIs con SharePoint y aplicaciones internas, y cuadros de mando en Power BI.</span></div><div><b>Ingeniería de producto</b><span>Full-stack con TypeScript, Next.js, React y FastAPI; serverless en Cloudflare y Vercel; seguridad con RLS y cifrado.</span></div></div>
+    <h3>Cómo trabajo</h3><ul class="checks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Medir antes de afirmar: cada modelo se compara con una referencia simple y en el horizonte que de verdad importa.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Seguridad y privacidad por diseño: autorización en la base de datos, datos cifrados y ninguna credencial en el código.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Desarrollo con agentes de IA y criterio propio: yo fijo la arquitectura y el listón de calidad; en el TFG configuré agentes auditores que revisaban fugas de datos, código y documentación.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Del prototipo a producción: despliegue, mantenimiento y decisiones documentadas.</span></li></ul>
     <h3>Habilidades</h3>
-    <dl class="kv"><div><dt>IA y datos</dt><dd>Python, PyTorch (LSTM, GNN), scikit-learn, XGBoost, pandas, statsmodels, LLMs</dd></div><div><dt>Producto web</dt><dd>TypeScript, React, Next.js, three.js, Tailwind, PWA</dd></div><div><dt>Backend y nube</dt><dd>FastAPI, Node.js, Express, SQL, Supabase, Redis, Cloudflare, Vercel</dd></div><div><dt>Automatización</dt><dd>Power Automate, Power BI, SharePoint, integraciones vía API</dd></div><div><dt>Idiomas</dt><dd>Español (nativo) · Inglés (C1)</dd></div><div><dt>Voluntariado</dt><dd>Erasmus Student Network (2026 – actualidad) · Fundación Madre Coraje (2025)</dd></div></dl>
+    <dl class="kv"><div><dt>Machine learning</dt><dd>PyTorch, scikit-learn, XGBoost, statsmodels, Prophet · LSTM, GNN (T-GCN) · forecasting y evaluación</dd></div><div><dt>LLMs</dt><dd>Gemini y OpenAI vía API · extracción estructurada de intención · desarrollo con agentes (Claude Code, Copilot)</dd></div><div><dt>Datos</dt><dd>Python, pandas, NumPy, SQL (PostgreSQL, Oracle, SQLite), ETL, Power BI</dd></div><div><dt>Backend y nube</dt><dd>FastAPI, Node.js, Express, Supabase, Redis · Cloudflare (Pages, Workers, KV), Vercel, GitHub Actions</dd></div><div><dt>Frontend</dt><dd>TypeScript, React, Next.js, three.js, Tailwind, PWA</dd></div><div><dt>Automatización</dt><dd>Power Automate, SharePoint, integraciones vía API, Oracle APEX, OutSystems</dd></div><div><dt>Idiomas</dt><dd>Español (nativo) · Inglés (C1)</dd></div><div><dt>Voluntariado</dt><dd>Erasmus Student Network (2026 – actualidad) · Fundación Madre Coraje (2025)</dd></div></dl>
   </section>
 
   <section id="contact" class="contact">
@@ -174,7 +175,7 @@
     <p><a class="mail" href="mailto:albertoestradag19@gmail.com">albertoestradag19@gmail.com</a></p>
     <p class="cta"><a class="btn" href="cv/Alberto_Estrada_Gomez_CV_ES.pdf" rel="noopener">Descargar CV</a><a class="btn sec" href="https://www.linkedin.com/in/alberto-estrada-g%C3%B3mez-a742b4303/" rel="noopener">LinkedIn ↗</a><a class="btn sec" href="https://github.com/albertoesgo" rel="noopener">GitHub ↗</a></p>
   </section>
-  <footer class="foot">Alberto Estrada Gómez · Málaga · Actualizado el 10 de noviembre de 2026 · <a href="#top">Volver arriba ↑</a> · <a href="./?lang=es">Ver como escritorio</a></footer>
+  <footer class="foot">Alberto Estrada Gómez · Málaga · Actualizado el 11 de noviembre de 2026 · <a href="#top">Volver arriba ↑</a> · <a href="./?lang=es">Ver como escritorio</a></footer>
 </main>
 <script>
   // Tema claro/oscuro y recordar el idioma (compartido con el escritorio)

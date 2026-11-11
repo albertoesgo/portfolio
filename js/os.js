@@ -1,8 +1,8 @@
 // Escritorio del portfolio: Mac en pantallas grandes, iOS en el móvil.
 // Un gesto = un proyecto (como luciagascon.es). Enlaces directos: index.html#lookit · ?lang=en
-import { profile, experience, education, extras, skills, filters, projects, cvFile } from './data.js?v=913a26e713';
-import { UI, pick, classicFile } from './i18n.js?v=913a26e713';
-import { loadAqua, mountSimulator, mountHistory, mountHorizon, sparkline } from './aqua.js?v=913a26e713';
+import { profile, experience, education, extras, skills, filters, projects, cvFile } from './data.js?v=4810f5ef74';
+import { UI, pick, classicFile } from './i18n.js?v=4810f5ef74';
+import { loadAqua, mountSimulator, mountHistory, mountHorizon, sparkline } from './aqua.js?v=4810f5ef74';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -59,6 +59,7 @@ const spName = (k) => (k ? tr(SP[k].name) : t.home);
 
 let live = { lookit: { products: 9000, brands: 24 }, detemporada: null };
 let aquaData = null;
+let pagerHinted = false;
 let mode = 'mac', i = 0, slideTimer = null, drag = null, hinted = false, suppressClick = 0;
 let screen, track, dock, spaces = [], charts = [];
 
@@ -229,7 +230,8 @@ function go(n, instant, reveal) {
   $$('#pager .dots button').forEach((d, k) => { d.classList.toggle('on', k === i); d.toggleAttribute('aria-current', k === i); });
   $('#pager [data-act="prev"]').disabled = i === 0;
   $('#pager .pg[data-act="next"]').disabled = i === SP.length - 1;
-  $('#pager').classList.toggle('first', i === 0);
+  if (i > 0) pagerHinted = true;
+  $('#pager').classList.toggle('first', i === 0 && !pagerHinted);
   $$('#dock [data-go]').forEach((b) => b.classList.toggle('on', +b.dataset.go === i));
   spaces.forEach((s, k) => { s.inert = k !== i; });
   const changed = prev !== i || reveal;
@@ -431,7 +433,8 @@ const cvBtn = (cls = 'btn') => `<a class="${cls}" href="${cvFile(lang)}" target=
 function aboutHTML() {
   return `<div class="about-hero"><div class="avatar" aria-hidden="true">${profile.initials}</div><div><h2>${esc(profile.name)}</h2><p class="lead">${esc(tr(profile.role))} · ${esc(tr(profile.location))}</p></div></div>
     ${tr(profile.bio).map((p) => `<p>${esc(p)}</p>`).join('')}
-    <h3>${t.aiWork}</h3><p>${esc(tr(profile.aiWork))}</p>
+    <h3>${t.focusH}</h3><div class="focus">${tr(profile.focus).map(([a, b]) => `<div><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
+    <h3>${t.howWork}</h3><ul class="impact">${tr(profile.principles).map((d) => `<li>${ICON.check}<span>${esc(d)}</span></li>`).join('')}</ul>
     <h3>${t.experience}</h3><div class="list">${experience.map((e) => li(`${tr(e.role)} · ${e.org}`, tr(e.date), tr(e.text))).join('')}</div>
     <h3>${t.education}</h3><div class="list">${education.map((e) => li(tr(e.title), e.date, tr(e.org))).join('')}</div>
     <h3>${t.skills}</h3><div class="list">${skills.map(([k, v]) => li(tr(k), '', tr(v))).join('')}</div>
@@ -641,6 +644,7 @@ const readyAtMount = ready;
 mount(true);
 if (!readyAtMount) data.then(() => render(false));
 setTimeout(hideHint, 7000);
+setTimeout(() => { pagerHinted = true; $('#pager')?.classList.remove('first'); }, 6000);
 data.then(() => {
   // En el móvil la notificación taparía el nombre al entrar; y no sale en la imagen para compartir (?og)
   if (mode === 'mac' && !location.search.includes('og')) setTimeout(() => notify({ icon: appIcon(projects[1]), app: t.toastApp, title: t.toastTitle, body: t.toastBody(fmt(live.lookit.products), live.lookit.brands), goTo: 2 }), 2600);

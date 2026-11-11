@@ -507,3 +507,14 @@ button.widget { cursor: pointer; }
 .phone #pager.first .pgt { display: block; }
 .phone #pager.first .pg[data-act="next"] svg { animation: nudge 1.4s ease-in-out infinite; }
 .phone .hint { display: none; }
+
+/* Especialización (Sobre mí) */
+.focus { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.focus div { background: var(--win-side); border-radius: 12px; padding: 12px 14px; }
+.focus b { display: block; font-size: 15px; font-weight: 600; }
+.focus span { display: block; margin-top: 3px; font-size: 14px; line-height: 20px; color: var(--label2); }
+.phone .focus { grid-template-columns: 1fr; }
+/* El paginador vuelve a los puntos con un fundido */
+.pager .dots { animation: fadein .4s ease; }
+
+.about-hero { margin-bottom: 16px; }

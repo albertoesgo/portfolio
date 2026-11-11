@@ -148,3 +148,11 @@ h1 { font-size: clamp(42px, 7.4vw, 80px); line-height: 1; letter-spacing: -.04em
   .desk .s { display: grid; }
   .desk svg { width: 16px; height: 16px; }
 }
+
+/* Especialización (Sobre mí) */
+.focus { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 0 8px; }
+.focus div { background: var(--card); border-radius: 16px; padding: 16px 18px; }
+.focus b { display: block; font-size: 17px; }
+.focus span { display: block; margin-top: 4px; font-size: 15px; line-height: 1.5; color: var(--label2); }
+#about .checks { max-width: 760px; }
+@media (max-width: 760px) { .focus { grid-template-columns: 1fr; } }

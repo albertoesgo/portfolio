@@ -17,17 +17,41 @@ export const profile = {
   },
   bio: {
     es: [
-      'Soy ingeniero informático por la Universidad de Málaga, con mención en Computación. Trabajo donde se cruzan tres mundos que pocas veces van juntos: la inteligencia artificial, la automatización de procesos en empresa y el producto web.',
-      'Hoy formo parte del equipo fundador del departamento de IA y automatización de MicroCAD, donde diseño automatizaciones e integraciones que eliminan trabajo manual. Antes modernicé sistemas de gestión empresarial en Babel, estudié un año en Gdańsk con Erasmus+ y lancé productos propios y webs para clientes que hoy están en producción.',
+      'Ingeniero de IA aplicada por la Universidad de Málaga (mención en Computación). Me especializo en convertir modelos —de redes neuronales para series temporales a LLMs— en sistemas fiables, medibles y en producción.',
+      'Formo parte del equipo fundador del departamento de IA y automatización de MicroCAD, donde diseño automatizaciones e integraciones entre sistemas para las distintas áreas de negocio. En paralelo construyo y opero productos propios y plataformas para clientes, de la base de datos a la interfaz.',
     ],
     en: [
-      'I am a computer engineer from the University of Málaga, with a major in Computing. I work where three worlds that rarely meet come together: artificial intelligence, business process automation and web products.',
-      "Today I am part of the founding team of MicroCAD's AI & Automation department, where I design automations and integrations that remove manual work. Before that I modernised business management systems at Babel, spent a year in Gdańsk on Erasmus+, and launched my own products and client websites that are live today.",
+      'Applied AI engineer from the University of Málaga (Computing major). I specialise in turning models — from neural networks for time series to LLMs — into reliable, measurable systems running in production.',
+      "I am part of the founding team of MicroCAD's AI & Automation department, where I design automations and system integrations for teams across the business. Alongside that, I build and run my own products and client platforms, from database to interface.",
     ],
   },
-  aiWork: {
-    es: 'Uso agentes de IA como multiplicador: yo defino la arquitectura, el modelo de datos y los criterios de calidad, y ellos aceleran la implementación. En el TFG configuré agentes auditores propios que revisaban fugas de datos en los notebooks, la app web y la memoria. Todo pasa por mi revisión y por pruebas antes de llegar a producción.',
-    en: 'I use AI agents as a force multiplier: I define the architecture, the data model and the quality bar, and they speed up implementation. For my thesis I set up my own auditing agents that checked the notebooks for data leakage, plus the web app and the write-up. Everything goes through my review and testing before it reaches production.',
+  focus: {
+    es: [
+      ['Machine learning y forecasting', 'Deep learning para series temporales (LSTM, redes de grafos), feature engineering y evaluación multi-horizonte frente a baselines, con entrenamiento en HPC.'],
+      ['Aplicaciones con LLMs', 'LLMs integrados en producto con criterio de coste y latencia: parsers deterministas primero, el modelo como fallback y extracción estructurada de intención.'],
+      ['Automatización e integración', 'Flujos con Power Automate y Python, integración de APIs con SharePoint y aplicaciones internas, y cuadros de mando en Power BI.'],
+      ['Ingeniería de producto', 'Full-stack con TypeScript, Next.js, React y FastAPI; serverless en Cloudflare y Vercel; seguridad con RLS y cifrado.'],
+    ],
+    en: [
+      ['Machine learning & forecasting', 'Deep learning for time series (LSTMs, graph networks), feature engineering and multi-horizon evaluation against baselines, trained on HPC.'],
+      ['LLM applications', 'LLMs built into products with cost and latency in mind: deterministic parsers first, the model as a fallback, and structured intent extraction.'],
+      ['Automation & integration', 'Power Automate and Python workflows, API integration with SharePoint and internal apps, and Power BI dashboards.'],
+      ['Product engineering', 'Full-stack with TypeScript, Next.js, React and FastAPI; serverless on Cloudflare and Vercel; security with RLS and encryption.'],
+    ],
+  },
+  principles: {
+    es: [
+      'Medir antes de afirmar: cada modelo se compara con una referencia simple y en el horizonte que de verdad importa.',
+      'Seguridad y privacidad por diseño: autorización en la base de datos, datos cifrados y ninguna credencial en el código.',
+      'Desarrollo con agentes de IA y criterio propio: yo fijo la arquitectura y el listón de calidad; en el TFG configuré agentes auditores que revisaban fugas de datos, código y documentación.',
+      'Del prototipo a producción: despliegue, mantenimiento y decisiones documentadas.',
+    ],
+    en: [
+      'Measure before claiming: every model is compared with a simple baseline, on the horizon that actually matters.',
+      'Security and privacy by design: authorisation in the database, encrypted data and no credentials in the code.',
+      'AI-agent-assisted development with my own judgement: I set the architecture and the quality bar; for my thesis I configured auditing agents that reviewed data leakage, code and documentation.',
+      'From prototype to production: deployment, maintenance and documented decisions.',
+    ],
   },
   email: 'albertoestradag19@gmail.com',
   links: {
@@ -67,10 +91,12 @@ export const extras = [
 ];
 
 export const skills = [
-  [{ es: 'IA y datos', en: 'AI & data' }, 'Python, PyTorch (LSTM, GNN), scikit-learn, XGBoost, pandas, statsmodels, LLMs'],
-  [{ es: 'Producto web', en: 'Web product' }, 'TypeScript, React, Next.js, three.js, Tailwind, PWA'],
-  [{ es: 'Backend y nube', en: 'Backend & cloud' }, 'FastAPI, Node.js, Express, SQL, Supabase, Redis, Cloudflare, Vercel'],
-  [{ es: 'Automatización', en: 'Automation' }, { es: 'Power Automate, Power BI, SharePoint, integraciones vía API', en: 'Power Automate, Power BI, SharePoint, API integrations' }],
+  ['Machine learning', { es: 'PyTorch, scikit-learn, XGBoost, statsmodels, Prophet · LSTM, GNN (T-GCN) · forecasting y evaluación', en: 'PyTorch, scikit-learn, XGBoost, statsmodels, Prophet · LSTM, GNN (T-GCN) · forecasting and evaluation' }],
+  ['LLMs', { es: 'Gemini y OpenAI vía API · extracción estructurada de intención · desarrollo con agentes (Claude Code, Copilot)', en: 'Gemini and OpenAI via API · structured intent extraction · agent-assisted development (Claude Code, Copilot)' }],
+  [{ es: 'Datos', en: 'Data' }, 'Python, pandas, NumPy, SQL (PostgreSQL, Oracle, SQLite), ETL, Power BI'],
+  [{ es: 'Backend y nube', en: 'Backend & cloud' }, 'FastAPI, Node.js, Express, Supabase, Redis · Cloudflare (Pages, Workers, KV), Vercel, GitHub Actions'],
+  ['Frontend', 'TypeScript, React, Next.js, three.js, Tailwind, PWA'],
+  [{ es: 'Automatización', en: 'Automation' }, { es: 'Power Automate, SharePoint, integraciones vía API, Oracle APEX, OutSystems', en: 'Power Automate, SharePoint, API integrations, Oracle APEX, OutSystems' }],
 ];
 
 // Un solo CV público (perfil «automation» de ~/Proyectos/cv), en el idioma de la web.
@@ -355,7 +381,7 @@ export const projects = [
     },
   },
   {
-    id: 'detemp', name: 'DeTemporada', cats: ['prod'], live: false,
+    id: 'detemp', name: 'DeTemporada', cats: ['prod'], live: true,
     metric: { es: 'PWA offline · 451 comercios geocodificados', en: 'Offline PWA · 451 geocoded shops' },
     kind: { es: 'Producto propio · PWA · 2026', en: 'Own product · PWA · 2026' },
     logo: 'img/logos/detemporada.svg', plate: null, tint: '#f0531c', wall: 'detemp', url: 'DeTemporada',
