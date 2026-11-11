@@ -1,8 +1,8 @@
 // Escritorio del portfolio: Mac en pantallas grandes, iOS en el móvil.
 // Un gesto = un proyecto (como luciagascon.es). Enlaces directos: index.html#lookit · ?lang=en
-import { profile, experience, education, extras, skills, filters, projects, cvFile } from './data.js?v=4810f5ef74';
-import { UI, pick, classicFile } from './i18n.js?v=4810f5ef74';
-import { loadAqua, mountSimulator, mountHistory, mountHorizon, sparkline } from './aqua.js?v=4810f5ef74';
+import { profile, experience, education, extras, skills, filters, projects, cvFile } from './data.js?v=a422159592';
+import { UI, pick, classicFile } from './i18n.js?v=a422159592';
+import { loadAqua, mountSimulator, mountHistory, mountHorizon, sparkline } from './aqua.js?v=a422159592';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -130,9 +130,8 @@ function homeHTML(cur) {
   <section class="space${cur ? ' cur' : ''}" data-i="0" aria-label="${t.home}"><div class="home">
     <div class="qs"><a class="cls" href="${classicFile(lang)}">${ICON.list}<span>${t.classic}</span></a><button class="pill" data-act="lang" lang="${t.other}" aria-label="${t.langBtn}">${UI[t.other].short}</button><button class="ico" data-act="theme"></button></div>
     <div class="hero">
-      <p class="hi${rv(0)}">${h.hi}</p>
+      <p class="hi${rv(0)}"><i></i>${esc(tr(profile.role))} · ${esc(tr(profile.location))}</p>
       <h1 class="${rv(1)}">${esc(profile.name)}</h1>
-      <p class="hrole${rv(2)}">${esc(tr(profile.role))} · ${esc(tr(profile.location))}</p>
       <p class="hline${rv(3)}">${esc(tr(profile.headline))}</p>
       <div class="actions${rv(4)}"><a class="btn" href="${cvFile(lang)}" target="_blank" rel="noopener">${ICON.doc}${t.downloadCV}</a><button class="btn sec" data-act="overview">${h.see}</button><button class="btn sec" data-act="contact">${t.contact}</button></div>
       <dl class="facts${rv(5)}">${h.facts.map(([a, b]) => `<div><dt>${a}</dt><dd>${b}</dd></div>`).join('')}</dl>

@@ -518,3 +518,9 @@ button.widget { cursor: pointer; }
 .pager .dots { animation: fadein .4s ease; }
 
 .about-hero { margin-bottom: 16px; }
+
+/* Portada: etiqueta con el rol en lugar de «Hola, soy», alineada ópticamente con el nombre */
+.hero .hi { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 18px; padding: 6px 12px; border-radius: 980px; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); font-size: 14px; font-weight: 600; color: var(--label); }
+.hero .hi i { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+.hero h1 { margin-left: -3px; font-size: 60px; }
+.hero .hline { margin-top: 16px; color: var(--label); opacity: .72; }
