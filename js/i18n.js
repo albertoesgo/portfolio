@@ -19,7 +19,7 @@ export const UI = {
     homeX: {
       hi: 'Hola, soy', see: 'Ver proyectos',
       lookitM: (n) => `${n} prendas en directo`, aquaM: (a, b) => `Embalses: ${a} → ${b} en 90 días`,
-      facts: [['Ahora', 'MicroCAD · equipo fundador'], ['Proyectos', '5 · 4 en producción'], ['Formación', 'Ing. Informática · UMA · Erasmus+']],
+      facts: [['Proyectos', '5 · 4 en producción'], ['Formación', 'Ing. Informática · UMA · Erasmus+']],
     },
     cvIcon: 'CV.pdf',
     // Proyecto
@@ -63,7 +63,7 @@ export const UI = {
     homeX: {
       hi: "Hi, I'm", see: 'See projects',
       lookitM: (n) => `${n} items, live`, aquaM: (a, b) => `Reservoirs: ${a} → ${b} in 90 days`,
-      facts: [['Now', 'MicroCAD · founding team'], ['Projects', '5 · 4 live'], ['Education', 'Computer Eng. · UMA · Erasmus+']],
+      facts: [['Projects', '5 · 4 live'], ['Education', 'Computer Eng. · UMA · Erasmus+']],
     },
     cvIcon: 'CV.pdf',
     shotOf: (n) => `Screenshot of ${n}`, onPhone: (n) => `${n} on mobile`,
