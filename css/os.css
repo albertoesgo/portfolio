@@ -530,14 +530,18 @@ button.widget { cursor: pointer; }
 .mac .menubar { z-index: 50; }
 .mac .menubar .l .on { background: var(--fill2); }
 .mac .overlay { top: 28px; }
-.mac .sheetwrap, .mac .ov { background: rgba(0,0,0,.3); backdrop-filter: none; -webkit-backdrop-filter: none; display: flex; align-items: center; justify-content: center; padding: 28px 40px 40px; }
-.mac .sheet, .mac .ov-in { width: 920px; max-width: 100%; max-height: 100%; }
-.mac .ov-in { position: relative; inset: auto; padding: 0; background: var(--win); border-radius: 16px; box-shadow: var(--shadow); transform: translateY(18px) scale(.97); transition: transform .45s var(--ease); }
-.mac .ov.open .ov-in { transform: none; }
-.mac .ov-head { position: sticky; top: 0; z-index: 2; margin: 0; gap: 12px; padding: 9px 16px 9px 20px; border-bottom: .5px solid var(--sep); background: var(--win-side); flex-wrap: nowrap; border-radius: 16px 16px 0 0; }
-.mac .ov-head h2 { font-size: 15px; line-height: 20px; font-weight: 600; letter-spacing: 0; }
-.mac .ov-head .xbtn { width: 30px; height: 30px; }
-.mac .ov-grid { padding: 24px 28px 32px; gap: 24px 20px; }
+.mac .sheetwrap { padding: 28px 40px 40px; }
+.mac .sheet { width: 920px; max-width: 100%; max-height: 100%; border-radius: 12px; transition: transform .45s var(--ease), width .35s var(--ease), height .35s var(--ease); }
+/* Misma barra de título que las ventanas de proyecto: rojo y amarillo cierran, verde amplía */
+.mac .sheet-head { grid-template-columns: 80px 1fr 80px; height: 38px; padding: 0 14px; }
+.mac .sheet-head b { text-align: center; font-size: 13px; }
+.mac .sheet-head .xbtn { display: none; }
+.phone .sheet-head .lights { display: none; }
+.mac .sheetwrap:has(.sheet.max) { padding: 10px 12px 12px; }
+.mac .sheet.max { width: 100%; height: 100%; }
+.mac .sheet.max .cvpage img { max-width: 900px; }
+/* «Mis proyectos» se queda a pantalla completa con el fondo difuminado (como Launchpad), pero bajo la barra de menús */
+.mac .ov-in { padding-top: 40px; }
 .mac .sheet .cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 24px; align-items: start; }
 .mac .sheet .bio { max-width: 46em; }
 .mac .sheet .focus { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -562,7 +566,6 @@ button.widget { cursor: pointer; }
 .phone .dock { gap: 0; padding: 9px 8px 7px; max-width: calc(100% - 16px); }
 .phone .dock > button { width: min(68px, (100vw - 32px) / 5); }
 .phone .w-profile { padding-bottom: 6px; }
-.mac .ov-head .seg { flex: none; }
 /* Móvil: cinco proyectos en dos filas centradas (3 + 2) */
 .phone .icons { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px 0; margin-top: 22px; }
 .phone .icons .dicon { width: 33.33%; max-width: 124px; font-size: 12px; }

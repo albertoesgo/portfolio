@@ -19,7 +19,7 @@ export const UI = {
     homeX: {
       hi: 'Hola, soy', see: 'Ver proyectos',
       lookitM: (n) => `${n} prendas en directo`, aquaM: (a, b) => `Embalses: ${a} → ${b} en 90 días`,
-      facts: [['Ahora', 'IA y automatización · MicroCAD'], ['Proyectos', '5 · 4 en producción'], ['Formación', 'Ing. Informática · UMA · Erasmus+']],
+      facts: [['Ahora', 'MicroCAD · equipo fundador'], ['Proyectos', '5 · 4 en producción'], ['Formación', 'Ing. Informática · UMA · Erasmus+']],
     },
     cvIcon: 'CV.pdf',
     // Proyecto
@@ -27,7 +27,7 @@ export const UI = {
     tabs: [['sim', 'Simulador'], ['hist', 'Histórico'], ['prec', 'Precisión'], ['app', 'La app']],
     appCap: 'Capturas reales de la app del TFG (React + FastAPI)', realShot: 'Captura real',
     highlights: 'Lo que aporta', caseBtn: 'Caso de estudio', live: 'En producción',
-    toHome: 'Volver a Inicio', toAll: 'Ver todos los proyectos', maximize: 'Ampliar ventana',
+    toHome: 'Volver a Inicio', toAll: 'Ver todos los proyectos', maximize: 'Ampliar ventana', minimize: 'Minimizar ventana',
     // Hojas
     focusH: 'Especialización', howWork: 'Cómo trabajo', experience: 'Experiencia', education: 'Formación', skills: 'Habilidades', extras: 'Idiomas y voluntariado',
     downloadCV: 'Descargar CV', viewCV: 'Ver CV', downloadPdf: 'Descargar PDF', openPdf: 'Abrir en pestaña nueva', cvSub: 'PDF · una página', cvAlt: (n) => `Currículum de ${n}`,
@@ -63,14 +63,14 @@ export const UI = {
     homeX: {
       hi: "Hi, I'm", see: 'See projects',
       lookitM: (n) => `${n} items, live`, aquaM: (a, b) => `Reservoirs: ${a} → ${b} in 90 days`,
-      facts: [['Now', 'AI & automation · MicroCAD'], ['Projects', '5 · 4 live'], ['Education', 'Computer Eng. · UMA · Erasmus+']],
+      facts: [['Now', 'MicroCAD · founding team'], ['Projects', '5 · 4 live'], ['Education', 'Computer Eng. · UMA · Erasmus+']],
     },
     cvIcon: 'CV.pdf',
     shotOf: (n) => `Screenshot of ${n}`, onPhone: (n) => `${n} on mobile`,
     tabs: [['sim', 'Simulator'], ['hist', 'History'], ['prec', 'Accuracy'], ['app', 'The app']],
     appCap: 'Real screenshots of the thesis app (React + FastAPI)', realShot: 'Real screenshot',
     highlights: 'Highlights', caseBtn: 'Case study', live: 'Live',
-    toHome: 'Back to Home', toAll: 'See all projects', maximize: 'Enlarge window',
+    toHome: 'Back to Home', toAll: 'See all projects', maximize: 'Enlarge window', minimize: 'Minimise window',
     focusH: 'Focus areas', howWork: 'How I work', experience: 'Experience', education: 'Education', skills: 'Skills', extras: 'Languages & volunteering',
     downloadCV: 'Download CV', viewCV: 'View CV', downloadPdf: 'Download PDF', openPdf: 'Open in a new tab', cvSub: 'PDF · one page', cvAlt: (n) => `${n}'s CV`,
     caseOf: (n) => `Case study · ${n}`,

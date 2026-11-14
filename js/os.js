@@ -1,8 +1,8 @@
 // Escritorio del portfolio: Mac en pantallas grandes, iOS en el móvil.
 // Un gesto = un proyecto (como luciagascon.es). Enlaces directos: index.html#lookit · ?lang=en
-import { profile, experience, education, extras, skills, filters, projects, cvFile, cvPreview } from './data.js?v=d086b0a13e';
-import { UI, pick, classicFile } from './i18n.js?v=d086b0a13e';
-import { loadAqua, mountSimulator, mountHistory, mountHorizon, sparkline } from './aqua.js?v=d086b0a13e';
+import { profile, experience, education, extras, skills, filters, projects, cvFile, cvPreview } from './data.js?v=4bc8c1c647';
+import { UI, pick, classicFile } from './i18n.js?v=4bc8c1c647';
+import { loadAqua, mountSimulator, mountHistory, mountHorizon, sparkline } from './aqua.js?v=4bc8c1c647';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -109,7 +109,7 @@ function chromeHTML() {
       <div class="spbox"><div class="spin">${ICON.search}<input id="spq" placeholder="${esc(t.spPlaceholder)}" autocomplete="off" aria-label="${t.search}"></div><div class="spres" id="spres"></div></div>
     </div>
     <div class="overlay sheetwrap" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
-      <div class="sheet" id="sheet-panel"><div class="grab" aria-hidden="true"></div><div class="sheet-head"><b id="sheet-title"></b><button class="xbtn" data-act="close" aria-label="${t.close}">${ICON.x}</button></div><div class="sheet-body" id="sheet-body"></div></div>
+      <div class="sheet" id="sheet-panel"><div class="grab" aria-hidden="true"></div><div class="sheet-head"><div class="lights"><button class="c" data-act="close" aria-label="${t.close}"></button><button class="m" data-act="close" aria-label="${t.minimize}"></button><button class="x" data-act="max" aria-label="${t.maximize}"></button></div><b id="sheet-title"></b><button class="xbtn" data-act="close" aria-label="${t.close}">${ICON.x}</button></div><div class="sheet-body" id="sheet-body"></div></div>
     </div>
     <button class="toast" id="toast" aria-live="polite"></button>
   </main>`;
@@ -390,7 +390,7 @@ function onClick(e) {
   ({
     overview: () => toggle('overview'), spot: openSpot, about: () => toggle('about'), cv: () => toggle('cv'), contact: () => toggle('contact'),
     close: closeAll, home: () => go(0), prev: () => go(i - 1), next: () => go(i + 1),
-    max: () => spaces[i].classList.toggle('max'),
+    max: () => (a.closest('.sheet') || spaces[i]).classList.toggle('max'),
     case: () => { const p = projects[i - 1]; if (p) sheet(t.caseOf(tr(p.name)), caseHTML(p), 'case'); },
     theme: () => { theme = isDark() ? 'light' : 'dark'; store.set('ae-theme', theme); withTransition(applyTheme); },
     lang: () => setLang(t.other),
@@ -434,11 +434,12 @@ function sheet(title, html, kind = '') {
   closeAll();
   $('#toast').classList.remove('show');
   $('#sheet-panel').dataset.kind = kind;
+  $('#sheet-panel').classList.remove('max');
   $('#sheet-title').textContent = title;
   $('#sheet-body').innerHTML = html;
   $('#sheet-body').scrollTop = 0;
   $('#sheet').classList.add('open');
-  setTimeout(() => $('#sheet .xbtn').focus({ preventScroll: true }), 60);
+  setTimeout(() => $(mode === 'mac' ? '#sheet .lights .c' : '#sheet .xbtn').focus({ preventScroll: true }), 60);
 }
 const li = (b, small, span) => `<div class="li"><b>${esc(b)}</b>${small ? `<small>${esc(small)}</small>` : ''}${span ? `<span>${esc(span)}</span>` : ''}</div>`;
 function aboutHTML() {
@@ -617,7 +618,7 @@ function mount(animate) {
   track.addEventListener('touchcancel', onTouchEnd);
   screen.addEventListener('wheel', onWheel, { passive: false });
   screen.addEventListener('click', onClick);
-  ['#ov', '#sp', '#sheet'].forEach((s) => $(s).addEventListener('click', (e) => { if (e.target === $(s)) closeAll(); }));
+  ['#ov', '#sp', '#sheet'].forEach((s) => $(s).addEventListener('click', (e) => { if (e.target === $(s) || e.target.id === 'ovgrid' || e.target.id === 'ov-in') closeAll(); }));
   $('#filters').addEventListener('click', (e) => {
     const b = e.target.closest('[data-f]'); if (!b) return;
     filter = b.dataset.f;
