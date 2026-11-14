@@ -1,8 +1,8 @@
 // Escritorio del portfolio: Mac en pantallas grandes, iOS en el móvil.
 // Un gesto = un proyecto (como luciagascon.es). Enlaces directos: index.html#lookit · ?lang=en
-import { profile, experience, education, extras, skills, filters, projects, cvFile } from './data.js?v=08a28c5b7f';
-import { UI, pick, classicFile } from './i18n.js?v=08a28c5b7f';
-import { loadAqua, mountSimulator, mountHistory, mountHorizon, sparkline } from './aqua.js?v=08a28c5b7f';
+import { profile, experience, education, extras, skills, filters, projects, cvFile, cvPreview } from './data.js?v=d086b0a13e';
+import { UI, pick, classicFile } from './i18n.js?v=d086b0a13e';
+import { loadAqua, mountSimulator, mountHistory, mountHorizon, sparkline } from './aqua.js?v=d086b0a13e';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -85,7 +85,7 @@ function chromeHTML() {
     <div class="walls">${SP.map((s) => `<div class="wall w-${s.wall}"></div>`).join('')}</div>
     <nav class="menubar" aria-label="${t.menu}">
       <div class="l"><span class="mono" aria-hidden="true">${profile.initials}</span><b>${esc(profile.short)}</b>
-        <button data-act="overview">${t.projects}</button><button data-act="about">${t.about}</button><a href="${cvFile(lang)}" target="_blank" rel="noopener">${t.cv}</a><button data-act="contact">${t.contact}</button></div>
+        <button data-act="overview">${t.projects}</button><button data-act="about">${t.about}</button><button data-act="cv">${t.cv}</button><button data-act="contact">${t.contact}</button></div>
       <div class="r"><button class="pill" data-act="lang" lang="${t.other}" aria-label="${t.langBtn}" title="${t.langBtn}">${UI[t.other].short}</button><button class="ico" data-act="theme"></button>
         <a href="${classicFile(lang)}">${t.classic}</a><button class="ico" data-act="spot" aria-label="${t.searchK}" title="${t.searchK}">${ICON.search}</button><span id="clock"></span></div>
     </nav>
@@ -133,17 +133,15 @@ function homeHTML(cur) {
       <p class="hi${rv(0)}"><i></i>${esc(tr(profile.role))} · ${esc(tr(profile.location))}</p>
       <h1 class="${rv(1)}">${esc(profile.name)}</h1>
       <p class="hline${rv(3)}">${esc(tr(profile.headline))}</p>
-      <div class="actions${rv(4)}"><a class="btn" href="${cvFile(lang)}" target="_blank" rel="noopener">${ICON.doc}${t.downloadCV}</a><button class="btn sec" data-act="overview">${h.see}</button><button class="btn sec" data-act="contact">${t.contact}</button></div>
+      <div class="actions${rv(4)}"><button class="btn" data-act="cv">${ICON.doc}${t.viewCV}</button><button class="btn sec" data-act="contact">${t.contact}</button></div>
       <dl class="facts${rv(5)}">${h.facts.map(([a, b]) => `<div><dt>${a}</dt><dd>${b}</dd></div>`).join('')}</dl>
     </div>
     <div class="feat${rv(2)}" aria-label="${t.projects}">${projects.map(card).join('')}</div>
     <div class="w-profile${rv(0)}"><div class="avatar" aria-hidden="true">${profile.initials}</div><div>
       <h1>${esc(profile.name)}</h1>
       <p class="role">${esc(tr(profile.role))} · ${esc(tr(profile.location))}</p>
-      <div class="actions"><a class="btn" href="${cvFile(lang)}" target="_blank" rel="noopener">${ICON.doc}${t.cv}</a><button class="btn sec" data-act="contact">${t.contact}</button></div>
     </div></div>
-    <div class="icons${rv(2)}">${projects.map((p, k) => `<button class="dicon" data-go="${k + 1}">${appIcon(p)}<span>${esc(tr(p.short || p.name))}</span></button>`).join('')}
-      <a class="dicon" href="${cvFile(lang)}" target="_blank" rel="noopener">${SYS.doc}<span>${t.cvIcon}</span></a><button class="dicon" data-act="about">${SYS.person}<span>${t.about}</span></button></div>
+    <div class="icons${rv(2)}">${projects.map((p, k) => `<button class="dicon" data-go="${k + 1}">${appIcon(p)}<span>${esc(tr(p.short || p.name))}</span></button>`).join('')}</div>
   </div></section>`;
 }
 
@@ -193,14 +191,10 @@ function render(animate) {
 
 function dockHTML() {
   const item = (attrs, icon, label, cls = '') => `<button class="${cls}" ${attrs} aria-label="${esc(label)}">${icon}<span class="tip">${esc(label)}</span><span class="lbl">${esc(label)}</span></button>`;
-  return item('data-go="0"', SYS.home, t.home) +
-    projects.map((p, k) => item(`data-go="${k + 1}"`, appIcon(p), tr(p.name), 'only-mac')).join('') +
-    '<span class="sepv only-mac" aria-hidden="true"></span>' +
-    item('data-act="overview"', SYS.grid, t.projects) +
-    item('data-act="about"', SYS.person, t.about) +
-    `<a class="only-mac" href="${cvFile(lang)}" target="_blank" rel="noopener" aria-label="CV">${SYS.doc}<span class="tip">CV</span></a>` +
-    item('data-act="spot"', SYS.search, t.searchK, 'only-mac') +
-    item('data-act="contact"', SYS.mail, t.contact);
+  // Mac: el Dock son los proyectos (las secciones están en la barra de menús). Móvil: no hay barra, así que el Dock son las secciones.
+  if (mode === 'mac') return item('data-go="0"', SYS.home, t.home) + projects.map((p, k) => item(`data-go="${k + 1}"`, appIcon(p), tr(p.name))).join('');
+  return item('data-go="0"', SYS.home, t.home) + item('data-act="overview"', SYS.grid, t.projects) + item('data-act="about"', SYS.person, t.about) +
+    item('data-act="cv"', SYS.doc, t.cv) + item('data-act="contact"', SYS.mail, t.contact);
 }
 
 /* ── Modo y escala ── */
@@ -212,6 +206,7 @@ function applyMode() {
   document.body.classList.toggle('phone', mode === 'phone');
   const s = mode === 'mac' ? Math.min(1.25, Math.max(0.72, innerWidth / 1440)) : 1;
   document.documentElement.style.setProperty('--s', s);
+  if (dock && dock.dataset.mode !== mode) { dock.dataset.mode = mode; dock.innerHTML = dockHTML(); dockRest = null; }
   $('#hint').innerHTML = mode === 'mac' ? esc(t.hintMac) : `${esc(t.hintPhone)} <span class="arr">${ICON.right}</span>`;
 }
 const scale = () => (mode === 'mac' ? +getComputedStyle(document.documentElement).getPropertyValue('--s') || 1 : 1);
@@ -231,6 +226,7 @@ function go(n, instant, reveal) {
   $('#pager .pg[data-act="next"]').disabled = i === SP.length - 1;
   if (i > 0) pagerHinted = true;
   $('#pager').classList.toggle('first', i === 0 && !pagerHinted);
+  $('#pager').classList.toggle('athome', i === 0);
   $$('#dock [data-go]').forEach((b) => b.classList.toggle('on', +b.dataset.go === i));
   spaces.forEach((s, k) => { s.inert = k !== i; });
   const changed = prev !== i || reveal;
@@ -370,7 +366,7 @@ addEventListener('keydown', (e) => {
   if (anyOpen() || (e.target instanceof Element && e.target.closest('input, select, textarea'))) return;
   if (e.key === 'ArrowRight') { e.preventDefault(); go(i + 1); }
   else if (e.key === 'ArrowLeft') { e.preventDefault(); go(i - 1); }
-  else if (e.key === 'ArrowUp') { e.preventDefault(); openOv(); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); toggle('overview'); }
   else if (/^[1-6]$/.test(e.key)) go(+e.key - 1);
 });
 
@@ -392,10 +388,10 @@ function onClick(e) {
   const a = e.target.closest('[data-act]');
   if (!a) return;
   ({
-    overview: openOv, spot: openSpot, about: () => sheet(t.about, aboutHTML()), contact: () => sheet(t.contact, contactHTML()),
+    overview: () => toggle('overview'), spot: openSpot, about: () => toggle('about'), cv: () => toggle('cv'), contact: () => toggle('contact'),
     close: closeAll, home: () => go(0), prev: () => go(i - 1), next: () => go(i + 1),
     max: () => spaces[i].classList.toggle('max'),
-    case: () => { const p = projects[i - 1]; if (p) sheet(t.caseOf(tr(p.name)), caseHTML(p)); },
+    case: () => { const p = projects[i - 1]; if (p) sheet(t.caseOf(tr(p.name)), caseHTML(p), 'case'); },
     theme: () => { theme = isDark() ? 'light' : 'dark'; store.set('ae-theme', theme); withTransition(applyTheme); },
     lang: () => setLang(t.other),
     copy: async () => {
@@ -419,8 +415,25 @@ function setLang(l) {
 }
 
 /* ── Hojas ── */
-function sheet(title, html) {
+// Proyectos, Sobre mí, CV y Contacto se abren igual: la misma ventana, bajo la barra de menús, y un segundo clic la cierra
+let openSection = null;
+const SECTIONS = {
+  overview: openOv,
+  about: () => sheet(t.about, aboutHTML(), 'about'),
+  cv: () => sheet(t.cv, cvHTML(), 'cv'),
+  contact: () => sheet(t.contact, contactHTML(), 'contact'),
+};
+function toggle(name) {
+  if (openSection === name && anyOpen()) { closeAll(); return; }
+  $('#toast').classList.remove('show'); // el aviso no debe tapar la ventana
+  SECTIONS[name]();
+  openSection = name;
+  $$('.menubar .l [data-act]').forEach((b) => b.classList.toggle('on', b.dataset.act === name));
+}
+function sheet(title, html, kind = '') {
   closeAll();
+  $('#toast').classList.remove('show');
+  $('#sheet-panel').dataset.kind = kind;
   $('#sheet-title').textContent = title;
   $('#sheet-body').innerHTML = html;
   $('#sheet-body').scrollTop = 0;
@@ -428,17 +441,25 @@ function sheet(title, html) {
   setTimeout(() => $('#sheet .xbtn').focus({ preventScroll: true }), 60);
 }
 const li = (b, small, span) => `<div class="li"><b>${esc(b)}</b>${small ? `<small>${esc(small)}</small>` : ''}${span ? `<span>${esc(span)}</span>` : ''}</div>`;
-const cvBtn = (cls = 'btn') => `<a class="${cls}" href="${cvFile(lang)}" target="_blank" rel="noopener">${ICON.doc}${t.downloadCV}</a>`;
 function aboutHTML() {
   return `<div class="about-hero"><div class="avatar" aria-hidden="true">${profile.initials}</div><div><h2>${esc(profile.name)}</h2><p class="lead">${esc(tr(profile.role))} · ${esc(tr(profile.location))}</p></div></div>
-    ${tr(profile.bio).map((p) => `<p>${esc(p)}</p>`).join('')}
+    <div class="bio">${tr(profile.bio).map((p) => `<p>${esc(p)}</p>`).join('')}</div>
     <h3>${t.focusH}</h3><div class="focus">${tr(profile.focus).map(([a, b]) => `<div><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
     <h3>${t.howWork}</h3><ul class="impact">${tr(profile.principles).map((d) => `<li>${ICON.check}<span>${esc(d)}</span></li>`).join('')}</ul>
-    <h3>${t.experience}</h3><div class="list">${experience.map((e) => li(`${tr(e.role)} · ${e.org}`, tr(e.date), tr(e.text))).join('')}</div>
-    <h3>${t.education}</h3><div class="list">${education.map((e) => li(tr(e.title), e.date, tr(e.org))).join('')}</div>
-    <h3>${t.skills}</h3><div class="list">${skills.map(([k, v]) => li(tr(k), '', tr(v))).join('')}</div>
-    <h3>${t.extras}</h3><div class="list">${extras.map(([k, v]) => li(tr(k), '', tr(v))).join('')}</div>
-    <div class="actions" style="margin-top:22px">${cvBtn()}<a class="btn sec" href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a><a class="btn sec" href="${profile.links.github}" target="_blank" rel="noopener">GitHub ↗</a><a class="btn sec" href="${classicFile(lang)}">${t.classic}</a></div>`;
+    <div class="cols"><div>
+      <h3>${t.experience}</h3><div class="list">${experience.map((e) => li(`${tr(e.role)} · ${e.org}`, tr(e.date), tr(e.text))).join('')}</div>
+      <h3>${t.education}</h3><div class="list">${education.map((e) => li(tr(e.title), e.date, tr(e.org))).join('')}</div>
+    </div><div>
+      <h3>${t.skills}</h3><div class="list">${skills.map(([k, v]) => li(tr(k), '', tr(v))).join('')}</div>
+      <h3>${t.extras}</h3><div class="list">${extras.map(([k, v]) => li(tr(k), '', tr(v))).join('')}</div>
+    </div></div>
+    <div class="actions" style="margin-top:22px"><button class="btn" data-act="cv">${ICON.doc}${t.viewCV}</button><a class="btn sec" href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a><a class="btn sec" href="${profile.links.github}" target="_blank" rel="noopener">GitHub ↗</a></div>`;
+}
+// CV: primero se ve; descargarlo es una decisión de quien lo lee
+function cvHTML() {
+  const pdf = cvFile(lang);
+  return `<div class="cvbar"><span>${t.cvSub} · ${t.short}</span><span class="actions"><a class="btn sec" href="${pdf}" target="_blank" rel="noopener">${t.openPdf} ↗</a><a class="btn" href="${pdf}" download>${ICON.doc}${t.downloadPdf}</a></span></div>
+    <div class="cvpage"><img src="${cvPreview(lang)}" width="1131" height="1600" alt="${esc(t.cvAlt(profile.name))}"></div>`;
 }
 function caseHTML(p) {
   const c = p.case, h = t.c;
@@ -459,7 +480,7 @@ function caseHTML(p) {
 function contactHTML() {
   return `<h2>${t.talk}</h2><p class="lead">${esc(t.talkSub(tr(profile.location)))}</p>
     <div class="copyrow"><code>${esc(profile.email)}</code><span class="actions"><button class="btn sec" data-act="copy">${t.copy}</button><a class="btn" href="mailto:${profile.email}">${t.write}</a></span></div>
-    <div class="actions" style="margin-top:14px"><a class="btn sec" href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a><a class="btn sec" href="${profile.links.github}" target="_blank" rel="noopener">GitHub ↗</a>${cvBtn('btn sec')}</div>`;
+    <div class="actions" style="margin-top:14px"><a class="btn sec" href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a><a class="btn sec" href="${profile.links.github}" target="_blank" rel="noopener">GitHub ↗</a></div>`;
 }
 
 /* ── Vista general («Mis proyectos») ── */
@@ -469,7 +490,7 @@ function overviewHTML() {
   $('#ovgrid').innerHTML = projects.map((p, k) => `<button class="oc${filter !== 'all' && !p.cats.includes(filter) ? ' dim' : ''}" data-go="${k + 1}" style="--k:${k}"><div class="th"><img src="${shot(p.shots[0][0])}" alt="" loading="lazy">${appIcon(p)}${p.live ? `<span class="live"><i></i>${t.live}</span>` : ''}</div><small>${esc(tr(p.kind))}</small><b>${esc(tr(p.name))}</b><span>${esc(tr(p.tagline))}</span></button>`).join('');
 }
 function openOv() { closeAll(); $('#ov').classList.add('open'); $('#ov-in').scrollTop = 0; setTimeout(() => $('#ov .xbtn').focus({ preventScroll: true }), 60); }
-function closeAll() { ['#ov', '#sp', '#sheet'].forEach((s) => $(s)?.classList.remove('open')); }
+function closeAll() { ['#ov', '#sp', '#sheet'].forEach((s) => $(s)?.classList.remove('open')); openSection = null; $$('.menubar .l .on').forEach((b) => b.classList.remove('on')); }
 
 /* ── Deslizar hacia abajo para cerrar (móvil) ── */
 function swipeToClose(panel, scroller) {
@@ -511,7 +532,7 @@ function search(q) {
   const s = t.sp, q2 = norm(q.trim());
   const extra = [
     { name: s.about[0], sub: s.about[1], keys: s.about[2], act: 'about', icon: SYS.person },
-    { name: s.cv[0], sub: s.cv[1], keys: s.cv[2], href: cvFile(lang), blank: true, icon: SYS.doc },
+    { name: s.cv[0], sub: s.cv[1], keys: s.cv[2], act: 'cv', icon: SYS.doc },
     { name: s.contact[0], sub: s.contact[1], keys: s.contact[2], act: 'contact', icon: SYS.mail },
     { name: s.classic[0], sub: s.classic[1], keys: s.classic[2], href: classicFile(lang), icon: SYS.list },
   ];
@@ -529,7 +550,7 @@ function pickResult(r) {
   closeAll();
   if (r.href) { if (r.blank) open(r.href, '_blank', 'noopener'); else location.href = r.href; }
   else if (r.go !== undefined) go(r.go);
-  else ({ about: () => sheet(t.about, aboutHTML()), contact: () => sheet(t.contact, contactHTML()) })[r.act]?.();
+  else if (r.act) toggle(r.act);
 }
 function openSpot() { closeAll(); $('#sp').classList.add('open'); const q = $('#spq'); q.value = ''; search(''); setTimeout(() => q.focus({ preventScroll: true }), 30); }
 
@@ -588,7 +609,6 @@ function bindDock() {
 function mount(animate) {
   app.innerHTML = chromeHTML();
   screen = $('#screen'); track = $('#track'); dock = $('#dock');
-  dock.innerHTML = dockHTML();
   overviewHTML();
   track.addEventListener('pointerdown', onDown);
   track.addEventListener('touchstart', onTouchStart, { passive: true });
@@ -597,7 +617,7 @@ function mount(animate) {
   track.addEventListener('touchcancel', onTouchEnd);
   screen.addEventListener('wheel', onWheel, { passive: false });
   screen.addEventListener('click', onClick);
-  ['#ov', '#sp', '#sheet'].forEach((s) => $(s).addEventListener('click', (e) => { if (e.target === $(s) || e.target.id === 'ovgrid' || e.target.id === 'ov-in') closeAll(); }));
+  ['#ov', '#sp', '#sheet'].forEach((s) => $(s).addEventListener('click', (e) => { if (e.target === $(s)) closeAll(); }));
   $('#filters').addEventListener('click', (e) => {
     const b = e.target.closest('[data-f]'); if (!b) return;
     filter = b.dataset.f;

@@ -101,6 +101,8 @@ export const skills = [
 
 // Un solo CV público (perfil «automation» de ~/Proyectos/cv), en el idioma de la web.
 export const cvFile = (lang) => `cv/Alberto_Estrada_Gomez_CV_${lang.toUpperCase()}.pdf`;
+// Imagen de la página del CV para la vista previa (la genera scripts/build.mjs).
+export const cvPreview = (lang) => `cv/Alberto_Estrada_Gomez_CV_${lang.toUpperCase()}.png`;
 
 export const filters = [
   ['all', { es: 'Todo', en: 'All' }],

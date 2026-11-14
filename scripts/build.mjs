@@ -3,9 +3,12 @@
 //   node scripts/build.mjs
 import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync, rmSync } from 'node:fs';
 import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
+import { mkdtempSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { profile, experience, education, extras, skills, projects, cvFile } from '../js/data.js';
+import { profile, experience, education, extras, skills, projects, cvFile, cvPreview } from '../js/data.js';
 import { UI, pick, classicFile } from '../js/i18n.js';
 
 const SITE = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -22,6 +25,13 @@ for (const lang of ['es', 'en']) {
   const src = join(PROYECTOS, 'cv', 'out-web', PUBLIC_CV, `Alberto_Estrada_Gomez_CV_${lang.toUpperCase()}.pdf`);
   if (!existsSync(src)) { console.log(`⚠ falta ${src} (ejecuta node build.mjs en ~/Proyectos/cv)`); continue; }
   copyFileSync(src, join(SITE, cvFile(lang)));
+  // Vista previa: la página del PDF como imagen (Quick Look de macOS), para enseñar el CV antes de descargarlo
+  try {
+    const tmp = mkdtempSync(join(tmpdir(), 'cvprev-'));
+    execFileSync('qlmanage', ['-t', '-s', '1600', '-o', tmp, src], { stdio: 'ignore' });
+    copyFileSync(join(tmp, `Alberto_Estrada_Gomez_CV_${lang.toUpperCase()}.pdf.png`), join(SITE, cvPreview(lang)));
+    rmSync(tmp, { recursive: true, force: true });
+  } catch { console.log(`⚠ no he podido generar la vista previa del CV (${lang})`); }
 }
 console.log(`✓ CV público (${PUBLIC_CV}) copiado`);
 

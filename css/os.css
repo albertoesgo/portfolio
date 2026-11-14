@@ -524,3 +524,47 @@ button.widget { cursor: pointer; }
 .hero .hi i { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
 .hero h1 { margin-left: -3px; font-size: 60px; }
 .hero .hline { margin-top: 16px; color: var(--label); opacity: .72; }
+
+/* ── Una sola ventana para Proyectos, Sobre mí, CV y Contacto ──
+   En el Mac se abren bajo la barra de menús (que sigue visible y marca la sección abierta) con el mismo ancho y la misma cabecera. */
+.mac .menubar { z-index: 50; }
+.mac .menubar .l .on { background: var(--fill2); }
+.mac .overlay { top: 28px; }
+.mac .sheetwrap, .mac .ov { background: rgba(0,0,0,.3); backdrop-filter: none; -webkit-backdrop-filter: none; display: flex; align-items: center; justify-content: center; padding: 28px 40px 40px; }
+.mac .sheet, .mac .ov-in { width: 920px; max-width: 100%; max-height: 100%; }
+.mac .ov-in { position: relative; inset: auto; padding: 0; background: var(--win); border-radius: 16px; box-shadow: var(--shadow); transform: translateY(18px) scale(.97); transition: transform .45s var(--ease); }
+.mac .ov.open .ov-in { transform: none; }
+.mac .ov-head { position: sticky; top: 0; z-index: 2; margin: 0; gap: 12px; padding: 9px 16px 9px 20px; border-bottom: .5px solid var(--sep); background: var(--win-side); flex-wrap: nowrap; border-radius: 16px 16px 0 0; }
+.mac .ov-head h2 { font-size: 15px; line-height: 20px; font-weight: 600; letter-spacing: 0; }
+.mac .ov-head .xbtn { width: 30px; height: 30px; }
+.mac .ov-grid { padding: 24px 28px 32px; gap: 24px 20px; }
+.mac .sheet .cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 24px; align-items: start; }
+.mac .sheet .bio { max-width: 46em; }
+.mac .sheet .focus { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.mac .sheet .focus span { font-size: 13px; line-height: 18px; }
+.mac .sheet[data-kind="case"] .focus { grid-template-columns: 1fr 1fr; }
+.mac .sheet[data-kind="case"] { width: 820px; }
+
+/* Vista previa del CV */
+.sheet[data-kind="cv"] .sheet-body { padding: 0; background: var(--win-side); }
+.cvbar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 20px; background: color-mix(in srgb, var(--win) 86%, transparent); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: .5px solid var(--sep); font-size: 13px; color: var(--label2); }
+.cvpage { padding: 24px 28px 32px; }
+.cvpage img { display: block; width: 100%; max-width: 760px; height: auto; margin: 0 auto; background: #fff; border-radius: 4px; box-shadow: 0 0 0 .5px rgba(0,0,0,.12), 0 12px 40px rgba(0,0,0,.18); user-select: none; -webkit-user-select: none; }
+.phone .cvbar { padding: 8px 14px; }
+.phone .cvbar > span:first-child { display: none; }
+.phone .cvbar .actions { width: 100%; flex-wrap: nowrap; }
+.phone .cvbar .btn { flex: 1 1 0; padding: 10px 8px; font-size: 14px; white-space: nowrap; }
+.phone .cvpage { padding: 14px 10px calc(30px + env(safe-area-inset-bottom, 0px)); }
+
+/* Menos elementos repetidos: en el Mac, el inicio ya enseña los proyectos (tarjetas y Dock), así que el paginador solo sale dentro de un proyecto */
+.mac .pager.athome { opacity: 0; pointer-events: none; }
+/* Móvil: Dock con las cinco secciones */
+.phone .dock { gap: 0; padding: 9px 8px 7px; max-width: calc(100% - 16px); }
+.phone .dock > button { width: min(68px, (100vw - 32px) / 5); }
+.phone .w-profile { padding-bottom: 6px; }
+.mac .ov-head .seg { flex: none; }
+/* Móvil: cinco proyectos en dos filas centradas (3 + 2) */
+.phone .icons { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px 0; margin-top: 22px; }
+.phone .icons .dicon { width: 33.33%; max-width: 124px; font-size: 12px; }
+.phone .icons .dicon .ai { width: 68px; height: 68px; }
+.ov-grid { align-items: start; }
