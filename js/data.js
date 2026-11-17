@@ -282,7 +282,7 @@ export const projects = [
       en: 'A dashboard that shows me, in real time, how I work with AI across all my projects: what the agent does, how much context each session drags along and what it would cost, drawn as a 3D brain.',
     },
     kind: { es: 'Herramienta propia · Código abierto · 2026', en: 'Own tool · Open source · 2026' },
-    logo: 'img/logos/sinapsis.png', plate: null, tint: '#6f6cf6', wall: 'sinapsis',
+    logo: 'img/logos/sinapsis.webp', plate: null, tint: '#6f6cf6', wall: 'sinapsis',
     url: { es: 'Herramienta local · código abierto', en: 'Local tool · open source' },
     shotNote: { es: 'Modo demostración · datos sintéticos', en: 'Demo mode · synthetic data' },
     tagline: {
@@ -357,7 +357,7 @@ export const projects = [
       en: "A painter's website you walk through like an exhibition: one gesture takes you from one painting to the next.",
     },
     kind: { es: 'Cliente · Web de artista · 2026', en: 'Client · Artist website · 2026' },
-    logo: 'img/logos/lucia-gascon.png', plate: null, tint: '#8c2f28', wall: 'lucia', url: 'luciagascon.es',
+    logo: 'img/logos/lucia-gascon.webp', plate: null, tint: '#8c2f28', wall: 'lucia', url: 'luciagascon.es',
     tagline: {
       es: 'Galería 3D en WebGL (three.js) con navegación guiada por raíl, escala métrica real y un CMS serverless sobre Cloudflare.',
       en: 'A WebGL (three.js) 3D gallery with rail-guided navigation, true metric scale and a serverless CMS on Cloudflare.',
@@ -425,7 +425,7 @@ export const projects = [
       en: 'The website a camper-van workshop uses to sell, rent and manage bookings, and which the workshop itself updates without touching code.',
     },
     kind: { es: 'Cliente · Plataforma de negocio · 2026', en: 'Client · Business platform · 2026' },
-    logo: 'img/logos/wildcamper.png', plate: null, tint: '#e8892b', wall: 'wild', url: 'wildcamper.es',
+    logo: 'img/logos/wildcamper.webp', plate: null, tint: '#e8892b', wall: 'wild', url: 'wildcamper.es',
     tagline: {
       es: 'Plataforma de venta, alquiler y reservas sobre Supabase (PostgreSQL + RLS) con un panel de administración que parametriza todo el sitio.',
       en: 'A sales, rental and booking platform on Supabase (PostgreSQL + RLS) with an admin panel that configures the whole site.',

@@ -1,8 +1,8 @@
 // Escritorio del portfolio: Mac en pantallas grandes, iOS en el móvil.
 // Un gesto = un proyecto (como luciagascon.es). Enlaces directos: index.html#lookit · ?lang=en
-import { profile, experience, education, extras, skills, filters, projects, cvFile, cvPreview } from './data.js?v=75e5172f10';
-import { UI, pick, classicFile } from './i18n.js?v=75e5172f10';
-import { loadAqua, mountSimulator, mountHistory, mountHorizon } from './aqua.js?v=75e5172f10';
+import { profile, experience, education, extras, skills, filters, projects, cvFile, cvPreview } from './data.js?v=5c869fe52a';
+import { UI, pick, classicFile } from './i18n.js?v=5c869fe52a';
+import { loadAqua, mountSimulator, mountHistory, mountHorizon } from './aqua.js?v=5c869fe52a';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -56,6 +56,9 @@ const SYS = {
 };
 const appIcon = (p) => `<span class="ai${p.plate ? ' pad' : ''}" style="--plate:${p.plate || 'transparent'}"><img src="${p.logo}" alt="" draggable="false"></span>`;
 const shot = (n) => `img/shots/${n}.webp`;
+// Vídeo en bucle (mp4) con su primer fotograma como póster (.webp del mismo nombre); solo se reproduce cuando se ve
+const clip = (n, alt = '') => `<video src="img/shots/${n}.mp4" poster="${shot(n)}" muted loop playsinline preload="none" aria-label="${esc(alt)}"></video>`;
+const visual = (n, fx, alt) => (fx === 'vid' ? clip(n, alt) : `<img src="${shot(n)}" alt="${esc(alt)}" loading="lazy" decoding="async" fetchpriority="low" draggable="false">`);
 const SP = [{ id: 'inicio', name: 'Inicio', wall: 'home' }, ...projects];
 const spName = (k) => (k ? tr(SP[k].name) : t.home);
 
@@ -118,7 +121,7 @@ function chromeHTML() {
       <div class="spbox"><div class="spin">${ICON.search}<input id="spq" placeholder="${esc(t.spPlaceholder)}" autocomplete="off" aria-label="${t.search}"></div><div class="spres" id="spres"></div></div>
     </div>
     <div class="overlay sheetwrap" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
-      <div class="sheet" id="sheet-panel"><div class="grab" aria-hidden="true"></div><div class="sheet-head"><div class="lights"><button class="c" data-act="close" aria-label="${t.close}"></button><button class="m" data-act="close" aria-label="${t.minimize}"></button><button class="x" data-act="max" aria-label="${t.maximize}"></button></div><b id="sheet-title"></b><button class="xbtn" data-act="close" aria-label="${t.close}">${ICON.x}</button></div><div class="sheet-body" id="sheet-body"></div></div>
+      <div class="sheet" id="sheet-panel"><div class="grab" aria-hidden="true"></div><div class="sheet-head"><div class="lights"><button class="c" data-act="close" aria-label="${t.close}"></button><button class="m" data-act="close" aria-label="${t.minimize}"></button><button class="x" data-act="max" aria-label="${t.maximize}"></button></div><b id="sheet-title">${esc(profile.short)}</b><button class="xbtn" data-act="close" aria-label="${t.close}">${ICON.x}</button></div><div class="sheet-body" id="sheet-body"></div></div>
     </div>
     <button class="toast" id="toast" aria-live="polite"></button>
   </main>`;
@@ -130,7 +133,7 @@ function homeHTML(cur) {
   const h = t.homeX;
   const metric = (p) => (p.id === 'lookit' && live.lookit ? h.lookitM(fmt(live.lookit.products)) : tr(p.metric));
   const card = (p, k) => `<button class="fc${k < 2 ? ' big' : ''}" data-go="${k + 1}" style="--tint:${p.tint}">
-      <img src="${shot(p.shots[0][0])}" alt="" draggable="false">
+      <img src="${shot(p.shots[0][0])}" alt="" loading="lazy" decoding="async" draggable="false">
       <span class="fcx">${appIcon(p)}<span><b>${esc(tr(p.cardName || p.name))}</b><small>${esc(metric(p))}</small></span>${p.live ? `<i class="dot" title="${t.live}"></i>` : ''}</span>
     </button>`;
   return `
@@ -161,15 +164,15 @@ const linkBtns = (p, primary = false) =>
 function projectHTML(p, k, cur) {
   const stats = statsFor(p);
   const slides = `<div class="shot">
-      ${p.shots.map(([n, fx]) => `<div class="slide ${fx}"><img src="${shot(n)}" alt="${esc(t.shotOf(tr(p.name)))}" loading="lazy" draggable="false"></div>`).join('')}
-      ${p.phone ? `<div class="slide m phone-only"><img src="${shot(p.phone)}" alt="${esc(t.onPhone(tr(p.name)))}" loading="lazy" draggable="false"></div>` : ''}
+      ${p.shots.map(([n, fx]) => `<div class="slide ${fx}">${visual(n, fx, t.shotOf(tr(p.name)))}</div>`).join('')}
+      ${p.phone ? `<div class="slide m phone-only${p.phoneVid ? ' vid' : ''}">${visual(p.phone, p.phoneVid ? 'vid' : '', t.onPhone(tr(p.name)))}</div>` : ''}
       <div class="pips">${p.shots.map(() => '<i></i>').join('')}</div>
     </div>`;
   const media = p.aqua
     ? `<div class="mtabs"><div class="seg" role="group">${t.tabs.map(([k2, l], j) => `<button data-pane="${k2}" aria-pressed="${j === 0}">${l}</button>`).join('')}</div></div>
        <div class="pane on" data-p="sim"></div><div class="pane" data-p="hist"></div><div class="pane" data-p="prec"></div>
        <div class="pane" data-p="app">${slides}<p class="cap">${t.appCap}</p></div>`
-    : `${slides}${p.phone ? `<div class="phoneshot"><img src="${shot(p.phone)}" alt="" loading="lazy" draggable="false"></div>` : ''}<p class="cap">${p.shotNote ? esc(tr(p.shotNote)) : `${t.realShot} · ${esc(tr(p.url))}`}</p>`;
+    : `${slides}${p.phone ? `<div class="phoneshot">${visual(p.phone, p.phoneVid ? 'vid' : '', '')}</div>` : ''}<p class="cap">${p.shotNote ? esc(tr(p.shotNote)) : `${t.realShot} · ${esc(tr(p.url))}`}</p>`;
   return `
   <section class="space${cur ? ' cur' : ''}" data-i="${k + 1}" aria-label="${esc(tr(p.name))}"><div class="win">
     <div class="titlebar"><div class="lights"><button class="c" data-act="home" aria-label="${t.toHome}"></button><button class="m" data-act="overview" aria-label="${t.toAll}"></button><button class="x" data-act="max" aria-label="${t.maximize}"></button></div><div class="ttl">${esc(tr(p.name))}<small>${esc(tr(p.url))}</small></div><div></div></div>
@@ -283,20 +286,34 @@ function countUp(b) {
   };
   requestAnimationFrame(step);
 }
+function playVideos() {
+  // Solo suenan (en silencio) los vídeos del proyecto visible y de la diapositiva activa
+  track.querySelectorAll('video').forEach((v) => {
+    const sp = v.closest('.space'), sl = v.closest('.slide');
+    const visible = sp === spaces[i] && (!sl || sl.classList.contains('on')) && !(v.closest('.phoneshot') && mode === 'phone');
+    if (visible && !reduced()) { if (v.preload === 'none') v.preload = 'auto'; v.play().catch(() => {}); } else v.pause();
+  });
+}
 function startSlides() {
-  clearInterval(slideTimer);
+  clearTimeout(slideTimer);
   track.querySelectorAll('.slide.on').forEach((s) => s.classList.remove('on'));
   const sp = spaces[i];
-  if (!sp || i === 0) return;
+  if (!sp || i === 0) { playVideos(); return; }
   const appPane = sp.querySelector('[data-p="app"]');
   if (appPane && !appPane.classList.contains('on')) return;
   let slides = [...sp.querySelectorAll('.slide')].filter((s) => mode === 'phone' || !s.classList.contains('phone-only'));
   if (mode === 'phone') { const m = slides.find((s) => s.classList.contains('m')); if (m) slides = [m, ...slides.filter((s) => s !== m && !s.classList.contains('tall'))]; }
   const pips = [...sp.querySelectorAll('.pips i')];
   let k = 0;
-  const show = () => { slides.forEach((s, j) => s.classList.toggle('on', j === k)); pips.forEach((p, j) => p.classList.toggle('on', j === k % pips.length)); };
+  const show = () => { slides.forEach((s, j) => s.classList.toggle('on', j === k)); pips.forEach((p, j) => p.classList.toggle('on', j === k % pips.length)); playVideos(); };
+  // Las fotos duran 6 s; un vídeo, lo que dura una vuelta (mínimo 6 s)
+  const next = () => {
+    const v = slides[k]?.querySelector('video');
+    const ms = v && v.duration ? Math.max(6000, v.duration * 1000) : v ? 10000 : 6000;
+    slideTimer = setTimeout(() => { k = (k + 1) % slides.length; show(); next(); }, ms);
+  };
   show();
-  if (slides.length > 1) slideTimer = setInterval(() => { k = (k + 1) % slides.length; show(); }, 6000);
+  if (slides.length > 1) next();
 }
 function hideHint() { hinted = true; $('#hint')?.classList.add('gone'); }
 addEventListener('hashchange', () => { const k = SP.findIndex((s) => s.id === location.hash.slice(1)); if (k >= 0 && k !== i) go(k); });
@@ -718,7 +735,7 @@ const data = Promise.all([
   fetch('data/live.json').then((r) => (r.ok ? r.json() : null)).catch(() => null),
   loadAqua().catch(() => null),
 ]).then(([l, a]) => { if (l) live = { ...live, ...l }; aquaData = a; ready = true; });
-await Promise.race([data, sleep(900)]);
+await Promise.race([data, sleep(250)]);
 const readyAtMount = ready;
 mount(true);
 if (!readyAtMount) data.then(() => render(false));

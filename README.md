@@ -1,55 +1,61 @@
-# Portfolio · escritorio
+# Alberto Estrada Gómez · Portfolio
 
-Escritorio tipo Mac en pantallas grandes e interfaz tipo iOS en el móvil. Un gesto = un proyecto.
-HTML, CSS y JavaScript sin framework ni dependencias.
+**https://albertoesgo.github.io/portfolio/** · [Vista clásica](https://albertoesgo.github.io/portfolio/clasica.html) · [English](https://albertoesgo.github.io/portfolio/classic.html)
 
-```bash
-npm run dev      # compila y abre http://localhost:4321
-npm run build    # solo compila (CV, datos en vivo, enlaces y vista clásica)
-npm test         # comprueba el contenido (ES/EN completos, capturas, enlaces y estados)
+![Portada del portfolio](og.jpg)
+
+Mi portfolio como sistema operativo: un escritorio tipo Mac en pantallas grandes y una interfaz tipo iOS en el móvil, donde cada proyecto es una ventana y un gesto lleva al siguiente.
+Debajo hay una vista clásica, de una sola página, para buscadores, lectores de pantalla y quien prefiera leer.
+
+> *My portfolio as an operating system: a Mac-style desktop on large screens and an iOS-style interface on phones. Bilingual (ES/EN), light and dark themes, plus a classic one-page view.*
+
+## Decisiones
+
+- **Sin framework ni dependencias.** HTML, CSS y JavaScript con módulos nativos. Carga rápida y nada que actualizar.
+- **Una sola fuente de contenido.** Proyectos, casos de estudio y experiencia viven en `js/data.js`, en español e inglés. De ahí salen el escritorio y la vista clásica.
+- **Cifras reales.** Las de LOOKIT se leen de su API en cada build; el build falla si el enlace de un proyecto deja de responder, así que nada sale «En producción» sin estarlo.
+- **Datos de verdad en el TFG.** Los gráficos del simulador usan las trayectorias que generó el propio modelo (GCN-LSTM), no datos de ejemplo.
+- **Accesible.** Navegación con teclado, foco visible, `prefers-reduced-motion`, contraste AA y la vista clásica como alternativa sin JavaScript.
+
+## Cómo se usa
+
+| Gesto | Acción |
+|---|---|
+| Deslizar, dos dedos en el trackpad, rueda o ← → | Proyecto anterior o siguiente |
+| Pellizcar o ↑ | Vista general con filtros |
+| ⌘K | Buscar por proyecto o tecnología |
+
+Enlaces directos: `#aqua`, `#lookit`, `#sinapsis`, `#lucia`, `#wild`, `#detemp`. Idioma con `?lang=en`.
+
+## Estructura
+
+```
+index.html          escritorio (monta js/os.js)
+clasica.html        vista clásica en español  ┐ generadas por scripts/build.mjs
+classic.html        vista clásica en inglés   ┘
+js/data.js          contenido (ES/EN)
+js/i18n.js          textos de la interfaz (ES/EN)
+js/os.js            escritorio: ventanas, gestos, Dock, Spotlight, hojas
+js/aqua.js          gráficos del TFG (SVG) a partir de data/aqua.json
+css/                estilos del escritorio y de la vista clásica
+img/shots/          capturas reales de cada proyecto (WebP) y vídeos (MP4)
+scripts/build.mjs   CV, datos en vivo, comprobación de enlaces y vista clásica
+tests/              coherencia del contenido (node --test)
 ```
 
-`build` hace cuatro cosas:
-1. Copia **un solo CV público** (perfil `automation`, sin teléfono) desde `~/Proyectos/cv/out-web` a `cv/…_ES.pdf` y `cv/…_EN.pdf` (antes, `node build.mjs` en `~/Proyectos/cv`). Las otras versiones son solo para uso privado.
-2. Lee las cifras reales de lookit.es → `data/live.json`; esas cifras son las que se ven en la portada, la ficha, el caso de estudio y la vista clásica. Si lookit.es no responde, conserva la última cifra buena.
-3. Comprueba que el enlace de cada proyecto responde. Si uno falla, avisa y termina con error: un proyecto solo sale «En producción» (`live: true`) si su URL funciona.
-4. Genera la vista clásica en español (`clasica.html`) y en inglés (`classic.html`).
+## Desarrollo
 
-Idioma: botón ES/EN (o `?lang=en`); se recuerda en el navegador. Tema claro/oscuro: botón de luna/sol; por defecto, el del sistema.
+Requiere Node 18 o posterior; no hay que instalar nada.
 
-## Dónde se cambia cada cosa
+```bash
+npm run dev      # compila y sirve en http://localhost:4321
+npm test         # contenido completo en ES y EN, capturas, vídeos, enlaces y estados
+```
 
-| Qué | Dónde |
-|---|---|
-| Textos, proyectos, casos de estudio, experiencia (ES y EN) | `js/data.js` (fuente única para el escritorio y la vista clásica) |
-| Frase llana de cada proyecto (`plain`) | `js/data.js` |
-| Textos de la interfaz (ES y EN) | `js/i18n.js` |
-| Comportamiento del escritorio (gestos, Dock, Spotlight, hojas) | `js/os.js` |
-| Gráficos del TFG | `js/aqua.js` + `data/aqua.json` |
-| Estilos | `css/os.css` (escritorio) y `css/clasica.css` |
-| Capturas | `img/shots/*.webp` (originales y scripts en `../capturas/`) |
-| Logos reales de cada proyecto | `img/logos/` |
+`npm run build` copia el CV público, actualiza `data/live.json`, comprueba los enlaces, genera la vista clásica y versiona CSS y JS con un hash del contenido. El CV se genera aparte, en un repositorio privado; aquí solo se publica la versión sin teléfono.
 
-`data/aqua.json` sale del modelo del TFG (trayectorias a 90 días de los 5 escenarios y el histórico 2002–2024).
-Para regenerarlo hace falta el repo del TFG y su entorno `venv_dl`.
+Se publica con GitHub Pages desde `main`. La imagen para compartir (`og.jpg`, 1200 × 630) es una captura de `index.html?og`. Las capturas de Sinapsis son de su modo demostración, nunca con datos reales.
 
-## Controles
+---
 
-- Deslizar con el dedo, dos dedos en el trackpad, rueda del ratón o ← → para cambiar de proyecto.
-- Pellizcar o ↑ para la vista general con filtros. ⌘K para buscar.
-- Enlaces directos a cada proyecto: `#aqua`, `#lookit`, `#sinapsis`, `#lucia`, `#wild`, `#detemp`.
-
-Las capturas de Sinapsis son del modo demostración (`npm run demo` en `~/Proyectos/sinapsis`): nunca publicar capturas con datos reales.
-
-## Publicación
-
-GitHub Pages desde la rama `main` (raíz) → https://albertoesgo.github.io/portfolio/
-Para actualizar: `npm run build`, commit y `git push`. Las cifras en vivo se refrescan en cada `build`.
-
-La imagen para compartir (`og.jpg`, 1200 × 630) es una captura de `index.html?og` (sin la notificación).
-Rehacerla cuando cambien los proyectos; LinkedIn la guarda en caché (Post Inspector la refresca).
-
-## Pendiente
-
-- [ ] TFG: el botón «Código en GitHub» apunta al repo del tutor (rama `entrega-tfg`); cambiar `repo` si se prefiere un fork propio.
-- [ ] Dominio propio (y cambiar `og:url`, `og:image` y `canonical` en `index.html`).
+© Alberto Estrada Gómez. Los textos, las capturas y los logos de los proyectos no se pueden reutilizar.

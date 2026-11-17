@@ -39,6 +39,8 @@ for (const p of projects) {
   test(`${p.id}: capturas y logo existen`, () => {
     assert.ok(existsSync(join(SITE, p.logo)), p.logo);
     for (const n of [...p.shots.map(([s]) => s), p.phone].filter(Boolean)) assert.ok(existsSync(join(SITE, 'img', 'shots', `${n}.webp`)), n);
+    // Un vídeo necesita su mp4 y su póster .webp
+    for (const n of [...p.shots.filter(([, fx]) => fx === 'vid').map(([s]) => s), p.phoneVid ? p.phone : null].filter(Boolean)) assert.ok(existsSync(join(SITE, 'img', 'shots', `${n}.mp4`)), `${n}.mp4`);
   });
 
   test(`${p.id}: «En producción» solo con enlace público`, () => {
