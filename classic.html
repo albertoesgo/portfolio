@@ -13,7 +13,7 @@
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <script>try { var t = localStorage.getItem('ae-theme'); if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t; } catch (e) {}</script>
 <style>@font-face { font-family: 'Inter'; src: url(fonts/inter-latin-ext.woff2) format('woff2'); font-weight: 100 900; font-display: swap; }</style>
-<link rel="stylesheet" href="css/clasica.css?v=610356d9df">
+<link rel="stylesheet" href="css/clasica.css?v=75e5172f10">
 </head>
 <body>
 <header class="bar">
@@ -43,7 +43,7 @@
 
   <section id="projects">
     <h2>Selected projects</h2>
-    <ol class="index"><li><a href="#aqua"><span class="num">01</span><b>Spatio-temporal reservoir forecasting</b><span class="it">How much water will Málaga's reservoirs hold one to three months from now? A system that forecasts it and lets you simulate what happens if it doesn't rain.</span></a></li><li><a href="#lookit"><span class="num">02</span><b>LOOKIT</b><span class="it">A search engine that brings the clothing of 24 independent Spanish brands into one place and alerts you to drops and price cuts.</span></a></li><li><a href="#lucia"><span class="num">03</span><b>Lucía Gascón</b><span class="it">A painter's website you walk through like an exhibition: one gesture takes you from one painting to the next.</span></a></li><li><a href="#wild"><span class="num">04</span><b>WildCamper</b><span class="it">The website a camper-van workshop uses to sell, rent and manage bookings, and which the workshop itself updates without touching code.</span></a></li><li><a href="#detemp"><span class="num">05</span><b>DeTemporada</b><span class="it">An app that tells you which foods are in season in your region, what they cost and where to buy them nearby.</span></a></li></ol>
+    <ol class="index"><li><a href="#aqua"><span class="num">01</span><b>Spatio-temporal reservoir forecasting</b><span class="it">How much water will Málaga's reservoirs hold one to three months from now? A system that forecasts it and lets you simulate what happens if it doesn't rain.</span></a></li><li><a href="#lookit"><span class="num">02</span><b>LOOKIT</b><span class="it">A search engine that brings the clothing of 24 independent Spanish brands into one place and alerts you to drops and price cuts.</span></a></li><li><a href="#sinapsis"><span class="num">03</span><b>Sinapsis</b><span class="it">A dashboard that shows me, in real time, how I work with AI across all my projects: what the agent does, how much context each session drags along and what it would cost, drawn as a 3D brain.</span></a></li><li><a href="#lucia"><span class="num">04</span><b>Lucía Gascón</b><span class="it">A painter's website you walk through like an exhibition: one gesture takes you from one painting to the next.</span></a></li><li><a href="#wild"><span class="num">05</span><b>WildCamper</b><span class="it">The website a camper-van workshop uses to sell, rent and manage bookings, and which the workshop itself updates without touching code.</span></a></li><li><a href="#detemp"><span class="num">06</span><b>DeTemporada</b><span class="it">An app that tells you which foods are in season in your region, what they cost and where to buy them nearby.</span></a></li></ol>
     
     <article class="proj" id="aqua" style="--tint:#2e7d46">
       <header class="ph">
@@ -89,10 +89,32 @@
       </details>
       <footer class="pf"><p class="stack"><span>Next.js 16</span><span>React 19</span><span>TypeScript</span><span>Cloudflare Pages</span><span>Functions</span><span>Upstash Redis</span><span>Web Push</span><span>Gemini</span></p><span class="links"><a class="btn sec" href="https://lookit.es" rel="noopener">Open lookit.es ↗</a></span></footer>
     </article>
+    <article class="proj" id="sinapsis" style="--tint:#6f6cf6">
+      <header class="ph">
+        <img class="logo" src="img/logos/sinapsis.png" alt="" width="64" height="64" style="background:transparent">
+        <div><p class="kind"><span class="num">03</span> Own tool · Open source · 2026 <span class="soon">Open source</span></p><h3>Sinapsis</h3></div>
+      </header>
+      <p class="plain">A dashboard that shows me, in real time, how I work with AI across all my projects: what the agent does, how much context each session drags along and what it would cost, drawn as a 3D brain.</p>
+      <p class="tagline">Observability for AI agents: a Node server incrementally reads Claude Code’s logs and streams them over Server-Sent Events to a three.js brain, with usage panels, per-session context, alerts and a weekly report.</p>
+      <figure class="shot"><img src="img/shots/sinapsis-home.webp" alt="Screenshot of Sinapsis" loading="lazy" width="1280" height="800"></figure>
+      <dl class="stats"><div><dt>8</dt><dd>brain regions, one per kind of activity</dd></div><div><dt>110,000</dt><dd>particles in the 3D brain, with activation waves in the shader</dd></div><div><dt>0</dt><dd>requests to the internet: the data never leaves the computer</dd></div></dl>
+      <ul class="checks hl"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Observability for AI agents: tokens, cost by project, model and agent, cache usage and per-session context, built from the real logs.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Incremental ingestion by byte offset, with message-id deduplication and an on-disk cache: it only processes what is new and streams it live over Server-Sent Events.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Procedural 3D visualisation in three.js (Perlin-noise folds and some 110,000 particles) and a mobile version over the local network, protected by a key.</span></li></ul>
+      <details class="more">
+        <summary><span class="open">Read the full case study</span><span class="close">Hide details</span></summary>
+        <p class="myrole"><b>My role</b> Solo project: concept, ingestion server, 3D visualisation and dashboards.</p>
+        <h4>The challenge</h4><p>I work with AI agents every day across several projects at once, and usage is invisible: on every step the model re-reads the whole session context — hundreds of tokens read for each one it writes — and a long session gets expensive without warning. The logs exist, but they are thousands of JSON lines per project.</p>
+        <h4>The solution</h4><p>An always-on Node server (macOS LaunchAgent) that incrementally reads Claude Code’s logs, aggregates tokens, cost, tools, skills, subagents, connectors and memory, and streams them live to a web interface: a 3D brain where every real event travels as an impulse, with usage panels, per-session context, alerts and a weekly report that says what to change.</p>
+        <h4>Architecture</h4><dl class="arch"><div><dt>Ingestion</dt><dd>Incremental reading of the .jsonl logs by byte offset · message-id deduplication · on-disk cache</dd></div><div><dt>Real time</dt><dd>Server-Sent Events to the browser · accelerated replay of the last 24 h</dd></div><div><dt>Visualisation</dt><dd>three.js: procedural anatomy (Perlin noise, sulci, cerebellum), ~110,000 particles and activation waves in the shader</dd></div><div><dt>Usage</dt><dd>Cost at public API prices by project, model and agent · per-session context with 200 k, 400 k and 600 k thresholds · weekly report</dd></div><div><dt>Alerts</dt><dd>macOS and in-app notifications · optionally to the phone via ntfy</dd></div><div><dt>Access</dt><dd>Local only by default · home network with a secret key and QR code · installable on the phone</dd></div></dl>
+        <h4>Key technical decisions</h4><ol class="dec"><li>Nothing leaves the computer: the server makes no internet requests and listens locally by default; phone access requires a self-generated key.</li><li>Incremental ingestion instead of re-reading the history: the first pass is cached and from then on only new data is processed, every second or so.</li><li>Context as the main metric, because it drives usage: every open session gets a green, amber or red gauge and an alert when it is time to compact or start fresh.</li><li>Data over metaphor: a neuron or connection only exists if the event really happened, and its size and brightness follow real usage.</li><li>Each project sits in the brain region that matches what it does most (planning, executing, researching and writing, or working with images), compared with the average.</li><li>Honest about limits: the model’s internal activations are not accessible, so the app itself explains what is real and what is an estimate.</li></ol>
+        <h4>Results</h4><ul class="checks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>I use it every day: it runs permanently on my Mac and I check it from my phone too.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>It flags the sessions that re-read the most context and suggests compacting or starting fresh before usage spikes.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Open source (MIT), with a demo mode to show it without real data.</span></li></ul>
+        <h4>Next step</h4><p>Secure access away from home and week-over-week comparisons by type of task.</p>
+      </details>
+      <footer class="pf"><p class="stack"><span>Node.js</span><span>Server-Sent Events</span><span>three.js</span><span>WebGL · shaders</span><span>launchd</span><span>PWA</span></p><span class="links"><a class="btn sec" href="https://github.com/albertoesgo/sinapsis" rel="noopener">Code on GitHub ↗</a></span></footer>
+    </article>
     <article class="proj" id="lucia" style="--tint:#8c2f28">
       <header class="ph">
         <img class="logo" src="img/logos/lucia-gascon.png" alt="" width="64" height="64" style="background:transparent">
-        <div><p class="kind"><span class="num">03</span> Client · Artist website · 2026 <span class="live"><i></i>Live</span></p><h3>Lucía Gascón</h3></div>
+        <div><p class="kind"><span class="num">04</span> Client · Artist website · 2026 <span class="live"><i></i>Live</span></p><h3>Lucía Gascón</h3></div>
       </header>
       <p class="plain">A painter's website you walk through like an exhibition: one gesture takes you from one painting to the next.</p>
       <p class="tagline">A WebGL (three.js) 3D gallery with rail-guided navigation, true metric scale and a serverless CMS on Cloudflare.</p>
@@ -114,7 +136,7 @@
     <article class="proj" id="wild" style="--tint:#e8892b">
       <header class="ph">
         <img class="logo" src="img/logos/wildcamper.png" alt="" width="64" height="64" style="background:transparent">
-        <div><p class="kind"><span class="num">04</span> Client · Business platform · 2026 <span class="live"><i></i>Live</span></p><h3>WildCamper</h3></div>
+        <div><p class="kind"><span class="num">05</span> Client · Business platform · 2026 <span class="live"><i></i>Live</span></p><h3>WildCamper</h3></div>
       </header>
       <p class="plain">The website a camper-van workshop uses to sell, rent and manage bookings, and which the workshop itself updates without touching code.</p>
       <p class="tagline">A sales, rental and booking platform on Supabase (PostgreSQL + RLS) with an admin panel that configures the whole site.</p>
@@ -136,7 +158,7 @@
     <article class="proj" id="detemp" style="--tint:#f0531c">
       <header class="ph">
         <img class="logo" src="img/logos/detemporada.svg" alt="" width="64" height="64" style="background:transparent">
-        <div><p class="kind"><span class="num">05</span> Own product · PWA · 2026 <span class="live"><i></i>Live</span></p><h3>DeTemporada</h3></div>
+        <div><p class="kind"><span class="num">06</span> Own product · PWA · 2026 <span class="live"><i></i>Live</span></p><h3>DeTemporada</h3></div>
       </header>
       <p class="plain">An app that tells you which foods are in season in your region, what they cost and where to buy them nearby.</p>
       <p class="tagline">An offline-first PWA that combines official seasonal calendars with a geocoded directory of local shops across all 17 Spanish regions.</p>

@@ -52,6 +52,7 @@ button:disabled { cursor: default; }
 .w-lookit { background: radial-gradient(60% 70% at 25% 20%, #f1ffb8 0%, transparent 60%), radial-gradient(60% 70% at 80% 80%, #3a3a3c 0%, transparent 65%), #a7ad8f; }
 .w-lucia  { background: radial-gradient(60% 70% at 20% 25%, #f3e6d6 0%, transparent 60%), radial-gradient(55% 65% at 85% 75%, #8c2f28 0%, transparent 65%), #d9b9a0; }
 .w-wild   { background: radial-gradient(60% 70% at 25% 15%, #f7c98b 0%, transparent 60%), radial-gradient(60% 70% at 80% 85%, #3d5a3a 0%, transparent 65%), #c98f52; }
+.w-sinapsis { background: radial-gradient(55% 60% at 30% 30%, #3b3f8f 0%, transparent 62%), radial-gradient(50% 60% at 80% 75%, #1f6f7a 0%, transparent 65%), #141a2e; }
 .w-detemp { background: radial-gradient(60% 70% at 20% 20%, #ffd39b 0%, transparent 60%), radial-gradient(55% 65% at 85% 80%, #6aa84f 0%, transparent 65%), #f2a25a; }
 
 /* Barra de menús */
@@ -234,7 +235,6 @@ button:disabled { cursor: default; }
 .feat { height: 100%; max-height: 680px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1.35fr 1fr 1fr; gap: 14px; }
 .fc { position: relative; border: 0; padding: 0; border-radius: 18px; overflow: hidden; cursor: pointer; background: color-mix(in srgb, var(--tint) 35%, #111); box-shadow: 0 14px 40px -12px rgba(0,0,0,.35), 0 0 0 .5px rgba(0,0,0,.12); text-align: left; color: #fff;
   transition: transform .45s var(--spring), box-shadow .3s ease; min-height: 0; }
-.fc.big { grid-column: 1 / 3; }
 .fc img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 1.2s var(--ease); }
 .fc::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,.35)); }
 .mac .fc:hover { transform: translateY(-4px); box-shadow: 0 22px 50px -14px rgba(0,0,0,.45), 0 0 0 .5px rgba(0,0,0,.12); }
@@ -244,9 +244,6 @@ button:disabled { cursor: default; }
 .fcx .ai { width: 36px; height: 36px; }
 .fcx b { display: block; font-size: 16px; font-weight: 700; letter-spacing: -.01em; }
 .fcx small { display: block; font-size: 12px; opacity: .85; font-variant-numeric: tabular-nums; }
-.fc.big .fcx .ai { width: 44px; height: 44px; }
-.fc.big .fcx b { font-size: 20px; }
-.fc.big .fcx small { font-size: 14px; }
 .fcx .dot { width: 8px; height: 8px; border-radius: 50%; background: #30d158; box-shadow: 0 0 0 3px rgba(48,209,88,.25); animation: pulse 2s ease-in-out infinite; }
 .w-profile { grid-column: 1 / 3; display: grid; grid-template-columns: 76px 1fr; gap: 16px; align-items: center; }
 .avatar { width: 76px; height: 76px; border-radius: 50%; background: linear-gradient(150deg, #34c3c8, #0a63c9); color: #fff; display: grid; place-items: center; font-size: 28px; font-weight: 700; letter-spacing: -.03em; flex: none; }
@@ -434,21 +431,20 @@ button:disabled { cursor: default; }
 /* Inicio (móvil): quién soy, CV y contacto a mano, y los proyectos como una fila de apps */
 .phone .home { inset: calc(16px + env(safe-area-inset-top, 0px)) 12px calc(150px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; align-items: stretch; gap: 0; overflow-y: auto; scrollbar-width: none; padding: 10px 8px 0; }
 .phone .hero, .phone .feat { display: none; }
-.phone .w-profile { display: block; margin: auto 0 0; padding-top: 18px; }
+.phone .w-profile { display: block; margin: auto 0 0; padding-top: 14px; }
 .phone .w-profile .hi { display: inline-flex; align-items: center; gap: 7px; margin: 0; padding: 6px 11px; border-radius: 980px; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); font-size: 13px; font-weight: 600; }
 .phone .w-profile .hi i { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
-.phone .w-profile h1 { margin: 16px 0 0 -2px; font-size: clamp(36px, 11vw, 46px); line-height: 1; letter-spacing: -.045em; }
-.w-profile .pitch { margin: 14px 0 0; max-width: 19em; font-size: 18px; line-height: 24px; font-weight: 500; letter-spacing: -.015em; color: var(--label); opacity: .74; text-wrap: pretty; }
-.phone .w-profile .actions { display: flex; gap: 10px; margin-top: 20px; }
+.phone .w-profile h1 { margin: 14px 0 0 -2px; font-size: clamp(34px, 10vw, 40px); line-height: 1; letter-spacing: -.045em; }
+.w-profile .pitch { margin: 12px 0 0; max-width: 19em; font-size: 17px; line-height: 23px; font-weight: 500; letter-spacing: -.015em; color: var(--label); opacity: .74; text-wrap: pretty; }
+.phone .w-profile .actions { display: flex; gap: 10px; margin-top: 16px; }
 .phone .w-profile .btn { flex: 1; justify-content: center; }
 .phone .w-profile .btn svg { width: 18px; height: 18px; }
 .phone .w-profile .btn.sec { background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-.phone .icons { display: block; margin: auto 0; padding: 26px 0 8px; }
-.phone .icons h2 { margin: 0 0 12px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--label2); }
-.phone .irow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; }
-.phone .icons .dicon { padding: 0; gap: 6px; font-size: 11px; line-height: 13px; font-weight: 500; letter-spacing: -.02em; }
-.phone .icons .dicon span { margin: 0 -6px; }
-.phone .icons .dicon .ai { width: min(58px, 100%); height: auto; aspect-ratio: 1; box-shadow: 0 6px 16px -8px rgba(0,0,0,.35); }
+.phone .icons { display: block; margin: auto 0; padding: 18px 0 4px; }
+.phone .icons h2 { margin: 0 0 10px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--label2); }
+.phone .irow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 4px; }
+.phone .icons .dicon { padding: 0; gap: 6px; font-size: 12px; line-height: 13px; font-weight: 500; letter-spacing: -.02em; }
+.phone .icons .dicon .ai { width: min(54px, 100%); height: auto; aspect-ratio: 1; box-shadow: 0 6px 16px -8px rgba(0,0,0,.35); }
 .phone .info { display: block; }
 .phone .info-in { overflow: visible; padding: 20px 20px 0; gap: 16px; }
 .phone .info-foot { border-top: 0; padding: 18px 20px; }

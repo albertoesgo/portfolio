@@ -114,6 +114,7 @@ export const filters = [
 export const projects = [
   {
     id: 'aqua', name: { es: 'Predicción espaciotemporal de embalses', en: 'Spatio-temporal reservoir forecasting' }, short: { es: 'TFG', en: 'Thesis' }, cats: ['ia'], live: false,
+    cardName: { es: 'Predicción de embalses · TFG', en: 'Reservoir forecasting · Thesis' },
     metric: { es: 'Simula cinco escenarios de lluvia a 90 días', en: 'Simulate five rainfall scenarios, 90 days ahead' },
     plain: {
       es: '¿Cuánta agua tendrán los embalses de Málaga dentro de uno a tres meses? Un sistema que lo predice y deja simular qué pasa si no llueve.',
@@ -269,6 +270,83 @@ export const projects = [
         en: ['24 catalogues and close to 9,000 products indexed and rebuilt every 2 hours at lookit.es, with no servers of my own.', 'Web Push and email alerts with no user sign-up.', 'Social content generated from code: Remotion, AI background segmentation and Whisper-aligned voiceover.'],
       },
       next: { es: 'Métricas de uso públicas, recomendaciones personalizadas y más catálogos.', en: 'Public usage metrics, personalised recommendations and more catalogues.' },
+    },
+  },
+  {
+    // Herramienta local: no tiene URL pública. Las capturas son del modo demostración (datos sintéticos), nunca con datos reales.
+    id: 'sinapsis', name: 'Sinapsis', cats: ['ia', 'prod'], live: false,
+    status: { es: 'Código abierto', en: 'Open source' },
+    metric: { es: 'Consumo de mis agentes de IA, en directo', en: 'My AI agents’ usage, live' },
+    plain: {
+      es: 'Un panel que me enseña en tiempo real cómo trabajo con IA en todos mis proyectos: qué hace el agente, cuánto contexto arrastra cada sesión y cuánto costaría, dibujado como un cerebro en 3D.',
+      en: 'A dashboard that shows me, in real time, how I work with AI across all my projects: what the agent does, how much context each session drags along and what it would cost, drawn as a 3D brain.',
+    },
+    kind: { es: 'Herramienta propia · Código abierto · 2026', en: 'Own tool · Open source · 2026' },
+    logo: 'img/logos/sinapsis.png', plate: null, tint: '#6f6cf6', wall: 'sinapsis',
+    url: { es: 'Herramienta local · código abierto', en: 'Local tool · open source' },
+    shotNote: { es: 'Modo demostración · datos sintéticos', en: 'Demo mode · synthetic data' },
+    tagline: {
+      es: 'Observabilidad para agentes de IA: un servidor Node lee de forma incremental los registros de Claude Code y los emite por Server-Sent Events a un cerebro en three.js, con paneles de consumo, contexto por sesión, avisos e informe semanal.',
+      en: 'Observability for AI agents: a Node server incrementally reads Claude Code’s logs and streams them over Server-Sent Events to a three.js brain, with usage panels, per-session context, alerts and a weekly report.',
+    },
+    stats: {
+      es: [['8', 'regiones del cerebro, una por tipo de actividad'], ['110.000', 'partículas en el cerebro 3D, con ondas de activación en el shader'], ['0', 'peticiones a internet: los datos no salen del ordenador']],
+      en: [['8', 'brain regions, one per kind of activity'], ['110,000', 'particles in the 3D brain, with activation waves in the shader'], ['0', 'requests to the internet: the data never leaves the computer']],
+    },
+    proves: {
+      es: [
+        'Observabilidad de agentes de IA: tokens, coste por proyecto, modelo y agente, uso de la caché y contexto por sesión, a partir de los registros reales.',
+        'Ingesta incremental por desplazamiento de bytes, con deduplicación por id de mensaje y caché en disco: solo procesa lo nuevo y lo emite en directo por Server-Sent Events.',
+        'Visualización 3D procedural en three.js (circunvoluciones con ruido de Perlin y unas 110.000 partículas) y versión móvil por la red local, protegida con clave.',
+      ],
+      en: [
+        'Observability for AI agents: tokens, cost by project, model and agent, cache usage and per-session context, built from the real logs.',
+        'Incremental ingestion by byte offset, with message-id deduplication and an on-disk cache: it only processes what is new and streams it live over Server-Sent Events.',
+        'Procedural 3D visualisation in three.js (Perlin-noise folds and some 110,000 particles) and a mobile version over the local network, protected by a key.',
+      ],
+    },
+    stack: ['Node.js', 'Server-Sent Events', 'three.js', 'WebGL · shaders', 'launchd', 'PWA'],
+    shots: [['sinapsis-home', 'kb'], ['sinapsis-report', 'kb']], phone: 'sinapsis-mobile',
+    link: null, linkLabel: null,
+    repo: 'https://github.com/albertoesgo/sinapsis',
+    keys: 'sinapsis claude code agentes agents ia ai llm observabilidad observability tokens coste cost consumo usage contexto context caché cache node sse server-sent events three threejs 3d webgl shaders cerebro brain panel dashboard tiempo real real time launchd macos pwa código abierto open source',
+    case: {
+      role: { es: 'Proyecto individual: idea, servidor de ingesta, visualización 3D y paneles.', en: 'Solo project: concept, ingestion server, 3D visualisation and dashboards.' },
+      problem: {
+        es: 'Trabajo a diario con agentes de IA en varios proyectos a la vez y el consumo no se ve: en cada paso el modelo relee todo el contexto de la sesión —cientos de tokens leídos por cada uno que escribe— y una sesión larga se encarece sin avisar. Los registros existen, pero son miles de líneas JSON por proyecto.',
+        en: 'I work with AI agents every day across several projects at once, and usage is invisible: on every step the model re-reads the whole session context — hundreds of tokens read for each one it writes — and a long session gets expensive without warning. The logs exist, but they are thousands of JSON lines per project.',
+      },
+      solution: {
+        es: 'Un servidor Node siempre encendido (LaunchAgent de macOS) que lee los registros de Claude Code de forma incremental, agrega tokens, coste, herramientas, skills, subagentes, conectores y memoria, y los emite en directo a una interfaz web: un cerebro 3D donde cada evento real viaja como un impulso, con paneles de consumo, contexto por sesión, avisos y un informe semanal que dice qué cambiar.',
+        en: 'An always-on Node server (macOS LaunchAgent) that incrementally reads Claude Code’s logs, aggregates tokens, cost, tools, skills, subagents, connectors and memory, and streams them live to a web interface: a 3D brain where every real event travels as an impulse, with usage panels, per-session context, alerts and a weekly report that says what to change.',
+      },
+      arch: {
+        es: [['Ingesta', 'Lectura incremental de los .jsonl por desplazamiento de bytes · deduplicación por id de mensaje · caché en disco'], ['Tiempo real', 'Server-Sent Events al navegador · reproducción acelerada de las últimas 24 h'], ['Visualización', 'three.js: anatomía procedural (ruido de Perlin, surcos, cerebelo), ~110.000 partículas y ondas de activación en el shader'], ['Consumo', 'Coste a precios públicos de la API por proyecto, modelo y agente · contexto por sesión con umbrales de 200 k, 400 k y 600 k · informe semanal'], ['Avisos', 'Notificaciones de macOS y en la app · opcionalmente al móvil con ntfy'], ['Acceso', 'Solo en local por defecto · red de casa con clave secreta y código QR · instalable en el móvil']],
+        en: [['Ingestion', 'Incremental reading of the .jsonl logs by byte offset · message-id deduplication · on-disk cache'], ['Real time', 'Server-Sent Events to the browser · accelerated replay of the last 24 h'], ['Visualisation', 'three.js: procedural anatomy (Perlin noise, sulci, cerebellum), ~110,000 particles and activation waves in the shader'], ['Usage', 'Cost at public API prices by project, model and agent · per-session context with 200 k, 400 k and 600 k thresholds · weekly report'], ['Alerts', 'macOS and in-app notifications · optionally to the phone via ntfy'], ['Access', 'Local only by default · home network with a secret key and QR code · installable on the phone']],
+      },
+      decisions: {
+        es: [
+          'Nada sale del ordenador: el servidor no hace peticiones a internet y por defecto solo escucha en local; el acceso desde el móvil exige una clave que se genera sola.',
+          'Ingesta incremental en lugar de releer el historial: la primera pasada queda en caché y después solo se procesa lo nuevo, cada poco más de un segundo.',
+          'El contexto como métrica principal, porque es lo que más consume: cada sesión abierta lleva un medidor verde, ámbar o rojo y avisa cuando conviene compactar o empezar de nuevo.',
+          'Los datos mandan sobre la metáfora: una neurona o una conexión solo existe si el evento ocurrió, y su tamaño y su brillo dependen del uso real.',
+          'Cada proyecto se coloca en la región del cerebro que corresponde a lo que más hace (planificar, ejecutar, investigar y escribir, o trabajar con imágenes), frente a la media de todos.',
+          'Honestidad sobre los límites: las activaciones internas del modelo no son accesibles, así que la propia app explica qué es real y qué es una estimación.',
+        ],
+        en: [
+          'Nothing leaves the computer: the server makes no internet requests and listens locally by default; phone access requires a self-generated key.',
+          'Incremental ingestion instead of re-reading the history: the first pass is cached and from then on only new data is processed, every second or so.',
+          'Context as the main metric, because it drives usage: every open session gets a green, amber or red gauge and an alert when it is time to compact or start fresh.',
+          'Data over metaphor: a neuron or connection only exists if the event really happened, and its size and brightness follow real usage.',
+          'Each project sits in the brain region that matches what it does most (planning, executing, researching and writing, or working with images), compared with the average.',
+          'Honest about limits: the model’s internal activations are not accessible, so the app itself explains what is real and what is an estimate.',
+        ],
+      },
+      impact: {
+        es: ['Lo uso a diario: corre siempre en mi Mac y lo consulto también desde el móvil.', 'Señala las sesiones que más contexto releen y propone compactar o abrir una nueva antes de que el consumo se dispare.', 'Código abierto (MIT), con un modo demostración para enseñarlo sin datos reales.'],
+        en: ['I use it every day: it runs permanently on my Mac and I check it from my phone too.', 'It flags the sessions that re-read the most context and suggests compacting or starting fresh before usage spikes.', 'Open source (MIT), with a demo mode to show it without real data.'],
+      },
+      next: { es: 'Acceso seguro fuera de casa y comparativas por tipo de tarea entre semanas.', en: 'Secure access away from home and week-over-week comparisons by type of task.' },
     },
   },
   {

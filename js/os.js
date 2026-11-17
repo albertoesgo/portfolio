@@ -1,8 +1,8 @@
 // Escritorio del portfolio: Mac en pantallas grandes, iOS en el móvil.
 // Un gesto = un proyecto (como luciagascon.es). Enlaces directos: index.html#lookit · ?lang=en
-import { profile, experience, education, extras, skills, filters, projects, cvFile, cvPreview } from './data.js?v=610356d9df';
-import { UI, pick, classicFile } from './i18n.js?v=610356d9df';
-import { loadAqua, mountSimulator, mountHistory, mountHorizon } from './aqua.js?v=610356d9df';
+import { profile, experience, education, extras, skills, filters, projects, cvFile, cvPreview } from './data.js?v=75e5172f10';
+import { UI, pick, classicFile } from './i18n.js?v=75e5172f10';
+import { loadAqua, mountSimulator, mountHistory, mountHorizon } from './aqua.js?v=75e5172f10';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -129,9 +129,9 @@ const rv = (k) => ` rv" style="--k:${k}`;
 function homeHTML(cur) {
   const h = t.homeX;
   const metric = (p) => (p.id === 'lookit' && live.lookit ? h.lookitM(fmt(live.lookit.products)) : tr(p.metric));
-  const card = (p, k) => `<button class="fc${k === 0 ? ' big' : ''}" data-go="${k + 1}" style="--tint:${p.tint}">
+  const card = (p, k) => `<button class="fc${k < 2 ? ' big' : ''}" data-go="${k + 1}" style="--tint:${p.tint}">
       <img src="${shot(p.shots[0][0])}" alt="" draggable="false">
-      <span class="fcx">${appIcon(p)}<span><b>${esc(tr(p.name))}</b><small>${esc(metric(p))}</small></span>${p.live ? `<i class="dot" title="${t.live}"></i>` : ''}</span>
+      <span class="fcx">${appIcon(p)}<span><b>${esc(tr(p.cardName || p.name))}</b><small>${esc(metric(p))}</small></span>${p.live ? `<i class="dot" title="${t.live}"></i>` : ''}</span>
     </button>`;
   return `
   <section class="space${cur ? ' cur' : ''}" data-i="0" aria-label="${t.home}"><div class="home">
@@ -169,7 +169,7 @@ function projectHTML(p, k, cur) {
     ? `<div class="mtabs"><div class="seg" role="group">${t.tabs.map(([k2, l], j) => `<button data-pane="${k2}" aria-pressed="${j === 0}">${l}</button>`).join('')}</div></div>
        <div class="pane on" data-p="sim"></div><div class="pane" data-p="hist"></div><div class="pane" data-p="prec"></div>
        <div class="pane" data-p="app">${slides}<p class="cap">${t.appCap}</p></div>`
-    : `${slides}${p.phone ? `<div class="phoneshot"><img src="${shot(p.phone)}" alt="" loading="lazy" draggable="false"></div>` : ''}<p class="cap">${t.realShot} · ${esc(tr(p.url))}</p>`;
+    : `${slides}${p.phone ? `<div class="phoneshot"><img src="${shot(p.phone)}" alt="" loading="lazy" draggable="false"></div>` : ''}<p class="cap">${p.shotNote ? esc(tr(p.shotNote)) : `${t.realShot} · ${esc(tr(p.url))}`}</p>`;
   return `
   <section class="space${cur ? ' cur' : ''}" data-i="${k + 1}" aria-label="${esc(tr(p.name))}"><div class="win">
     <div class="titlebar"><div class="lights"><button class="c" data-act="home" aria-label="${t.toHome}"></button><button class="m" data-act="overview" aria-label="${t.toAll}"></button><button class="x" data-act="max" aria-label="${t.maximize}"></button></div><div class="ttl">${esc(tr(p.name))}<small>${esc(tr(p.url))}</small></div><div></div></div>
@@ -394,7 +394,7 @@ addEventListener('keydown', (e) => {
   if (e.key === 'ArrowRight') { e.preventDefault(); go(i + 1); }
   else if (e.key === 'ArrowLeft') { e.preventDefault(); go(i - 1); }
   else if (e.key === 'ArrowUp') { e.preventDefault(); toggle('overview'); }
-  else if (/^[1-6]$/.test(e.key)) go(+e.key - 1);
+  else if (/^[1-7]$/.test(e.key)) go(+e.key - 1);
 });
 
 /* ── Acciones ── */

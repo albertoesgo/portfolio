@@ -37,7 +37,9 @@ Para regenerarlo hace falta el repo del TFG y su entorno `venv_dl`.
 
 - Deslizar con el dedo, dos dedos en el trackpad, rueda del ratón o ← → para cambiar de proyecto.
 - Pellizcar o ↑ para la vista general con filtros. ⌘K para buscar.
-- Enlaces directos a cada proyecto: `#aqua`, `#lookit`, `#lucia`, `#wild`, `#detemp`.
+- Enlaces directos a cada proyecto: `#aqua`, `#lookit`, `#sinapsis`, `#lucia`, `#wild`, `#detemp`.
+
+Las capturas de Sinapsis son del modo demostración (`npm run demo` en `~/Proyectos/sinapsis`): nunca publicar capturas con datos reales.
 
 ## Publicación
 
