@@ -195,24 +195,6 @@ export const projects = [
           '90-day what-if inference for all 7 reservoirs with alert thresholds (20% and 10%) and an assistant that maps natural language to simulation parameters.',
         ],
       },
-      code: {
-        file: 'src/prediction/gcn_predictor.py',
-        note: { es: 'El modelo predice el incremento diario y el nivel se reconstruye integrándolo sobre el día anterior.', en: 'The model predicts the daily increment and the level is rebuilt by integrating it onto the previous day.' },
-        src: String.raw`# Reconstruct the next level. A 'delta' model outputs the increment of
-# the scaled level, which we integrate onto the previous level; an
-# 'absolute' model outputs the scaled level directly.
-if self._target_is_delta:
-    level_scaled = window[-1, :, LEVEL_IDX] + model_out
-else:
-    level_scaled = model_out
-pred_pct = self.scalers["level"].inverse_transform(
-    level_scaled.reshape(1, -1)
-)[0]`,
-      },
-      check: {
-        es: ['El código, los cuadernos y los resultados están en el repositorio público del TFG (rama entrega-tfg).', 'Las cifras de esta página salen de output/neural_networks_local/autoregressive_multihorizon_comparison.csv.'],
-        en: ['The code, notebooks and results are in the public thesis repository (entrega-tfg branch).', 'The figures on this page come from output/neural_networks_local/autoregressive_multihorizon_comparison.csv.'],
-      },
       next: { es: 'LSTM global multi-embalse, predicción directa multi-horizonte con covariables futuras, intervalos por conformal prediction, grafo de conectividad hidrológica real e ingesta diaria automatizada del SAIH.', en: 'A global multi-reservoir LSTM, direct multi-horizon forecasting with future covariates, conformal prediction intervals, a graph based on real hydrological connectivity and automated daily SAIH ingestion.' },
     },
   },
@@ -286,25 +268,6 @@ pred_pct = self.scalers["level"].inverse_transform(
         es: ['24 catálogos y cerca de 9.000 productos indexados y reconstruidos cada 2 horas en lookit.es, sin servidores propios.', 'Avisos por Web Push o correo sin registro de usuarios.', 'Contenido para redes generado por código: Remotion, segmentación de fondo con IA y voz alineada con Whisper.'],
         en: ['24 catalogues and close to 9,000 products indexed and rebuilt every 2 hours at lookit.es, with no servers of my own.', 'Web Push and email alerts with no user sign-up.', 'Social content generated from code: Remotion, AI background segmentation and Whisper-aligned voiceover.'],
       },
-      code: {
-        file: 'src/lib/alerts/crypto.ts',
-        note: { es: 'Avisos sin cuentas: cada registro se guarda cifrado y el servidor solo conoce un hash con clave del secreto del dispositivo.', en: 'Alerts without accounts: every record is stored encrypted and the server only knows a keyed hash of the device secret.' },
-        src: String.raw`export function encrypt(plain: string): string {
-  const iv = randomBytes(12);
-  const cipher = createCipheriv("aes-256-gcm", key("record"), iv);
-  const body = Buffer.concat([cipher.update(plain, "utf8"), cipher.final()]);
-  return b64(Buffer.concat([iv, cipher.getAuthTag(), body]));
-}
-
-/** Record id for a device secret (one-way). */
-export function subscriberId(deviceToken: string): string {
-  return b64(mac("device", deviceToken)).slice(0, 32);
-}`,
-      },
-      check: {
-        es: ['Las cabeceras de lookit.es muestran el despliegue en Cloudflare, HSTS y una Content-Security-Policy.', 'El catálogo completo es un JSON público: lookit.es/api/catalog.'],
-        en: ['The response headers of lookit.es show the Cloudflare deployment, HSTS and a Content-Security-Policy.', 'The whole catalogue is a public JSON: lookit.es/api/catalog.'],
-      },
       next: { es: 'Métricas de uso públicas, recomendaciones personalizadas y más catálogos.', en: 'Public usage metrics, personalised recommendations and more catalogues.' },
     },
   },
@@ -372,23 +335,6 @@ export function subscriberId(deviceToken: string): string {
       impact: {
         es: ['luciagascon.es en producción, con 13 obras recorribles en 3D.', 'La artista gestiona la exposición desde el panel, sin intervención técnica.'],
         en: ['luciagascon.es is live, with 13 works to walk through in 3D.', 'The artist manages the exhibition from the panel with no technical help.'],
-      },
-      code: {
-        file: 'js/galeria3d.js',
-        note: { es: 'La cámara no se mueve libre: avanza sobre una curva fija entre dos paradas, con una aceleración suave.', en: 'The camera never roams free: it travels along a fixed curve between two stops, with gentle easing.' },
-        src: String.raw`function colocarCamara(p, t) {
-  p = clamp(p, 0, N - 1);
-  const i = Math.min(Math.floor(p), N - 2), f = p - i;
-  const fe = f - 0.3 * Math.sin(2 * Math.PI * f) / (2 * Math.PI);
-  const u = THREE.MathUtils.lerp(paradaU[i], paradaU[i + 1], fe);
-  curva.getPointAt(u, camera.position);
-  const A = paradas[i], B = paradas[i + 1], tr = tramos[i];
-  // …
-}`,
-      },
-      check: {
-        es: ['Ábrela en el móvil y desliza: cada gesto avanza exactamente una obra.', 'Sin WebGL (o eligiendo «Vista clásica») la misma colección se ve en 2D.'],
-        en: ['Open it on your phone and swipe: each gesture moves exactly one work forward.', 'Without WebGL (or by choosing the classic view) the same collection is shown in 2D.'],
       },
       next: { es: 'Vídeo del recorrido para redes y nuevas salas temáticas.', en: 'A walk-through video for social media and new themed rooms.' },
     },
@@ -458,35 +404,18 @@ export function subscriberId(deviceToken: string): string {
         es: ['wildcamper.es en producción y gestionada por el propio cliente.', 'Reservas con calendario y disponibilidad controlada desde el panel.'],
         en: ['wildcamper.es is live and managed directly by the client.', 'Bookings with a calendar and availability managed from the panel.'],
       },
-      code: {
-        file: 'tests/structure.test.js',
-        note: { es: 'La seguridad se comprueba en cada cambio: este test falla si una clave privada llega al código del cliente.', en: 'Security is checked on every change: this test fails if a private key ever reaches the client code.' },
-        src: String.raw`test('SEGURIDAD: config.js no contiene una clave service_role (JWT)', () => {
-  const src = read('js/config.js');
-  // Una service_role key es un JWT (empieza por eyJ). La anon/publishable no lo es.
-  assert.ok(!/eyJ[A-Za-z0-9_-]{20,}/.test(src), 'config.js no debe contener un JWT (posible service_role)');
-  assert.ok(!/"role"\s*:\s*"service_role"/.test(src), 'config.js no debe incluir una service_role key');
-});`,
-      },
-      check: {
-        es: ['Las cabeceras de wildcamper.es incluyen una Content-Security-Policy estricta, HSTS y X-Content-Type-Options.', 'Se instala como app: tiene manifiesto, service worker y página sin conexión.'],
-        en: ['The response headers of wildcamper.es include a strict Content-Security-Policy, HSTS and X-Content-Type-Options.', 'It installs as an app: it ships a manifest, a service worker and an offline page.'],
-      },
       next: { es: 'Tienda online con Shopify y un comparador antes/después de las camperizaciones.', en: 'A Shopify online store and a before/after comparison of the conversions.' },
     },
   },
   {
-    // Hasta que esté migrada de Vercel a Cloudflare no tiene URL pública: al migrarla, poner live: true,
-    // rellenar link / linkLabel (abajo) y borrar «status». El build avisa si el enlace de un proyecto no responde.
-    id: 'detemp', name: 'DeTemporada', cats: ['prod'], live: false,
-    status: { es: 'Próximo lanzamiento', en: 'Launching soon' },
+    id: 'detemp', name: 'DeTemporada', cats: ['prod'], live: true,
     metric: { es: 'PWA offline · 451 comercios geocodificados', en: 'Offline PWA · 451 geocoded shops' },
     plain: {
       es: 'Una app que te dice qué alimentos están de temporada en tu comunidad, cuánto cuestan y dónde comprarlos cerca de ti.',
       en: 'An app that tells you which foods are in season in your region, what they cost and where to buy them nearby.',
     },
     kind: { es: 'Producto propio · PWA · 2026', en: 'Own product · PWA · 2026' },
-    logo: 'img/logos/detemporada.svg', plate: null, tint: '#f0531c', wall: 'detemp', url: 'DeTemporada',
+    logo: 'img/logos/detemporada.svg', plate: null, tint: '#f0531c', wall: 'detemp', url: 'detemporada.albertoesgo76.workers.dev',
     tagline: {
       es: 'PWA offline-first que cruza calendarios oficiales de temporada con un directorio geocodificado de comercios locales en las 17 comunidades.',
       en: 'An offline-first PWA that combines official seasonal calendars with a geocoded directory of local shops across all 17 Spanish regions.',
@@ -507,10 +436,10 @@ export function subscriberId(deviceToken: string): string {
         'E2E tests in headless Chrome over the critical flows: region, filters, product page, list with undo and shops.',
       ],
     },
-    stack: ['React', 'Vite', 'PWA · Service Worker', 'Node.js (ETL)', 'Geocoding', 'Chrome headless (E2E)'],
+    stack: ['React', 'Vite', 'PWA · Service Worker', 'Cloudflare Workers', 'Node.js (ETL)', 'Geocoding', 'Chrome headless (E2E)'],
     shots: [['detemp-home', 'kb'], ['detemp-tall', 'tall']], phone: 'detemp-mobile',
-    link: null, linkLabel: null,
-    keys: 'react vite pwa offline service worker datos data etl geolocalización geocoding mapa map comercios shops alimentos food temporada seasonal recetas recipes producto product tests e2e',
+    link: 'https://detemporada.albertoesgo76.workers.dev', linkLabel: 'DeTemporada',
+    keys: 'cloudflare workers react vite pwa offline service worker datos data etl geolocalización geocoding mapa map comercios shops alimentos food temporada seasonal recetas recipes producto product tests e2e',
     case: {
       role: { es: 'Producto, ingeniería de datos y desarrollo.', en: 'Product, data engineering and development.' },
       problem: {
@@ -522,8 +451,8 @@ export function subscriberId(deviceToken: string): string {
         en: 'A Node ETL normalises official calendars into 210 entries (season per region, indicative price, recipe and a licensed image) and geocodes 451 verified shops. The PWA serves them offline with monthly highlights, a shareable shopping list and sorting by distance.',
       },
       arch: {
-        es: [['Datos', 'Ministerio de Agricultura, vedas, órdenes de caza y pliegos DOP/IGP · 210 fichas normalizadas'], ['Comercios', 'Geocodificación por lotes con caché y overrides manuales · 451 comercios'], ['Imágenes', 'Wikimedia Commons con autor y licencia en cada ficha'], ['App', 'React + Vite · PWA con service worker y precache · API opcional en Vercel'], ['Calidad', 'Tests E2E con clics reales en Chrome headless']],
-        en: [['Data', 'Ministry of Agriculture, fishing and hunting seasons, PDO/PGI specifications · 210 normalised entries'], ['Shops', 'Batch geocoding with caching and manual overrides · 451 shops'], ['Images', 'Wikimedia Commons with author and licence on every entry'], ['App', 'React + Vite · PWA with service worker and precache · optional API on Vercel'], ['Quality', 'E2E tests with real clicks in headless Chrome']],
+        es: [['Datos', 'Ministerio de Agricultura, vedas, órdenes de caza y pliegos DOP/IGP · 210 fichas normalizadas'], ['Comercios', 'Geocodificación por lotes con caché y overrides manuales · 451 comercios'], ['Imágenes', 'Wikimedia Commons con autor y licencia en cada ficha'], ['App', 'React + Vite · PWA con service worker y precache · Cloudflare Workers con una API pública de los mismos datos'], ['Calidad', 'Tests E2E con clics reales en Chrome headless']],
+        en: [['Data', 'Ministry of Agriculture, fishing and hunting seasons, PDO/PGI specifications · 210 normalised entries'], ['Shops', 'Batch geocoding with caching and manual overrides · 451 shops'], ['Images', 'Wikimedia Commons with author and licence on every entry'], ['App', 'React + Vite · PWA with service worker and precache · Cloudflare Workers with a public API over the same data'], ['Quality', 'E2E tests with real clicks in headless Chrome']],
       },
       decisions: {
         es: [
@@ -540,10 +469,10 @@ export function subscriberId(deviceToken: string): string {
         ],
       },
       impact: {
-        es: ['210 productos y 451 comercios en las 17 comunidades.', 'Flujos críticos cubiertos con tests de extremo a extremo.'],
-        en: ['210 products and 451 shops across all 17 regions.', 'Critical flows covered by end-to-end tests.'],
+        es: ['En producción en Cloudflare Workers e instalable como app.', '210 productos y 451 comercios en las 17 comunidades.', 'Flujos críticos cubiertos con tests de extremo a extremo.'],
+        en: ['Live on Cloudflare Workers and installable as an app.', '210 products and 451 shops across all 17 regions.', 'Critical flows covered by end-to-end tests.'],
       },
-      next: { es: 'Dominio propio y lanzamiento público.', en: 'Own domain and public launch.' },
+      next: { es: 'Dominio propio y más comercios locales en cada comunidad.', en: 'Own domain and more local shops in every region.' },
     },
   },
 ];

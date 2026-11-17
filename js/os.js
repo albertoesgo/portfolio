@@ -1,8 +1,8 @@
 // Escritorio del portfolio: Mac en pantallas grandes, iOS en el móvil.
 // Un gesto = un proyecto (como luciagascon.es). Enlaces directos: index.html#lookit · ?lang=en
-import { profile, experience, education, extras, skills, filters, projects, cvFile, cvPreview } from './data.js?v=64e75019b2';
-import { UI, pick, classicFile } from './i18n.js?v=64e75019b2';
-import { loadAqua, mountSimulator, mountHistory, mountHorizon } from './aqua.js?v=64e75019b2';
+import { profile, experience, education, extras, skills, filters, projects, cvFile, cvPreview } from './data.js?v=610356d9df';
+import { UI, pick, classicFile } from './i18n.js?v=610356d9df';
+import { loadAqua, mountSimulator, mountHistory, mountHorizon } from './aqua.js?v=610356d9df';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -40,6 +40,8 @@ const ICON = {
   left: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m14.5 5.5-6.5 6.5 6.5 6.5"/></svg>',
   right: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></svg>',
   x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M7 7l10 10M17 7 7 17"/></svg>',
+  linkedin: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5.2 8.6h3.1V19H5.2zM6.8 3.8a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6zM10.4 8.6h3v1.4c.5-.9 1.6-1.7 3.2-1.7 3.3 0 3.9 2.1 3.9 4.9V19h-3.1v-5.2c0-1.3 0-2.9-1.8-2.9s-2.1 1.4-2.1 2.8V19h-3.1z"/></svg>',
+  copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="8.5" y="8.5" width="11" height="11" rx="2.5"/><path d="M15.5 8.5V6.5A2 2 0 0 0 13.5 4.5h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h2"/></svg>',
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
 };
 const glyph = (name, bg, color = '#fff') => `<span class="ai sys" style="--plate:${bg};color:${color}">${ICON[name]}</span>`;
@@ -142,12 +144,13 @@ function homeHTML(cur) {
       <dl class="facts${rv(5)}">${h.facts(projects.length, projects.filter((p) => p.live).length).map(([a, b]) => `<div><dt>${a}</dt><dd>${b}</dd></div>`).join('')}</dl>
     </div>
     <div class="feat${rv(2)}" aria-label="${t.projects}">${projects.map(card).join('')}</div>
-    <div class="w-profile${rv(0)}"><div class="avatar" aria-hidden="true">${profile.initials}</div><div>
-      <h1>${esc(profile.name)}</h1>
-      <p class="role">${esc(tr(profile.role))} · ${esc(tr(profile.location))}</p>
-      <p class="pitch">${esc(tr(profile.headline))}</p>
-    </div></div>
-    <div class="icons${rv(2)}">${projects.map((p, k) => `<button class="dicon" data-go="${k + 1}">${appIcon(p)}<span>${esc(tr(p.short || p.name))}</span></button>`).join('')}</div>
+    <div class="w-profile">
+      <p class="hi${rv(0)}"><i></i>${esc(tr(profile.role))} · ${esc(tr(profile.location))}</p>
+      <h1 class="${rv(1)}">${esc(profile.name.split(' ')[0])}<br>${esc(profile.name.split(' ').slice(1).join(' '))}</h1>
+      <p class="pitch${rv(2)}">${esc(tr(profile.headline))}</p>
+      <div class="actions${rv(3)}"><button class="btn" data-act="cv">${ICON.doc}${t.viewCV}</button><button class="btn sec" data-act="contact">${ICON.mail}${t.contact}</button></div>
+    </div>
+    <div class="icons${rv(4)}"><h2>${t.projects}</h2><div class="irow">${projects.map((p, k) => `<button class="dicon" data-go="${k + 1}">${appIcon(p)}<span>${esc(tr(p.short || p.name))}</span></button>`).join('')}</div></div>
   </div></section>`;
 }
 
@@ -419,8 +422,9 @@ function onClick(e) {
     theme: () => { theme = isDark() ? 'light' : 'dark'; store.set('ae-theme', theme); withTransition(applyTheme); },
     lang: () => setLang(t.other),
     copy: async () => {
-      try { await navigator.clipboard.writeText(profile.email); a.textContent = t.copied; }
-      catch { getSelection().selectAllChildren($('#sheet code')); a.textContent = t.copyManual; }
+      const lbl = a.querySelector('span') || a;
+      try { await navigator.clipboard.writeText(profile.email); lbl.textContent = t.copied; }
+      catch { getSelection().selectAllChildren($('#sheet code')); lbl.textContent = t.copyManual; }
     },
   })[a.dataset.act]?.();
 }
@@ -478,7 +482,7 @@ function aboutHTML() {
     <h3>${t.focusH}</h3><div class="focus">${tr(profile.focus).map(([a, b]) => `<div><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
     <h3>${t.howWork}</h3><ul class="impact">${tr(profile.principles).map((d) => `<li>${ICON.check}<span>${esc(d)}</span></li>`).join('')}</ul>
     <h3>${t.skills}</h3><div class="list two">${skills.map(([k, v]) => li(tr(k), '', tr(v))).join('')}</div>
-    <div class="actions" style="margin-top:22px"><button class="btn" data-act="cv">${ICON.doc}${t.viewCV}</button><a class="btn sec" href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a><a class="btn sec" href="${profile.links.github}" target="_blank" rel="noopener">GitHub ↗</a></div>`;
+    <div class="actions" style="margin-top:22px"><button class="btn" data-act="cv">${ICON.doc}${t.viewCV}</button><a class="btn sec" href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a></div>`;
 }
 // CV: primero se ve; descargarlo es una decisión de quien lo lee
 function cvHTML() {
@@ -499,16 +503,27 @@ function caseHTML(p) {
     <h3>${h.arch}</h3><div class="arch">${tr(c.arch).map(([k, v]) => `<div class="ar"><b>${esc(k)}</b><span>${esc(v)}</span></div>`).join('')}</div>
     <h3>${h.decisions}</h3><ol class="dec">${tr(c.decisions).map((d) => `<li>${esc(d)}</li>`).join('')}</ol>
     <h3>${h.impact}</h3><ul class="impact">${tr(c.impact).map((d) => `<li>${ICON.check}<span>${esc(d)}</span></li>`).join('')}</ul>
-    ${c.code ? `<h3>${h.code}</h3><figure class="code"><figcaption><code>${esc(c.code.file)}</code><span>${esc(tr(c.code.note))}</span></figcaption><pre tabindex="0"><code>${esc(c.code.src)}</code></pre></figure>` : ''}
-    ${c.check ? `<h3>${h.check}</h3><ul class="impact check">${tr(c.check).map((d) => `<li>${ICON.search}<span>${esc(d)}</span></li>`).join('')}</ul>` : ''}
     <h3>${h.next}</h3><p>${esc(tr(c.next))}</p>
     <h3>${h.stack}</h3><div class="stack">${p.stack.map((x) => `<span>${esc(x)}</span>`).join('')}</div>
     ${p.link || p.repo ? `<div class="actions" style="margin-top:22px">${linkBtns(p, true)}</div>` : ''}`;
 }
+const mailto = () => `mailto:${profile.email}?subject=${encodeURIComponent(t.mailSubject)}`;
 function contactHTML() {
-  return `<h2>${t.talk}</h2><p class="lead">${esc(t.talkSub(tr(profile.location)))}</p>
-    <div class="copyrow"><code>${esc(profile.email)}</code><span class="actions"><button class="btn sec" data-act="copy">${t.copy}</button><a class="btn" href="mailto:${profile.email}">${t.write}</a></span></div>
-    <div class="actions" style="margin-top:14px"><a class="btn sec" href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a><a class="btn sec" href="${profile.links.github}" target="_blank" rel="noopener">GitHub ↗</a></div>`;
+  const act = (href, icon, label, attrs = '') => `<a class="cact" href="${href}"${attrs}><span>${icon}</span>${esc(label)}</a>`;
+  const row = (k, v, extra = '') => `<div class="crow"><small>${esc(k)}</small><div>${v}</div>${extra}</div>`;
+  return `<div class="ccard">
+      <div class="avatar" aria-hidden="true">${profile.initials}</div>
+      <h2>${esc(profile.name)}</h2>
+      <p class="lead">${esc(tr(profile.role))}</p>
+      <p class="cpitch">${esc(t.talkSub)}</p>
+      <div class="cacts">${act(mailto(), ICON.mail, t.write)}${act(profile.links.linkedin, ICON.linkedin, 'LinkedIn', ' target="_blank" rel="noopener"')}${act(cvFile(lang), ICON.doc, t.cv, ' target="_blank" rel="noopener"')}</div>
+    </div>
+    <div class="crows">
+      ${row(t.emailL, `<a href="${mailto()}"><code>${esc(profile.email)}</code></a>`, `<button class="ccopy" data-act="copy">${ICON.copy}<span>${t.copy}</span></button>`)}
+      ${row('LinkedIn', `<a href="${profile.links.linkedin}" target="_blank" rel="noopener">${esc(profile.name)} ↗</a>`)}
+      ${row(t.k.based, esc(tr(profile.location)))}
+      ${row(t.k.languages, esc(tr(extras[0][1])))}
+    </div>`;
 }
 
 /* ── Vista general («Mis proyectos») ── */
@@ -673,6 +688,10 @@ function mount(animate) {
   });
   $('#spres').addEventListener('click', (e) => { const b = e.target.closest('[data-k]'); if (b) pickResult(results[+b.dataset.k]); });
   $('#toast').addEventListener('click', () => { const el = $('#toast'); el.classList.remove('show'); if (el.dataset.go) go(+el.dataset.go); });
+  // Móvil: la notificación se aparta deslizándola hacia arriba, como en iOS
+  let ty = null;
+  $('#toast').addEventListener('touchstart', (e) => { ty = e.touches[0].clientY; }, { passive: true });
+  $('#toast').addEventListener('touchmove', (e) => { if (ty !== null && e.touches[0].clientY - ty < -14) { ty = null; $('#toast').classList.remove('show'); suppressClick = performance.now(); } }, { passive: true });
   swipeToClose($('#sheet-panel'), $('#sheet-body'));
   swipeToClose($('#ov-in'), $('#ov-in'));
   bindDock();
@@ -706,8 +725,8 @@ if (!readyAtMount) data.then(() => render(false));
 setTimeout(hideHint, 7000);
 setTimeout(() => { pagerHinted = true; $('#pager')?.classList.remove('first'); }, 6000);
 data.then(() => {
-  // En el móvil la notificación taparía el nombre al entrar; y no sale en la imagen para compartir (?og)
-  if (mode === 'mac' && live.lookit && !location.search.includes('og')) setTimeout(() => i === 0 && !anyOpen() && notify({ icon: appIcon(projects[1]), app: t.toastApp, title: t.toastTitle, body: t.toastBody(fmt(live.lookit.products), live.lookit.brands), goTo: 2 }), 2600);
+  // No sale en la imagen para compartir (?og). En el móvil llega un poco después, cuando ya se ha leído el nombre.
+  if (live.lookit && !location.search.includes('og')) setTimeout(() => i === 0 && !anyOpen() && notify({ icon: appIcon(projects[1]), app: t.toastApp, title: t.toastTitle, body: t.toastBody(fmt(live.lookit.products), live.lookit.brands), goTo: 2 }), mode === 'phone' ? 3200 : 2600);
 });
 // El escritorio se asoma al siguiente para que se descubra el gesto
 setTimeout(() => {

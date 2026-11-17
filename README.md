@@ -22,7 +22,7 @@ Idioma: botón ES/EN (o `?lang=en`); se recuerda en el navegador. Tema claro/osc
 | Qué | Dónde |
 |---|---|
 | Textos, proyectos, casos de estudio, experiencia (ES y EN) | `js/data.js` (fuente única para el escritorio y la vista clásica) |
-| Frase llana de cada proyecto (`plain`), fragmento de código (`case.code`) y «Compruébalo tú» (`case.check`) | `js/data.js` |
+| Frase llana de cada proyecto (`plain`) | `js/data.js` |
 | Textos de la interfaz (ES y EN) | `js/i18n.js` |
 | Comportamiento del escritorio (gestos, Dock, Spotlight, hojas) | `js/os.js` |
 | Gráficos del TFG | `js/aqua.js` + `data/aqua.json` |
@@ -44,10 +44,10 @@ Para regenerarlo hace falta el repo del TFG y su entorno `venv_dl`.
 GitHub Pages desde la rama `main` (raíz) → https://albertoesgo.github.io/portfolio/
 Para actualizar: `npm run build`, commit y `git push`. Las cifras en vivo se refrescan en cada `build`.
 
-## Antes del lanzamiento definitivo
+La imagen para compartir (`og.jpg`, 1200 × 630) es una captura de `index.html?og` (sin la notificación).
+Rehacerla cuando cambien los proyectos; LinkedIn la guarda en caché (Post Inspector la refresca).
 
-- [ ] DeTemporada: al migrarla de Vercel, poner `live: true` y su `link` en `js/data.js` (y el enlace en `~/Proyectos/cv/data.mjs`).
+## Pendiente
+
 - [ ] TFG: el botón «Código en GitHub» apunta al repo del tutor (rama `entrega-tfg`); cambiar `repo` si se prefiere un fork propio.
-- [ ] Revisar la bio y «Cómo trabajo con IA» en `js/data.js`.
-- [ ] Dominio propio (y cambiar `og:url` / `og:image` en `index.html`).
-- [ ] Quitar `noindex` de `index.html` y de la vista clásica, y borrar `robots.txt`.
+- [ ] Dominio propio (y cambiar `og:url`, `og:image` y `canonical` en `index.html`).

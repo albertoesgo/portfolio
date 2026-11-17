@@ -34,7 +34,6 @@ for (const p of projects) {
     const c = p.case;
     for (const k of ['role', 'problem', 'solution', 'next']) assert.ok(bilingual(c[k]), `${p.id}.case.${k}`);
     for (const k of ['arch', 'decisions', 'impact']) assert.equal(c[k].es.length, c[k].en.length, `${p.id}.case.${k}: mismo número de puntos en ES y EN`);
-    if (c.check) assert.equal(c.check.es.length, c.check.en.length);
   });
 
   test(`${p.id}: capturas y logo existen`, () => {
@@ -47,15 +46,6 @@ for (const p of projects) {
     else assert.ok(!p.link || p.status === undefined, 'si no está en producción, o no hay enlace o no hay etiqueta de estado');
     if (p.link) assert.ok(isText(p.linkLabel));
     if (p.repo) assert.match(p.repo, /^https:\/\/github\.com\//);
-  });
-
-  test(`${p.id}: el fragmento de código cabe en pantalla`, () => {
-    const code = p.case.code;
-    if (!code) return;
-    assert.ok(isText(code.file) && bilingual(code.note));
-    const lines = code.src.split('\n');
-    assert.ok(lines.length <= 18, 'como mucho 18 líneas');
-    assert.ok(Math.max(...lines.map((l) => l.length)) <= 120, 'líneas de 120 caracteres como mucho');
   });
 }
 

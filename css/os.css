@@ -369,11 +369,6 @@ button:disabled { cursor: default; }
 .impact { list-style: none; padding: 0 !important; }
 .impact li { display: grid; grid-template-columns: 20px 1fr; gap: 8px; }
 .impact svg { width: 18px; height: 18px; margin-top: 3px; }
-.impact.check svg { color: var(--blue); width: 16px; height: 16px; margin-top: 4px; }
-.code { margin: 0; border-radius: 12px; overflow: hidden; background: var(--win-side); }
-.code figcaption { display: grid; gap: 3px; padding: 11px 14px; border-bottom: .5px solid var(--sep); font-size: 14px; line-height: 20px; color: var(--label2); }
-.code figcaption code { font: 600 12px/16px ui-monospace, 'SF Mono', Menlo, Consolas, monospace; color: var(--label); }
-.code pre { margin: 0; padding: 14px; overflow-x: auto; font: 12.5px/19px ui-monospace, 'SF Mono', Menlo, Consolas, monospace; tab-size: 2; color: var(--label); }
 .list.two { display: grid; grid-template-columns: 1fr 1fr; }
 .list.two .li:nth-child(2) { border-top: 0; }
 .list.two .li:nth-child(odd) { border-right: .5px solid var(--sep); }
@@ -384,8 +379,28 @@ button:disabled { cursor: default; }
 .li b { font-size: 16px; font-weight: 600; }
 .li small { font-size: 13px; color: var(--label2); white-space: nowrap; }
 .li span { grid-column: 1 / -1; font-size: 14px; color: var(--label2); line-height: 20px; }
-.copyrow { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; background: var(--win-side); border-radius: 12px; padding: 12px 14px; }
-.copyrow code { font: 500 16px var(--sf); user-select: all; -webkit-user-select: all; }
+/* Contacto: tarjeta como la de Contactos de iOS */
+.ccard { display: grid; justify-items: center; text-align: center; padding: 8px 0 4px; }
+.ccard .avatar { width: 84px; height: 84px; font-size: 31px; margin-bottom: 12px; }
+.sheet-body .ccard h2 { margin: 0; }
+.sheet-body .ccard .lead { margin: 4px 0 0; }
+.sheet-body .cpitch { margin: 14px auto 0; max-width: 24em; font-size: 17px; line-height: 24px; text-wrap: balance; }
+.cacts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; width: 100%; max-width: 420px; margin-top: 20px; }
+.cact { display: grid; justify-items: center; gap: 5px; padding: 11px 6px 9px; border-radius: 12px; background: var(--win-side); color: var(--blue); font-size: 12px; font-weight: 600; transition: background .2s; }
+.cact span { width: 26px; height: 26px; display: grid; place-items: center; }
+.cact svg { width: 22px; height: 22px; }
+.cact:first-child { background: var(--blue); color: #fff; }
+.mac .cact:hover { background: var(--fill2); }
+.mac .cact:first-child:hover { background: color-mix(in srgb, var(--blue) 86%, #000); }
+.crows { margin: 22px auto 0; max-width: 520px; border-radius: 12px; overflow: hidden; background: var(--win-side); }
+.crow { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 12px; padding: 11px 14px; border-top: .5px solid var(--sep); font-size: 16px; line-height: 22px; }
+.crow:first-child { border-top: 0; }
+.crow small { grid-column: 1; font-size: 13px; color: var(--label2); line-height: 16px; }
+.crow > div { grid-column: 1; min-width: 0; overflow-wrap: anywhere; }
+.crow code { font: inherit; user-select: all; -webkit-user-select: all; }
+.ccopy { grid-column: 2; grid-row: 1 / 3; }
+.ccopy { display: inline-flex; align-self: center; align-items: center; gap: 5px; border: 0; border-radius: 980px; background: var(--fill); color: var(--blue); font-size: 14px; font-weight: 600; padding: 7px 12px; cursor: pointer; }
+.ccopy svg { width: 15px; height: 15px; }
 
 /* Notificación */
 .toast { position: absolute; top: 40px; right: 14px; z-index: 45; width: 360px; display: grid; grid-template-columns: 38px 1fr; gap: 10px; padding: 12px 14px; border-radius: 18px; border: 0; text-align: left; cursor: pointer;
@@ -416,17 +431,24 @@ button:disabled { cursor: default; }
 .phone .stat b { font-size: 20px; }
 .phone .group li { font-size: 15px; line-height: 20px; padding: 10px 0; }
 
-/* Inicio (móvil): nombre, rol, una frase y los proyectos como apps */
-.phone .home { inset: calc(16px + env(safe-area-inset-top, 0px)) 16px calc(150px + env(safe-area-inset-bottom, 0px)); grid-template-columns: 1fr 1fr; grid-template-rows: none; gap: 12px; align-items: start; align-content: start; overflow-y: auto; scrollbar-width: none; padding-top: 10px; }
+/* Inicio (móvil): quién soy, CV y contacto a mano, y los proyectos como una fila de apps */
+.phone .home { inset: calc(16px + env(safe-area-inset-top, 0px)) 12px calc(150px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; align-items: stretch; gap: 0; overflow-y: auto; scrollbar-width: none; padding: 10px 8px 0; }
 .phone .hero, .phone .feat { display: none; }
-.phone .w-profile { grid-column: 1 / 3; grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 10px; padding: 0 14px; margin-top: clamp(10px, 5dvh, 56px); }
-.phone .avatar { width: 68px; height: 68px; font-size: 25px; }
-.phone .w-profile h1 { font-size: 27px; line-height: 32px; }
-.phone .w-profile .role { font-size: 15px; }
-.w-profile .pitch { margin: 12px auto 0; max-width: 17em; font-size: 19px; line-height: 25px; font-weight: 600; letter-spacing: -.02em; color: var(--label); text-wrap: balance; }
-.phone .icons { grid-column: 1 / 3; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px 0; margin-top: clamp(18px, 4.5dvh, 44px); }
-.phone .icons .dicon { width: 33.33%; max-width: 124px; }
-.phone .icons .dicon .ai { width: 68px; height: 68px; }
+.phone .w-profile { display: block; margin: auto 0 0; padding-top: 18px; }
+.phone .w-profile .hi { display: inline-flex; align-items: center; gap: 7px; margin: 0; padding: 6px 11px; border-radius: 980px; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); font-size: 13px; font-weight: 600; }
+.phone .w-profile .hi i { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+.phone .w-profile h1 { margin: 16px 0 0 -2px; font-size: clamp(36px, 11vw, 46px); line-height: 1; letter-spacing: -.045em; }
+.w-profile .pitch { margin: 14px 0 0; max-width: 19em; font-size: 18px; line-height: 24px; font-weight: 500; letter-spacing: -.015em; color: var(--label); opacity: .74; text-wrap: pretty; }
+.phone .w-profile .actions { display: flex; gap: 10px; margin-top: 20px; }
+.phone .w-profile .btn { flex: 1; justify-content: center; }
+.phone .w-profile .btn svg { width: 18px; height: 18px; }
+.phone .w-profile .btn.sec { background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+.phone .icons { display: block; margin: auto 0; padding: 26px 0 8px; }
+.phone .icons h2 { margin: 0 0 12px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--label2); }
+.phone .irow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; }
+.phone .icons .dicon { padding: 0; gap: 6px; font-size: 11px; line-height: 13px; font-weight: 500; letter-spacing: -.02em; }
+.phone .icons .dicon span { margin: 0 -6px; }
+.phone .icons .dicon .ai { width: min(58px, 100%); height: auto; aspect-ratio: 1; box-shadow: 0 6px 16px -8px rgba(0,0,0,.35); }
 .phone .info { display: block; }
 .phone .info-in { overflow: visible; padding: 20px 20px 0; gap: 16px; }
 .phone .info-foot { border-top: 0; padding: 18px 20px; }
@@ -435,13 +457,14 @@ button:disabled { cursor: default; }
 .phone .list.two { grid-template-columns: 1fr; }
 .phone .list.two .li:nth-child(2) { border-top: .5px solid var(--sep); }
 .phone .list.two .li:nth-child(odd) { border-right: 0; }
-/* Móviles bajos: sin avatar y con iconos algo menores para que las dos filas queden a la vista */
-@media (max-height: 700px) {
-  .phone .w-profile .avatar { display: none; }
-  .phone .w-profile { margin-top: 4px; }
-  .phone .w-profile .pitch { margin-top: 8px; font-size: 17px; line-height: 23px; }
-  .phone .icons { margin-top: 16px; gap: 12px 0; }
-  .phone .icons .dicon .ai { width: 56px; height: 56px; }
+/* Móviles bajos: todo algo más compacto para que los proyectos queden a la vista */
+@media (max-height: 600px) {
+  .phone .w-profile { padding-top: 10px; }
+  .phone .w-profile h1 { margin-top: 12px; font-size: 34px; }
+  .phone .w-profile .pitch { display: none; }
+  .phone .w-profile .actions { margin-top: 14px; }
+  .phone .icons { padding-top: 16px; }
+  .phone .icons h2 { margin-bottom: 8px; }
 }
 
 /* El deslizamiento lateral es siempre nuestro: el navegador solo se queda el scroll vertical */

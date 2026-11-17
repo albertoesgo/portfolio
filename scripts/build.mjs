@@ -100,8 +100,6 @@ function classic(lang) {
         <h4>${c.arch}</h4><dl class="arch">${tr(p.case.arch).map(([a, b]) => `<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join('')}</dl>
         <h4>${c.decisions}</h4><ol class="dec">${tr(p.case.decisions).map((d) => `<li>${esc(d)}</li>`).join('')}</ol>
         <h4>${c.impact}</h4><ul class="checks">${tr(p.case.impact).map((d) => `<li>${CHECK}<span>${esc(d)}</span></li>`).join('')}</ul>
-        ${p.case.code ? `<h4>${c.code}</h4><figure class="code"><figcaption><code>${esc(p.case.code.file)}</code><span>${esc(tr(p.case.code.note))}</span></figcaption><pre tabindex="0"><code>${esc(p.case.code.src)}</code></pre></figure>` : ''}
-        ${p.case.check ? `<h4>${c.check}</h4><ul class="checks">${tr(p.case.check).map((d) => `<li>${CHECK}<span>${esc(d)}</span></li>`).join('')}</ul>` : ''}
         <h4>${c.next}</h4><p>${esc(tr(p.case.next))}</p>
       </details>
       <footer class="pf"><p class="stack">${p.stack.map((x) => `<span>${esc(x)}</span>`).join('')}</p><span class="links">${links(p)}</span></footer>
@@ -113,7 +111,6 @@ function classic(lang) {
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${esc(profile.name)} · ${esc(tr(profile.role))}</title>
 <meta name="description" content="${esc(tr(profile.headline))}">
-<meta name="robots" content="noindex, nofollow">
 <link rel="alternate" hreflang="es" href="clasica.html">
 <link rel="alternate" hreflang="en" href="classic.html">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -142,7 +139,7 @@ function classic(lang) {
     <p class="role">${esc(tr(profile.role))} · ${esc(tr(profile.location))}</p>
     <h1>${esc(profile.name)}</h1>
     <p class="lead">${esc(tr(profile.headline))}</p>
-    <p class="cta"><a class="btn" href="${cvFile(lang)}" rel="noopener">${t.downloadCV}</a><a class="btn sec" href="mailto:${profile.email}">${t.write}</a><a class="btn sec" href="${profile.links.linkedin}" rel="noopener">LinkedIn ↗</a><a class="btn sec" href="${profile.links.github}" rel="noopener">GitHub ↗</a></p>
+    <p class="cta"><a class="btn" href="${cvFile(lang)}" rel="noopener">${t.downloadCV}</a><a class="btn sec" href="mailto:${profile.email}">${t.contact}</a><a class="btn sec" href="${profile.links.linkedin}" rel="noopener">LinkedIn ↗</a></p>
     <dl class="facts">
       <div><dt>${k.now}</dt><dd>${esc(tr(experience[0].role))} · ${esc(experience[0].org)}</dd></div>
       <div><dt>${k.based}</dt><dd>${esc(tr(profile.location))}</dd></div>
@@ -176,7 +173,7 @@ function classic(lang) {
     <h2>${t.talk}</h2>
     <p class="lead">${k.contactLead}</p>
     <p><a class="mail" href="mailto:${profile.email}">${profile.email}</a></p>
-    <p class="cta"><a class="btn" href="${cvFile(lang)}" rel="noopener">${t.downloadCV}</a><a class="btn sec" href="${profile.links.linkedin}" rel="noopener">LinkedIn ↗</a><a class="btn sec" href="${profile.links.github}" rel="noopener">GitHub ↗</a></p>
+    <p class="cta"><a class="btn" href="${cvFile(lang)}" rel="noopener">${t.downloadCV}</a><a class="btn sec" href="${profile.links.linkedin}" rel="noopener">LinkedIn ↗</a></p>
   </section>
   <footer class="foot">${esc(profile.name)} · ${esc(tr(profile.location))} · ${k.updated} ${esc(updated)} · <a href="#top">${k.backTop} ↑</a> · <a href="./?lang=${lang}">${k.viewDesktop}</a></footer>
 </main>
