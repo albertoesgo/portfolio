@@ -6,12 +6,12 @@ const T = {
   es: {
     locale: 'es-ES', months: ['ene.', 'feb.', 'mar.', 'abr.', 'may.', 'jun.', 'jul.', 'ago.', 'sept.', 'oct.', 'nov.', 'dic.'],
     pct: (v) => `${v} %`, scen: {},
-    simH: '¿Y si no llueve?', simLead: 'Mi modelo proyecta el nivel de los embalses a 90 días en cinco escenarios basados en años reales.',
+    simH: '¿Y si no llueve?', simLead: (d) => `Mi modelo proyecta el nivel de los embalses a 90 días desde el último dato del TFG (${d}), en cinco escenarios basados en años reales.`,
     all: 'Los 7 embalses', reservoir: 'Embalse', scenario: 'Escenario', plusDays: (d) => `+${d} días`,
     stress: (mm) => `Prueba de estrés: el año más seco (2023) con un 30 % menos de lluvia, ${mm} mm al año.`,
     based: (y, mm, p) => `Basado en ${y}: ${mm} mm de lluvia al año (percentil ${p}).`,
-    simNote: (d) => ` Simulación del modelo GCN-LSTM del TFG, que proyecta los 7 embalses a la vez como un sistema conectado, desde el último dato (${d}).`,
-    at: (d) => `de capacidad el ${d}`, inDays: (d, sign, delta, today) => `dentro de ${d} días · ${sign}${delta} puntos sobre hoy (${today})`,
+    simNote: () => ' Simulación del modelo GCN-LSTM del TFG, que proyecta los 7 embalses a la vez como un sistema conectado.',
+    at: (d) => `de capacidad el ${d}`, inDays: (d, sign, delta, today) => `a los ${d} días · ${sign}${delta} puntos sobre el nivel de partida (${today})`,
     histH: 'Dos décadas de agua embalsada',
     histLead: (a, b) => `Llenado medio mensual de los 7 embalses, ${a}–${b}. La sequía de 2020–2024 no tiene precedentes en el histórico: por eso hacen falta modelos que aprendan de la meteorología y no solo de la estacionalidad.`,
     histRead: (m, y, min, mm, my) => `en ${m} ${y}, último dato · mínimo ${min} en ${mm} ${my}`,
@@ -21,17 +21,18 @@ const T = {
     verdict: (h, red) => `A ${h} días, el LSTM con meteorología reduce el error un ${red} % frente a repetir el dato de hoy.`,
     v60: (a, b) => ` La referencia ya no predice nada (NSE ${a}); el LSTM aún explica buena parte de la variación (NSE ${b}).`,
     v7: ' A una semana casi todo lo explica el nivel de hoy; la meteorología marca la diferencia a partir de dos semanas.',
+    perH: 'El GCN-LSTM, embalse a embalse', perLead: 'El mismo modelo predice los siete a la vez; el error (RMSE) no es igual en todos.',
   },
   en: {
     locale: 'en-GB', months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     pct: (v) => `${v}%`,
     scen: { wet: 'Wet year', normal: 'Normal year', moderate_drought: 'Moderate drought', extreme_drought: 'Extreme drought', unprecedented_drought: 'Unprecedented drought' },
-    simH: "What if it doesn't rain?", simLead: 'My model projects reservoir levels 90 days ahead under five scenarios based on real years.',
+    simH: "What if it doesn't rain?", simLead: (d) => `My model projects reservoir levels 90 days ahead from the last data point in the thesis (${d}), under five scenarios based on real years.`,
     all: 'All 7 reservoirs', reservoir: 'Reservoir', scenario: 'Scenario', plusDays: (d) => `+${d} days`,
     stress: (mm) => `Stress test: the driest year (2023) with 30% less rain, ${mm} mm a year.`,
     based: (y, mm, p) => `Based on ${y}: ${mm} mm of rain a year (percentile ${p}).`,
-    simNote: (d) => ` Simulated with the thesis GCN-LSTM model, which projects all 7 reservoirs jointly as a connected system, from the latest data point (${d}).`,
-    at: (d) => `of capacity on ${d}`, inDays: (d, sign, delta, today) => `in ${d} days · ${sign}${delta} points vs. today (${today})`,
+    simNote: () => ' Simulated with the thesis GCN-LSTM model, which projects all 7 reservoirs jointly as a connected system.',
+    at: (d) => `of capacity on ${d}`, inDays: (d, sign, delta, today) => `after ${d} days · ${sign}${delta} points vs. the starting level (${today})`,
     histH: 'Two decades of stored water',
     histLead: (a, b) => `Average monthly fill of the 7 reservoirs, ${a}–${b}. The 2020–2024 drought has no precedent in the record, which is why the models must learn from the weather and not just from seasonality.`,
     histRead: (m, y, min, mm, my) => `in ${m} ${y}, latest data · low of ${min} in ${mm} ${my}`,
@@ -41,6 +42,7 @@ const T = {
     verdict: (h, red) => `At ${h} days, the LSTM with weather cuts the error by ${red}% compared with repeating today's value.`,
     v60: (a, b) => ` The baseline no longer predicts anything (NSE ${a}); the LSTM still explains much of the variation (NSE ${b}).`,
     v7: " A week ahead, today's level explains almost everything; the weather makes the difference from two weeks on.",
+    perH: 'The GCN-LSTM, reservoir by reservoir', perLead: 'The same model predicts all seven at once; the error (RMSE) is not the same for each.',
   },
 };
 const svgEl = (w, h) => `<svg viewBox="0 0 ${w} ${h}" role="img">`;
@@ -49,12 +51,6 @@ let cache;
 export async function loadAqua() {
   if (!cache) cache = fetch('data/aqua.json').then((r) => r.json());
   return cache;
-}
-
-export function sparkline(data) {
-  const v = data.history.pct, W = 300, H = 40, n = v.length;
-  const pts = v.map((y, i) => `${(i / (n - 1)) * W},${H - (y / 100) * H}`).join(' ');
-  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><polygon points="0,${H} ${pts} ${W},${H}" fill="var(--blue)" opacity=".18"/><polyline class="draw" pathLength="1" points="${pts}" fill="none" stroke="var(--blue)" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg>`;
 }
 
 const helpers = (lang) => {
@@ -75,7 +71,7 @@ export function mountSimulator(el, data, lang = 'es') {
   el.innerHTML = `
     <div class="viz">
       <h4>${t.simH}</h4>
-      <p class="lead">${t.simLead}</p>
+      <p class="lead">${t.simLead(startLabel)}</p>
       <div class="row"><select aria-label="${t.reservoir}"><option value="all">${t.all}</option>${Object.entries(data.reservoirs).map(([k, r]) => `<option value="${k}">${r.name}</option>`).join('')}</select><div class="chips" role="group" aria-label="${t.scenario}">${data.scenarios.map((s) => `<button class="chip" data-s="${s.key}" aria-pressed="${s.key === scen}"><i style="background:${COLOR[s.key]}"></i>${label(s)}</button>`).join('')}</div></div>
       <div class="readout"><b></b><span></span></div>
       <div class="svgbox">${svgEl(W, H)}<g class="g"></g><g class="lines"></g><g class="cur"></g></svg></div>
@@ -93,10 +89,10 @@ export function mountSimulator(el, data, lang = 'es') {
       `<path class="area" d="${path(sel)}L${x(90)},${y(0)}L${x(0)},${y(0)}Z" fill="${COLOR[scen]}" opacity=".12"/>` +
       `<path class="draw" pathLength="1" d="${path(sel)}" fill="none" stroke="${COLOR[scen]}" stroke-width="3" stroke-linejoin="round"/>` +
       `<circle cx="${x(0)}" cy="${y(sel[0])}" r="4" fill="var(--win)" stroke="${COLOR[scen]}" stroke-width="2"/>` +
-      `<g class="endpt"><circle cx="${x(90)}" cy="${y(sel[90])}" r="4.5" fill="${COLOR[scen]}"/><text x="${x(90) + 8}" y="${y(sel[90]) + 4}" style="fill:var(--label);font-weight:700;font-size:12px">${p(sel[90])}</text></g>`;
+      `<g class="endpt"><circle cx="${x(90)}" cy="${y(sel[90])}" r="4.5" fill="${COLOR[scen]}"/><text class="endlbl" x="${x(90) + 8}" y="${y(sel[90]) + 4}">${p(sel[90])}</text></g>`;
     readout(90);
     const m = data.scenarios.find((k) => k.key === scen);
-    el.querySelector('.note').textContent = (scen === 'unprecedented_drought' ? t.stress(f(m.precip, 0)) : t.based(m.year, f(m.precip, 0), m.pct)) + t.simNote(startLabel);
+    el.querySelector('.note').textContent = (scen === 'unprecedented_drought' ? t.stress(f(m.precip, 0)) : t.based(m.year, f(m.precip, 0), m.pct)) + t.simNote();
   }
   function readout(d) {
     const sel = series()[scen], delta = sel[d] - sel[0];
@@ -169,19 +165,27 @@ export function mountHorizon(el, lang = 'es') {
   const DATA = { 7: [3.84, 1.94, 3.12], 14: [6.77, 3.18, 5.37], 30: [11.99, 5.74, 9.19], 60: [19.54, 11.03, 14.67] };
   const NSE = { 7: [0.964, 0.991], 14: [0.887, 0.975], 30: [0.648, 0.919], 60: [0.074, 0.705] };
   const SER = ['var(--gray)', 'var(--blue)', 'var(--orange)'];
+  // RMSE del GCN-LSTM por embalse a 7, 14, 30 y 60 días (autoregressive_per_reservoir_nb09.csv)
+  const HZ = [7, 14, 30, 60];
+  const PER = [['Casasola', [1.03, 1.74, 3.26, 6.66]], ['La Concepción', [3.11, 5.33, 9.17, 14.66]], ['Conde de Guadalhorce', [3.54, 5.75, 9.68, 15.27]], ['Guadalhorce', [0.96, 1.58, 2.92, 4.89]],
+    ['Guadalteba', [1.05, 1.83, 3.46, 6.13]], ['Limonero', [1.76, 2.44, 4.02, 6.5]], ['La Viñuela', [0.95, 1.36, 2.17, 3.31]]];
   el.innerHTML = `
     <div class="viz">
       <h4>${t.hzH('<span class="hzl">30</span>')}</h4>
       <p class="lead">${t.hzLead}</p>
-      <div class="seg hz" role="group" aria-label="${t.horizon}">${[7, 14, 30, 60].map((h) => `<button data-h="${h}" aria-pressed="${h === 30}">${t.days(h)}</button>`).join('')}</div>
+      <div class="seg hz" role="group" aria-label="${t.horizon}">${HZ.map((h) => `<button data-h="${h}" aria-pressed="${h === 30}">${t.days(h)}</button>`).join('')}</div>
       <div class="bars">${SER.map((c, k) => `<div class="brow"><span>${t.series[k]}</span><div class="track2"><div class="fill" style="background:${c};width:0"></div></div><span class="v">–</span></div>`).join('')}</div>
       <div class="axis"><span></span><div><span>0</span><span>5</span><span>10</span><span>15</span><span>20</span></div><span></span></div>
       <div class="verdict"></div>
+      <h5>${t.perH}</h5>
+      <p class="lead">${t.perLead}</p>
+      <div class="bars per">${PER.map(([n]) => `<div class="brow"><span>${n}</span><div class="track2"><div class="fill" style="background:var(--orange);width:0"></div></div><span class="v">–</span></div>`).join('')}</div>
     </div>`;
   const hz = (h) => {
     el.querySelector('.hzl').textContent = h;
     el.querySelectorAll('.hz button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.h == h));
-    el.querySelectorAll('.brow').forEach((r, k) => { r.querySelector('.fill').style.width = (DATA[h][k] / 20) * 100 + '%'; r.querySelector('.v').textContent = f(DATA[h][k]); });
+    el.querySelectorAll('.bars:not(.per) .brow').forEach((r, k) => { r.querySelector('.fill').style.width = (DATA[h][k] / 20) * 100 + '%'; r.querySelector('.v').textContent = f(DATA[h][k]); });
+    el.querySelectorAll('.per .brow').forEach((r, k) => { const v = PER[k][1][HZ.indexOf(+h)]; r.querySelector('.fill').style.width = (v / 20) * 100 + '%'; r.querySelector('.v').textContent = f(v); });
     const red = Math.round((1 - DATA[h][1] / DATA[h][0]) * 100);
     el.querySelector('.verdict').textContent = t.verdict(h, red) + (h == 60 ? t.v60(f(NSE[h][0], 2), f(NSE[h][1], 2)) : h == 7 ? t.v7 : '');
   };

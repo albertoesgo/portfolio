@@ -14,7 +14,6 @@ import { UI, pick, classicFile } from '../js/i18n.js';
 const SITE = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PROYECTOS = join(SITE, '..', '..');
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 // Perfil del CV que se publica en la web (el resto de versiones son solo para Alberto)
 const PUBLIC_CV = 'automation';
 
@@ -47,24 +46,25 @@ try {
   // Sin respuesta: se conserva la última cifra buena (y si no hay, valores prudentes)
   let prev = null;
   try { prev = JSON.parse(readFileSync(join(SITE, 'data', 'live.json'), 'utf8')).lookit; } catch { /* primera vez */ }
-  live.lookit = prev?.products ? prev : { products: 9000, brands: 24, updatedAt: null };
-  console.log(`⚠ LOOKIT no responde; mantengo ${live.lookit.products} prendas del último build`);
-}
-try {
-  const catalog = JSON.parse(readFileSync(join(PROYECTOS, 'DeTemporada', 'DeTemporada', 'src', 'data', 'catalog.json'), 'utf8'));
-  const month = new Date().getMonth() + 1;
-  const inSeason = catalog.filter((p) => !p.yearRound && p.north.includes(month) && (p.regiones.includes('andalucia') || p.regiones.includes('all')));
-  // Primero lo que lleva un lugar andaluz en el nombre, luego lo genérico de huerta y frutal
-  const andaluz = /málaga|granada|almería|huelva|cádiz|sevilla|córdoba|jaén|costa tropical|andaluc/i;
-  const otraRegion = /murcia|valencia|xúquer|navarra|galicia|asturias|canarias|aragón|rioja|extremadura|catalu|lleida|bierzo/i;
-  const score = (p) => (andaluz.test(p.nombre) ? 0 : ['frutas', 'verduras'].includes(p.categoria) ? 1 : 2);
-  const pickItems = inSeason.filter((p) => !otraRegion.test(p.nombre)).sort((a, b) => score(a) - score(b)).slice(0, 4);
-  live.detemporada = { month: MESES[month - 1], region: 'Andalucía', count: inSeason.length, items: pickItems.map((p) => p.nombre.replace(/\s*\(.*\)$/, '')) };
-  console.log(`✓ DeTemporada: ${live.detemporada.count} productos en ${live.detemporada.month}`);
-} catch {
-  console.log('⚠ DeTemporada: no encuentro el catálogo');
+  live.lookit = prev?.products ? prev : null;
+  console.log(live.lookit ? `⚠ LOOKIT no responde; mantengo ${live.lookit.products} prendas del último build` : '⚠ LOOKIT no responde y no hay cifra anterior: la web usará el texto fijo');
 }
 writeFileSync(join(SITE, 'data', 'live.json'), JSON.stringify(live));
+
+// 2b. Enlaces: ningún proyecto debe salir «En producción» con una URL que no responde
+for (const p of projects) {
+  for (const url of [p.link, p.repo].filter(Boolean)) {
+    try {
+      const r = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(15000), headers: { 'User-Agent': 'Mozilla/5.0 (link check)' } });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    } catch (e) {
+      console.log(`✖ ENLACE CAÍDO en «${pick(p.name, 'es')}»: ${url} (${e.message}). Pon live: false o corrige el enlace en js/data.js.`);
+      process.exitCode = 1;
+    }
+  }
+  if (p.live && !p.link) { console.log(`✖ «${pick(p.name, 'es')}» está marcado como en producción pero no tiene enlace.`); process.exitCode = 1; }
+}
+console.log('✓ enlaces de proyectos comprobados');
 
 // 3. Vista clásica: una página editorial por idioma (buscadores, lectores de pantalla y quien prefiera leer)
 const ICON_HOME = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3.2 2.8 11h2.7v9h5v-6h3v6h5v-9h2.7z"/></svg>';
@@ -75,16 +75,19 @@ function classic(lang) {
   const n = (x) => String(x).replace(/\B(?=(\d{3})+(?!\d))/g, grp);
   const stats = (p) => {
     let s = tr(p.stats);
-    if (p.id === 'lookit' && live.lookit) s = s.map((x, j) => (j === 1 ? [n(live.lookit.products), x[1]] : x));
+    if (p.id === 'lookit' && live.lookit) s = s.map((x, j) => (j === 0 ? [String(live.lookit.brands), x[1]] : j === 1 ? [n(live.lookit.products), x[1]] : x));
     return s;
   };
+  const badge = (p) => (p.live ? ` <span class="live"><i></i>${t.live}</span>` : p.status ? ` <span class="soon">${esc(tr(p.status))}</span>` : '');
+  const links = (p) => (p.link ? `<a class="btn sec" href="${p.link}" rel="noopener">${esc(t.open(p.linkLabel))}</a>` : '') + (p.repo ? `<a class="btn sec" href="${p.repo}" rel="noopener">${t.repoBtn} ↗</a>` : '');
   const updated = new Date(live.built).toLocaleDateString(t.locale, { day: 'numeric', month: 'long', year: 'numeric' });
   const project = (p, i) => `
     <article class="proj" id="${p.id}" style="--tint:${p.tint}">
       <header class="ph">
         <img class="logo${p.plate ? ' pad' : ''}" src="${p.logo}" alt="" width="64" height="64" style="background:${p.plate || 'transparent'}">
-        <div><p class="kind"><span class="num">${String(i + 1).padStart(2, '0')}</span> ${esc(tr(p.kind))}${p.live ? ` <span class="live"><i></i>${t.live}</span>` : ''}</p><h3>${esc(tr(p.name))}</h3></div>
+        <div><p class="kind"><span class="num">${String(i + 1).padStart(2, '0')}</span> ${esc(tr(p.kind))}${badge(p)}</p><h3>${esc(tr(p.name))}</h3></div>
       </header>
+      <p class="plain">${esc(tr(p.plain))}</p>
       <p class="tagline">${esc(tr(p.tagline))}</p>
       <figure class="shot"><img src="img/shots/${p.shots[0][0]}.webp" alt="${esc(t.shotOf(tr(p.name)))}" loading="lazy" width="1280" height="800"></figure>
       <dl class="stats">${stats(p).map(([a, b]) => `<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join('')}</dl>
@@ -97,9 +100,11 @@ function classic(lang) {
         <h4>${c.arch}</h4><dl class="arch">${tr(p.case.arch).map(([a, b]) => `<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join('')}</dl>
         <h4>${c.decisions}</h4><ol class="dec">${tr(p.case.decisions).map((d) => `<li>${esc(d)}</li>`).join('')}</ol>
         <h4>${c.impact}</h4><ul class="checks">${tr(p.case.impact).map((d) => `<li>${CHECK}<span>${esc(d)}</span></li>`).join('')}</ul>
+        ${p.case.code ? `<h4>${c.code}</h4><figure class="code"><figcaption><code>${esc(p.case.code.file)}</code><span>${esc(tr(p.case.code.note))}</span></figcaption><pre tabindex="0"><code>${esc(p.case.code.src)}</code></pre></figure>` : ''}
+        ${p.case.check ? `<h4>${c.check}</h4><ul class="checks">${tr(p.case.check).map((d) => `<li>${CHECK}<span>${esc(d)}</span></li>`).join('')}</ul>` : ''}
         <h4>${c.next}</h4><p>${esc(tr(p.case.next))}</p>
       </details>
-      <footer class="pf"><p class="stack">${p.stack.map((x) => `<span>${esc(x)}</span>`).join('')}</p>${p.link ? `<a class="btn sec" href="${p.link}" rel="noopener">${esc(t.open(p.linkLabel))}</a>` : ''}</footer>
+      <footer class="pf"><p class="stack">${p.stack.map((x) => `<span>${esc(x)}</span>`).join('')}</p><span class="links">${links(p)}</span></footer>
     </article>`;
   return `<!doctype html>
 <html lang="${lang}">
@@ -147,7 +152,7 @@ function classic(lang) {
 
   <section id="projects">
     <h2>${k.index}</h2>
-    <ol class="index">${projects.map((p, i) => `<li><a href="#${p.id}"><span class="num">${String(i + 1).padStart(2, '0')}</span><b>${esc(tr(p.name))}</b><span class="it">${esc(tr(p.tagline))}</span></a></li>`).join('')}</ol>
+    <ol class="index">${projects.map((p, i) => `<li><a href="#${p.id}"><span class="num">${String(i + 1).padStart(2, '0')}</span><b>${esc(tr(p.name))}</b><span class="it">${esc(tr(p.plain))}</span></a></li>`).join('')}</ol>
     ${projects.map(project).join('')}
   </section>
 

@@ -138,8 +138,9 @@ button:disabled { cursor: default; }
 .svgbox svg { width: 100%; height: auto; display: block; overflow: visible; }
 /* En el escritorio la gráfica se ajusta al alto libre de la ventana (sin cortarse) */
 .mac .media { padding-bottom: 22px; }
+.mac .pane.on { overflow-y: auto; scrollbar-width: thin; }
 .mac .viz { flex: 1 1 auto; }
-.mac .viz .svgbox { flex: 1 1 0; min-height: 110px; }
+.mac .viz .svgbox { flex: 1 1 0; min-height: 190px; }
 .mac .viz .svgbox svg { height: 100%; }
 .mac .viz h4 { font-size: 19px; line-height: 23px; }
 .mac .viz .readout b { font-size: 28px; line-height: 32px; }
@@ -165,17 +166,26 @@ button:disabled { cursor: default; }
 .axis { display: grid; grid-template-columns: 170px 1fr 48px; gap: 12px; font-size: 11px; color: var(--label2); }
 .axis div { display: flex; justify-content: space-between; }
 .verdict { padding: 10px 12px; border-radius: 10px; background: var(--fill); font-size: 13px; line-height: 18px; }
+.viz h5 { margin: 8px 0 0; font-size: 15px; line-height: 20px; font-weight: 700; letter-spacing: -.01em; }
+.bars.per { gap: 6px; margin-top: 0; }
+.bars.per .brow { font-size: 13px; }
+.bars.per .track2 { height: 10px; border-radius: 3px; }
+.svgbox .endlbl { fill: var(--label); font-weight: 700; font-size: 12px; }
 
-/* Panel de información */
-.info { overflow-y: auto; padding: 22px 24px 20px; display: grid; gap: 14px; align-content: start; scrollbar-width: thin; }
+/* Panel de información: el contenido se desplaza si no cabe y las acciones quedan siempre a la vista */
+.info { display: grid; grid-template-rows: minmax(0, 1fr) auto; min-height: 0; }
+.info-in { overflow-y: auto; padding: 20px 24px 12px; display: grid; gap: 12px; align-content: start; grid-auto-rows: max-content; scrollbar-width: thin; user-select: text; -webkit-user-select: text; }
+.info-foot { padding: 12px 24px 16px; border-top: .5px solid var(--sep); }
+.info .plain { margin: 0; font-size: 16px; line-height: 22px; font-weight: 500; letter-spacing: -.012em; }
+.info .tag { margin: 0; font-size: 13px; line-height: 18px; color: var(--label2); }
 .phead { display: grid; grid-template-columns: 52px 1fr; gap: 12px; align-items: center; }
 .phead .ai { width: 52px; height: 52px; }
 .kind { font-size: 12px; font-weight: 600; color: var(--label2); text-transform: uppercase; letter-spacing: .02em; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
 .live { display: inline-flex; align-items: center; gap: 5px; text-transform: none; letter-spacing: 0; font-size: 11px; font-weight: 600; color: var(--green); background: color-mix(in srgb, var(--green) 14%, transparent); padding: 2px 8px 2px 7px; border-radius: 980px; }
 .live i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: pulse 2s ease-in-out infinite; }
 @keyframes pulse { 50% { opacity: .35; } }
+.soon { display: inline-flex; align-items: center; text-transform: none; letter-spacing: 0; font-size: 11px; font-weight: 600; color: var(--label2); background: var(--fill); padding: 2px 8px; border-radius: 980px; }
 .info h2 { font-size: 28px; line-height: 32px; font-weight: 700; letter-spacing: -.025em; margin: 1px 0 0; }
-.info .tag { font-size: 15px; line-height: 21px; color: var(--label); margin: 0; }
 .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
 .stat { background: var(--fill); border-radius: 12px; padding: 10px 11px; min-width: 0; }
 .stat b { display: block; font-size: 21px; line-height: 25px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; white-space: nowrap; }
@@ -209,10 +219,10 @@ button:disabled { cursor: default; }
 /* Inicio (Mac): portada a la izquierda y mosaico de proyectos a la derecha */
 .home { position: absolute; inset: 56px 64px 168px; display: grid; grid-template-columns: minmax(0, 520px) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); gap: 48px; align-items: center; }
 .mac .w-profile, .mac .icons, .qs { display: none; }
-.hero .hi { margin: 0; font-size: 19px; color: var(--label2); font-weight: 500; }
-.hero h1 { margin: 6px 0 0; font-size: 64px; line-height: 1; font-weight: 700; letter-spacing: -.045em; }
-.hero .hrole { margin: 14px 0 0; font-size: 19px; font-weight: 600; color: var(--label); }
-.hero .hline { margin: 10px 0 0; font-size: 19px; line-height: 27px; color: var(--label2); max-width: 30em; }
+.hero .hi { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 18px; padding: 6px 12px; border-radius: 980px; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); font-size: 14px; font-weight: 600; color: var(--label); }
+.hero .hi i { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+.hero h1 { margin: 6px 0 0 -3px; font-size: 60px; line-height: 1; font-weight: 700; letter-spacing: -.045em; }
+.hero .hline { margin: 16px 0 0; font-size: 19px; line-height: 27px; color: var(--label); opacity: .72; max-width: 30em; text-wrap: balance; }
 .hero .actions { margin-top: 26px; gap: 10px; }
 .hero .btn { padding: 10px 18px; font-size: 15px; }
 .hero .btn.sec { background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
@@ -238,32 +248,12 @@ button:disabled { cursor: default; }
 .fc.big .fcx b { font-size: 20px; }
 .fc.big .fcx small { font-size: 14px; }
 .fcx .dot { width: 8px; height: 8px; border-radius: 50%; background: #30d158; box-shadow: 0 0 0 3px rgba(48,209,88,.25); animation: pulse 2s ease-in-out infinite; }
-.fspark { position: absolute; left: 0; right: 0; bottom: 0; height: 46%; z-index: 1; opacity: .9; pointer-events: none; }
-.fspark svg { width: 100%; height: 100%; display: block; }
-.fspark polyline { stroke: #64d2ff; }
-.fspark polygon { fill: #64d2ff; opacity: .25; }
-.widget { border-radius: 22px; padding: 16px; background: var(--glass); backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%); box-shadow: 0 8px 30px rgba(0,0,0,.08); min-width: 0; text-align: left; border: 0; color: var(--label); font: inherit; }
-button.widget { cursor: pointer; }
-.mac button.widget:hover { box-shadow: 0 14px 40px rgba(0,0,0,.14); }
-.wl { font-size: 12px; font-weight: 600; color: var(--label2); text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
-.widget h3 { font-size: 22px; line-height: 26px; font-weight: 700; margin: 6px 0 2px; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
-.widget p { margin: 0; font-size: 13px; line-height: 18px; color: var(--label2); }
-.widget p b { color: var(--label); font-weight: 600; }
 .w-profile { grid-column: 1 / 3; display: grid; grid-template-columns: 76px 1fr; gap: 16px; align-items: center; }
 .avatar { width: 76px; height: 76px; border-radius: 50%; background: linear-gradient(150deg, #34c3c8, #0a63c9); color: #fff; display: grid; place-items: center; font-size: 28px; font-weight: 700; letter-spacing: -.03em; flex: none; }
 .w-profile h1 { font-size: 28px; line-height: 32px; margin: 0; font-weight: 700; letter-spacing: -.025em; }
 .w-profile .role { font-size: 15px; color: var(--label2); margin: 2px 0 0; }
-.w-profile .now { font-size: 13px; line-height: 18px; margin: 6px 0 0; color: var(--label); }
-.w-profile .actions { margin-top: 12px; }
-.spark { margin-top: 8px; height: 40px; }
-.spark svg { width: 100%; height: 100%; display: block; }
-.tl { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
-.tl li { display: grid; grid-template-columns: 82px 1fr; gap: 8px; font-size: 13px; line-height: 17px; }
-.tl small { color: var(--label2); font-variant-numeric: tabular-nums; }
-.tl em { font-style: normal; color: var(--green); font-weight: 600; }
-.icons { grid-column: 3; grid-row: 1 / span 3; margin-top: 84px; display: grid; grid-template-columns: repeat(2, 100px); gap: 10px 12px; justify-content: end; align-content: start; }
-.dicon { display: grid; justify-items: center; gap: 6px; border: 0; background: none; color: #fff; font: 500 12px/15px var(--sf); text-shadow: 0 1px 3px rgba(0,0,0,.45); padding: 6px 4px; border-radius: 8px; cursor: pointer; text-align: center; }
-.dicon:hover, .dicon:focus-visible { background: rgba(255,255,255,.18); }
+.dicon { display: grid; justify-items: center; gap: 7px; border: 0; background: none; color: var(--label); font: 600 12px/15px var(--sf); padding: 4px 2px; border-radius: 8px; cursor: pointer; text-align: center; }
+.dicon:hover, .dicon:focus-visible { background: var(--fill); }
 .dicon .ai { width: 62px; height: 62px; transition: transform .2s var(--ease); }
 .dicon:active .ai { transform: scale(.92); }
 .hint { position: absolute; left: 50%; bottom: 128px; transform: translateX(-50%); z-index: 20; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; padding: 7px 14px; border-radius: 980px; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); transition: opacity .5s; pointer-events: none; white-space: nowrap; }
@@ -271,7 +261,6 @@ button.widget { cursor: pointer; }
 .hint .arr svg { width: 16px; height: 16px; }
 @keyframes nudge { 50% { transform: translateX(5px); } }
 .hint.gone { opacity: 0; }
-.pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 2s ease-in-out infinite; }
 
 /* Dock: escala y desplazamiento por transform (sin recalcular layout); el fondo se ensancha aparte */
 .dock { --b: 50px; --grow: 0px; position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); z-index: 25; display: flex; align-items: flex-end; gap: 6px;
@@ -283,7 +272,6 @@ button.widget { cursor: pointer; }
 .dock.mag > *, .dock.mag::before { transition: none; }
 .dock > button, .dock > a { --m: 1; position: relative; flex: none; width: var(--b); border: 0; background: none; padding: 0; cursor: pointer; display: block; color: inherit; }
 .dock .ai { width: 100%; height: auto; aspect-ratio: 1; }
-.dock .sepv { width: 1px; height: calc(var(--b) * .8); align-self: center; margin: 9px 4px 0; background: var(--sep); flex: none; }
 .dock > button::after { content: ''; position: absolute; left: 50%; bottom: -6px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: var(--label); opacity: 0; transition: opacity .3s; }
 .dock > button.on::after { opacity: .75; }
 .tip { position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%) scale(calc(1 / var(--m, 1))); transform-origin: 50% 100%; padding: 4px 10px; border-radius: 7px; background: var(--glass); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
@@ -324,6 +312,7 @@ button.widget { cursor: pointer; }
 .oc .th .ai { position: absolute; left: 10px; bottom: 10px; width: 40px; height: 40px; }
 .oc .th .live { position: absolute; right: 10px; top: 10px; background: rgba(0,0,0,.55); color: #fff; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
 .oc .th .live i { background: #30d158; }
+.oc .th .soon { position: absolute; right: 10px; top: 10px; background: rgba(0,0,0,.55); color: #fff; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
 .oc small { display: block; margin-top: 10px; font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--label2); }
 .oc b { display: block; font-size: 17px; margin-top: 2px; font-weight: 600; }
 .oc span { display: block; font-size: 13px; line-height: 18px; color: var(--label2); }
@@ -380,6 +369,14 @@ button.widget { cursor: pointer; }
 .impact { list-style: none; padding: 0 !important; }
 .impact li { display: grid; grid-template-columns: 20px 1fr; gap: 8px; }
 .impact svg { width: 18px; height: 18px; margin-top: 3px; }
+.impact.check svg { color: var(--blue); width: 16px; height: 16px; margin-top: 4px; }
+.code { margin: 0; border-radius: 12px; overflow: hidden; background: var(--win-side); }
+.code figcaption { display: grid; gap: 3px; padding: 11px 14px; border-bottom: .5px solid var(--sep); font-size: 14px; line-height: 20px; color: var(--label2); }
+.code figcaption code { font: 600 12px/16px ui-monospace, 'SF Mono', Menlo, Consolas, monospace; color: var(--label); }
+.code pre { margin: 0; padding: 14px; overflow-x: auto; font: 12.5px/19px ui-monospace, 'SF Mono', Menlo, Consolas, monospace; tab-size: 2; color: var(--label); }
+.list.two { display: grid; grid-template-columns: 1fr 1fr; }
+.list.two .li:nth-child(2) { border-top: 0; }
+.list.two .li:nth-child(odd) { border-right: .5px solid var(--sep); }
 .sheet-body .stats { margin-top: 4px; }
 .list { background: var(--win-side); border-radius: 12px; overflow: hidden; }
 .li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; padding: 12px 14px; border-top: .5px solid var(--sep); align-items: baseline; }
@@ -410,13 +407,42 @@ button.widget { cursor: pointer; }
 .phone .pane.on { display: block; padding-bottom: 14px; }
 .phone .mtabs { margin-bottom: 12px; }
 .phone .brow, .phone .axis { grid-template-columns: 112px 1fr 40px; gap: 8px; font-size: 12px; }
-.phone .info { overflow: visible; padding: 20px 20px 18px; gap: 16px; }
+/* Ejes legibles en el móvil: la gráfica mide ~350 px y el texto del SVG se encoge con ella */
+.phone .svgbox text { font-size: 16px; }
+.phone .svgbox .endlbl { font-size: 18px; }
 .phone .info h2 { font-size: 30px; line-height: 34px; }
 .phone .phead { grid-template-columns: 56px 1fr; }
 .phone .phead .ai { width: 56px; height: 56px; }
-.phone .info .tag { font-size: 17px; line-height: 23px; }
 .phone .stat b { font-size: 20px; }
 .phone .group li { font-size: 15px; line-height: 20px; padding: 10px 0; }
+
+/* Inicio (móvil): nombre, rol, una frase y los proyectos como apps */
+.phone .home { inset: calc(16px + env(safe-area-inset-top, 0px)) 16px calc(150px + env(safe-area-inset-bottom, 0px)); grid-template-columns: 1fr 1fr; grid-template-rows: none; gap: 12px; align-items: start; align-content: start; overflow-y: auto; scrollbar-width: none; padding-top: 10px; }
+.phone .hero, .phone .feat { display: none; }
+.phone .w-profile { grid-column: 1 / 3; grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 10px; padding: 0 14px; margin-top: clamp(10px, 5dvh, 56px); }
+.phone .avatar { width: 68px; height: 68px; font-size: 25px; }
+.phone .w-profile h1 { font-size: 27px; line-height: 32px; }
+.phone .w-profile .role { font-size: 15px; }
+.w-profile .pitch { margin: 12px auto 0; max-width: 17em; font-size: 19px; line-height: 25px; font-weight: 600; letter-spacing: -.02em; color: var(--label); text-wrap: balance; }
+.phone .icons { grid-column: 1 / 3; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px 0; margin-top: clamp(18px, 4.5dvh, 44px); }
+.phone .icons .dicon { width: 33.33%; max-width: 124px; }
+.phone .icons .dicon .ai { width: 68px; height: 68px; }
+.phone .info { display: block; }
+.phone .info-in { overflow: visible; padding: 20px 20px 0; gap: 16px; }
+.phone .info-foot { border-top: 0; padding: 18px 20px; }
+.phone .info .plain { font-size: 19px; line-height: 26px; }
+.phone .info .tag { font-size: 15px; line-height: 21px; }
+.phone .list.two { grid-template-columns: 1fr; }
+.phone .list.two .li:nth-child(2) { border-top: .5px solid var(--sep); }
+.phone .list.two .li:nth-child(odd) { border-right: 0; }
+/* Móviles bajos: sin avatar y con iconos algo menores para que las dos filas queden a la vista */
+@media (max-height: 700px) {
+  .phone .w-profile .avatar { display: none; }
+  .phone .w-profile { margin-top: 4px; }
+  .phone .w-profile .pitch { margin-top: 8px; font-size: 17px; line-height: 23px; }
+  .phone .icons { margin-top: 16px; gap: 12px 0; }
+  .phone .icons .dicon .ai { width: 56px; height: 56px; }
+}
 
 /* El deslizamiento lateral es siempre nuestro: el navegador solo se queda el scroll vertical */
 .phone .track, .phone .track * { touch-action: pan-y; }
@@ -432,29 +458,20 @@ button.widget { cursor: pointer; }
 .phone .xbtn::before { content: ''; position: absolute; inset: -6px; }
 .phone button:active, .phone a:active { opacity: .7; }
 
-.phone .home { inset: calc(16px + env(safe-area-inset-top, 0px)) 16px calc(130px + env(safe-area-inset-bottom, 0px)); grid-template-columns: 1fr 1fr; gap: 12px; overflow-y: auto; scrollbar-width: none; padding-top: 10px; }
-.phone .hero, .phone .feat { display: none; }
-.phone .home { grid-template-rows: none; align-items: start; }
 .phone .qs { display: flex; grid-column: 1 / 3; justify-content: flex-end; gap: 8px; margin-bottom: -4px; }
 .phone .qs button { min-width: 44px; height: 36px; border: 0; border-radius: 980px; display: grid; place-items: center; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); color: var(--label); font-size: 13px; font-weight: 700; letter-spacing: .02em; cursor: pointer; padding: 0 12px; }
 .phone .qs svg { width: 16px; height: 16px; }
 .phone .qs .cls { margin-right: auto; display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 980px; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); color: var(--label); font-size: 14px; font-weight: 600; }
 .phone .qs .cls svg { width: 15px; height: 15px; }
-.phone .w-profile { grid-column: 1 / 3; grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 10px; padding: 26px 18px 22px; }
-.phone .avatar { width: 80px; height: 80px; font-size: 28px; }
-.phone .w-profile h1 { font-size: 26px; line-height: 31px; }
-.phone .w-profile .role { font-size: 15px; }
-.phone .w-profile .now, .phone .w-profile [data-act="about"], .phone .w-profile [data-act="overview"] { display: none; }
-.phone .w-profile .actions { justify-content: center; margin-top: 14px; width: 100%; }
-.phone .w-profile .btn { flex: 1 1 0; max-width: 160px; }
-.phone .icons { grid-column: 1 / 3; grid-row: auto; grid-template-columns: repeat(4, minmax(0, 1fr)); justify-content: stretch; gap: 22px 4px; margin-top: 30px; }
-.phone .dicon { font-size: 11px; padding: 4px 2px; }
-.phone .dicon .ai { width: 60px; height: 60px; }
 
-.phone .dock { background: var(--glass); backdrop-filter: blur(30px) saturate(190%); -webkit-backdrop-filter: blur(30px) saturate(190%); bottom: calc(8px + env(safe-area-inset-bottom, 0px)); height: auto; border-radius: 30px; padding: 9px 12px 7px; gap: 4px; align-items: flex-start; }
-.phone .dock > button { width: 70px; display: grid; justify-items: center; gap: 4px; transition: none; }
 .phone .dock .ai { width: 50px; }
-.phone .dock .tip, .phone .dock .only-mac { display: none; }
+.phone .dock { background: var(--glass); backdrop-filter: blur(30px) saturate(190%); -webkit-backdrop-filter: blur(30px) saturate(190%); bottom: calc(8px + env(safe-area-inset-bottom, 0px)); height: auto; max-width: calc(100% - 16px); border-radius: 30px; padding: 9px 8px 7px; gap: 0; align-items: flex-start; }
+.phone .dock > button { width: min(68px, (100vw - 32px) / 5); display: grid; justify-items: center; gap: 4px; transition: none; }
+.phone .dock .tip, .phone .hint { display: none; }
+/* Al leer un proyecto hacia abajo, el Dock y el paginador se apartan; al subir, vuelven */
+.phone .dock, .phone .pager { transition: transform .4s var(--ease), opacity .25s ease; }
+.phone .tuck .dock { transform: translate(-50%, calc(100% + 40px)); }
+.phone .tuck .pager { transform: translate(-50%, 190px); }
 .phone .dock .lbl { display: block; font-size: 10px; font-weight: 500; color: var(--label2); line-height: 12px; }
 .phone .dock > button.on .lbl { color: var(--label); font-weight: 600; }
 .phone .dock > button::after { display: none; }
@@ -462,7 +479,6 @@ button.widget { cursor: pointer; }
 .phone .pg { width: 40px; height: 36px; }
 .phone .pg svg { width: 16px; height: 16px; }
 .phone .pager .dots button { padding: 10px 4px; }
-.phone .hint { bottom: calc(150px + env(safe-area-inset-bottom, 0px)); }
 
 /* «Mis proyectos» y las hojas suben desde abajo y se cierran deslizando hacia abajo */
 .phone .ov { background: rgba(0,0,0,.3); backdrop-filter: none; -webkit-backdrop-filter: none; }
@@ -497,16 +513,10 @@ button.widget { cursor: pointer; }
   .rv, .oc { opacity: 1 !important; transform: none !important; }
 }
 
-/* Inicio del móvil: compacto y por encima del paginador; en el inicio el paginador invita a deslizar */
-.phone .home { bottom: calc(150px + env(safe-area-inset-bottom, 0px)); align-content: start; }
-.phone .w-profile { padding: 14px 18px 12px; gap: 8px; }
-.phone .avatar { width: 68px; height: 68px; font-size: 25px; }
-.phone .icons { margin-top: 16px; gap: 16px 4px; }
 .pgt { display: none; border: 0; background: none; color: var(--label); font: 600 14px var(--sf); padding: 0 4px; cursor: pointer; white-space: nowrap; }
 .phone #pager.first .dots { display: none; }
 .phone #pager.first .pgt { display: block; }
 .phone #pager.first .pg[data-act="next"] svg { animation: nudge 1.4s ease-in-out infinite; }
-.phone .hint { display: none; }
 
 /* Especialización (Sobre mí) */
 .focus { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -519,11 +529,6 @@ button.widget { cursor: pointer; }
 
 .about-hero { margin-bottom: 16px; }
 
-/* Portada: etiqueta con el rol en lugar de «Hola, soy», alineada ópticamente con el nombre */
-.hero .hi { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 18px; padding: 6px 12px; border-radius: 980px; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); font-size: 14px; font-weight: 600; color: var(--label); }
-.hero .hi i { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
-.hero h1 { margin-left: -3px; font-size: 60px; }
-.hero .hline { margin-top: 16px; color: var(--label); opacity: .72; }
 
 /* ── Una sola ventana para Proyectos, Sobre mí, CV y Contacto ──
    En el Mac se abren bajo la barra de menús (que sigue visible y marca la sección abierta) con el mismo ancho y la misma cabecera. */
@@ -546,7 +551,6 @@ button.widget { cursor: pointer; }
 .mac .sheet .bio { max-width: 46em; }
 .mac .sheet .focus { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .mac .sheet .focus span { font-size: 13px; line-height: 18px; }
-.mac .sheet[data-kind="case"] .focus { grid-template-columns: 1fr 1fr; }
 .mac .sheet[data-kind="case"] { width: 820px; }
 
 /* Vista previa del CV */
@@ -562,12 +566,4 @@ button.widget { cursor: pointer; }
 
 /* Menos elementos repetidos: en el Mac, el inicio ya enseña los proyectos (tarjetas y Dock), así que el paginador solo sale dentro de un proyecto */
 .mac .pager.athome { opacity: 0; pointer-events: none; }
-/* Móvil: Dock con las cinco secciones */
-.phone .dock { gap: 0; padding: 9px 8px 7px; max-width: calc(100% - 16px); }
-.phone .dock > button { width: min(68px, (100vw - 32px) / 5); }
-.phone .w-profile { padding-bottom: 6px; }
-/* Móvil: cinco proyectos en dos filas centradas (3 + 2) */
-.phone .icons { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px 0; margin-top: 22px; }
-.phone .icons .dicon { width: 33.33%; max-width: 124px; font-size: 12px; }
-.phone .icons .dicon .ai { width: 68px; height: 68px; }
 .ov-grid { align-items: start; }

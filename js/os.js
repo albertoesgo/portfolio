@@ -1,8 +1,8 @@
 // Escritorio del portfolio: Mac en pantallas grandes, iOS en el móvil.
 // Un gesto = un proyecto (como luciagascon.es). Enlaces directos: index.html#lookit · ?lang=en
-import { profile, experience, education, extras, skills, filters, projects, cvFile, cvPreview } from './data.js?v=b547a999de';
-import { UI, pick, classicFile } from './i18n.js?v=b547a999de';
-import { loadAqua, mountSimulator, mountHistory, mountHorizon, sparkline } from './aqua.js?v=b547a999de';
+import { profile, experience, education, extras, skills, filters, projects, cvFile, cvPreview } from './data.js?v=64e75019b2';
+import { UI, pick, classicFile } from './i18n.js?v=64e75019b2';
+import { loadAqua, mountSimulator, mountHistory, mountHorizon } from './aqua.js?v=64e75019b2';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -57,7 +57,14 @@ const shot = (n) => `img/shots/${n}.webp`;
 const SP = [{ id: 'inicio', name: 'Inicio', wall: 'home' }, ...projects];
 const spName = (k) => (k ? tr(SP[k].name) : t.home);
 
-let live = { lookit: { products: 9000, brands: 24 }, detemporada: null };
+let live = { lookit: null };
+// Cifras de cada proyecto: las de LOOKIT son las reales del último build (data/live.json)
+const statsFor = (p) => {
+  const s = tr(p.stats);
+  return p.id === 'lookit' && live.lookit ? s.map((x, j) => (j === 0 ? [String(live.lookit.brands), x[1]] : j === 1 ? [fmt(live.lookit.products), x[1]] : x)) : s;
+};
+// Estado público: «En producción» solo si tiene URL que responde; si no, lo que diga el proyecto (o nada)
+const badge = (p) => (p.live ? `<span class="live"><i></i>${t.live}</span>` : p.status ? `<span class="soon">${esc(tr(p.status))}</span>` : '');
 let aquaData = null;
 let pagerHinted = false;
 let mode = 'mac', i = 0, slideTimer = null, drag = null, hinted = false, suppressClick = 0;
@@ -118,10 +125,8 @@ function chromeHTML() {
 const rv = (k) => ` rv" style="--k:${k}`;
 
 function homeHTML(cur) {
-  const total = aquaData ? aquaData.total : null;
-  const pct = (v) => (lang === 'es' ? `${fmt(v, 1)} %` : `${fmt(v, 1)}%`);
   const h = t.homeX;
-  const metric = (p) => (p.id === 'lookit' ? h.lookitM(fmt(live.lookit.products)) : p.id === 'aqua' && total ? h.aquaM(pct(total.normal[0]), pct(total.normal[90])) : tr(p.metric));
+  const metric = (p) => (p.id === 'lookit' && live.lookit ? h.lookitM(fmt(live.lookit.products)) : tr(p.metric));
   const card = (p, k) => `<button class="fc${k === 0 ? ' big' : ''}" data-go="${k + 1}" style="--tint:${p.tint}">
       <img src="${shot(p.shots[0][0])}" alt="" draggable="false">
       <span class="fcx">${appIcon(p)}<span><b>${esc(tr(p.name))}</b><small>${esc(metric(p))}</small></span>${p.live ? `<i class="dot" title="${t.live}"></i>` : ''}</span>
@@ -134,20 +139,24 @@ function homeHTML(cur) {
       <h1 class="${rv(1)}">${esc(profile.name)}</h1>
       <p class="hline${rv(3)}">${esc(tr(profile.headline))}</p>
       <div class="actions${rv(4)}"><button class="btn" data-act="cv">${ICON.doc}${t.viewCV}</button><button class="btn sec" data-act="contact">${t.contact}</button></div>
-      <dl class="facts${rv(5)}">${h.facts.map(([a, b]) => `<div><dt>${a}</dt><dd>${b}</dd></div>`).join('')}</dl>
+      <dl class="facts${rv(5)}">${h.facts(projects.length, projects.filter((p) => p.live).length).map(([a, b]) => `<div><dt>${a}</dt><dd>${b}</dd></div>`).join('')}</dl>
     </div>
     <div class="feat${rv(2)}" aria-label="${t.projects}">${projects.map(card).join('')}</div>
     <div class="w-profile${rv(0)}"><div class="avatar" aria-hidden="true">${profile.initials}</div><div>
       <h1>${esc(profile.name)}</h1>
       <p class="role">${esc(tr(profile.role))} · ${esc(tr(profile.location))}</p>
+      <p class="pitch">${esc(tr(profile.headline))}</p>
     </div></div>
     <div class="icons${rv(2)}">${projects.map((p, k) => `<button class="dicon" data-go="${k + 1}">${appIcon(p)}<span>${esc(tr(p.short || p.name))}</span></button>`).join('')}</div>
   </div></section>`;
 }
 
+const linkBtns = (p, primary = false) =>
+  (p.link ? `<a class="btn${primary ? '' : ' sec'}" href="${p.link}" target="_blank" rel="noopener">${esc(primary ? t.open(p.linkLabel) : `${p.linkLabel} ↗`)}</a>` : '') +
+  (p.repo ? `<a class="btn sec" href="${p.repo}" target="_blank" rel="noopener">${t.repoBtn} ↗</a>` : '');
+
 function projectHTML(p, k, cur) {
-  let stats = tr(p.stats);
-  if (p.id === 'lookit') stats = stats.map((s, j) => (j === 1 ? [fmt(live.lookit.products), s[1]] : j === 0 ? [String(live.lookit.brands), s[1]] : s));
+  const stats = statsFor(p);
   const slides = `<div class="shot">
       ${p.shots.map(([n, fx]) => `<div class="slide ${fx}"><img src="${shot(n)}" alt="${esc(t.shotOf(tr(p.name)))}" loading="lazy" draggable="false"></div>`).join('')}
       ${p.phone ? `<div class="slide m phone-only"><img src="${shot(p.phone)}" alt="${esc(t.onPhone(tr(p.name)))}" loading="lazy" draggable="false"></div>` : ''}
@@ -164,12 +173,15 @@ function projectHTML(p, k, cur) {
     <div class="wbody">
       <div class="media" style="--tint:${p.tint}">${media}</div>
       <div class="info">
-        <div class="phead${rv(0)}">${appIcon(p)}<div><div class="kind">${esc(tr(p.kind))}${p.live ? `<span class="live"><i></i>${t.live}</span>` : ''}</div><h2>${esc(tr(p.name))}</h2></div></div>
-        <p class="tag${rv(1)}">${esc(tr(p.tagline))}</p>
-        <div class="stats${rv(2)}">${stats.map(([a, b]) => `<div class="stat"><b data-v="${esc(a)}">${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
-        <div class="group${rv(3)}"><div class="gh">${t.highlights}</div><ul>${tr(p.proves).map((x) => `<li>${ICON.check}<span>${esc(x)}</span></li>`).join('')}</ul></div>
-        <div class="stack${rv(4)}">${p.stack.map((x) => `<span>${esc(x)}</span>`).join('')}</div>
-        <div class="actions${rv(5)}"><button class="btn" data-act="case">${t.caseBtn}</button>${p.link ? `<a class="btn sec" href="${p.link}" target="_blank" rel="noopener">${esc(p.linkLabel)} ↗</a>` : ''}</div>
+        <div class="info-in">
+          <div class="phead${rv(0)}">${appIcon(p)}<div><div class="kind">${esc(tr(p.kind))}${badge(p)}</div><h2>${esc(tr(p.name))}</h2></div></div>
+          <p class="plain${rv(1)}">${esc(tr(p.plain))}</p>
+          <p class="tag${rv(1)}">${esc(tr(p.tagline))}</p>
+          <div class="stats${rv(2)}">${stats.map(([a, b]) => `<div class="stat"><b data-v="${esc(a)}">${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
+          <div class="group${rv(3)}"><div class="gh">${t.highlights}</div><ul>${tr(p.proves).map((x) => `<li>${ICON.check}<span>${esc(x)}</span></li>`).join('')}</ul></div>
+          <div class="stack${rv(4)}">${p.stack.map((x) => `<span>${esc(x)}</span>`).join('')}</div>
+        </div>
+        <div class="info-foot actions${rv(5)}"><button class="btn" data-act="case">${t.caseBtn}</button>${linkBtns(p)}</div>
       </div>
     </div>
   </div></section>`;
@@ -199,7 +211,7 @@ function dockHTML() {
 
 /* ── Modo y escala ── */
 // Móvil en vertical u horizontal (pantalla táctil y baja) → interfaz iOS
-const mq = matchMedia('(max-width: 760px), (max-height: 520px) and (pointer: coarse)');
+const mq = matchMedia('(max-width: 760px), (max-height: 520px) and (pointer: coarse), (max-width: 1000px) and (orientation: portrait)');
 function applyMode() {
   mode = mq.matches ? 'phone' : 'mac';
   document.body.classList.toggle('mac', mode === 'mac');
@@ -241,6 +253,7 @@ function go(n, instant, reveal) {
   document.title = i ? `${tr(SP[i].name)} · ${profile.name}` : `${profile.name} · ${tr(profile.role)}`;
   if (prev !== i || instant || reveal) startSlides();
   if (i > 0 && !hinted) hideHint();
+  if (prev !== i) { lastY = 0; screen.classList.remove('tuck'); }
 }
 // Al llegar a un proyecto: las cifras cuentan y las curvas del TFG se dibujan
 function arrive(sp) {
@@ -342,6 +355,17 @@ addEventListener('pointercancel', () => {
 // Tras deslizar no se abre lo que hubiera bajo el dedo
 addEventListener('click', (e) => { if (performance.now() - suppressClick < 350) { e.preventDefault(); e.stopPropagation(); } }, true);
 
+/* ── Móvil: el Dock y el paginador se apartan al leer hacia abajo y vuelven al subir ── */
+let lastY = 0;
+function onScroll(e) {
+  const el = e.target;
+  if (mode !== 'phone' || !(el instanceof Element) || !el.matches('.space.cur .wbody')) return;
+  const y = el.scrollTop, d = y - lastY;
+  if (Math.abs(d) < 6) return;
+  lastY = y;
+  screen.classList.toggle('tuck', d > 0 && y > 80 && y < el.scrollHeight - el.clientHeight - 40);
+}
+
 /* ── Trackpad y rueda: un gesto = un proyecto; pellizcar = vista general ── */
 let acc = 0, accT = 0, lock = false;
 function onWheel(e) {
@@ -431,7 +455,7 @@ function toggle(name) {
   $$('.menubar .l [data-act]').forEach((b) => b.classList.toggle('on', b.dataset.act === name));
 }
 function sheet(title, html, kind = '') {
-  closeAll();
+  closeAll(false); modal(true);
   $('#toast').classList.remove('show');
   $('#sheet-panel').dataset.kind = kind;
   $('#sheet-panel').classList.remove('max');
@@ -445,15 +469,15 @@ const li = (b, small, span) => `<div class="li"><b>${esc(b)}</b>${small ? `<smal
 function aboutHTML() {
   return `<div class="about-hero"><div class="avatar" aria-hidden="true">${profile.initials}</div><div><h2>${esc(profile.name)}</h2><p class="lead">${esc(tr(profile.role))} · ${esc(tr(profile.location))}</p></div></div>
     <div class="bio">${tr(profile.bio).map((p) => `<p>${esc(p)}</p>`).join('')}</div>
-    <h3>${t.focusH}</h3><div class="focus">${tr(profile.focus).map(([a, b]) => `<div><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
-    <h3>${t.howWork}</h3><ul class="impact">${tr(profile.principles).map((d) => `<li>${ICON.check}<span>${esc(d)}</span></li>`).join('')}</ul>
     <div class="cols"><div>
       <h3>${t.experience}</h3><div class="list">${experience.map((e) => li(`${tr(e.role)} · ${e.org}`, tr(e.date), tr(e.text))).join('')}</div>
-      <h3>${t.education}</h3><div class="list">${education.map((e) => li(tr(e.title), e.date, tr(e.org))).join('')}</div>
     </div><div>
-      <h3>${t.skills}</h3><div class="list">${skills.map(([k, v]) => li(tr(k), '', tr(v))).join('')}</div>
+      <h3>${t.education}</h3><div class="list">${education.map((e) => li(tr(e.title), e.date, tr(e.org))).join('')}</div>
       <h3>${t.extras}</h3><div class="list">${extras.map(([k, v]) => li(tr(k), '', tr(v))).join('')}</div>
     </div></div>
+    <h3>${t.focusH}</h3><div class="focus">${tr(profile.focus).map(([a, b]) => `<div><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
+    <h3>${t.howWork}</h3><ul class="impact">${tr(profile.principles).map((d) => `<li>${ICON.check}<span>${esc(d)}</span></li>`).join('')}</ul>
+    <h3>${t.skills}</h3><div class="list two">${skills.map(([k, v]) => li(tr(k), '', tr(v))).join('')}</div>
     <div class="actions" style="margin-top:22px"><button class="btn" data-act="cv">${ICON.doc}${t.viewCV}</button><a class="btn sec" href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a><a class="btn sec" href="${profile.links.github}" target="_blank" rel="noopener">GitHub ↗</a></div>`;
 }
 // CV: primero se ve; descargarlo es una decisión de quien lo lee
@@ -464,9 +488,10 @@ function cvHTML() {
 }
 function caseHTML(p) {
   const c = p.case, h = t.c;
-  return `<div class="case-hero">${appIcon(p)}<div><div class="kind">${esc(tr(p.kind))}${p.live ? `<span class="live"><i></i>${t.live}</span>` : ''}</div><h2>${esc(tr(p.name))}</h2></div></div>
-    <p class="lead big">${esc(tr(p.tagline))}</p>
-    <div class="stats">${tr(p.stats).map(([a, b]) => `<div class="stat"><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
+  return `<div class="case-hero">${appIcon(p)}<div><div class="kind">${esc(tr(p.kind))}${badge(p)}</div><h2>${esc(tr(p.name))}</h2></div></div>
+    <p class="lead big">${esc(tr(p.plain))}</p>
+    <p class="lead">${esc(tr(p.tagline))}</p>
+    <div class="stats">${statsFor(p).map(([a, b]) => `<div class="stat"><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
     <figure class="case-shot" style="--tint:${p.tint}"><img src="${shot(p.shots[0][0])}" alt="${esc(t.shotOf(tr(p.name)))}" loading="lazy"></figure>
     <div class="myrole"><b>${h.role}</b><span>${esc(tr(c.role))}</span></div>
     <h3>${h.problem}</h3><p>${esc(tr(c.problem))}</p>
@@ -474,9 +499,11 @@ function caseHTML(p) {
     <h3>${h.arch}</h3><div class="arch">${tr(c.arch).map(([k, v]) => `<div class="ar"><b>${esc(k)}</b><span>${esc(v)}</span></div>`).join('')}</div>
     <h3>${h.decisions}</h3><ol class="dec">${tr(c.decisions).map((d) => `<li>${esc(d)}</li>`).join('')}</ol>
     <h3>${h.impact}</h3><ul class="impact">${tr(c.impact).map((d) => `<li>${ICON.check}<span>${esc(d)}</span></li>`).join('')}</ul>
+    ${c.code ? `<h3>${h.code}</h3><figure class="code"><figcaption><code>${esc(c.code.file)}</code><span>${esc(tr(c.code.note))}</span></figcaption><pre tabindex="0"><code>${esc(c.code.src)}</code></pre></figure>` : ''}
+    ${c.check ? `<h3>${h.check}</h3><ul class="impact check">${tr(c.check).map((d) => `<li>${ICON.search}<span>${esc(d)}</span></li>`).join('')}</ul>` : ''}
     <h3>${h.next}</h3><p>${esc(tr(c.next))}</p>
     <h3>${h.stack}</h3><div class="stack">${p.stack.map((x) => `<span>${esc(x)}</span>`).join('')}</div>
-    ${p.link ? `<div class="actions" style="margin-top:22px"><a class="btn" href="${p.link}" target="_blank" rel="noopener">${esc(t.open(p.linkLabel))}</a></div>` : ''}`;
+    ${p.link || p.repo ? `<div class="actions" style="margin-top:22px">${linkBtns(p, true)}</div>` : ''}`;
 }
 function contactHTML() {
   return `<h2>${t.talk}</h2><p class="lead">${esc(t.talkSub(tr(profile.location)))}</p>
@@ -488,10 +515,22 @@ function contactHTML() {
 let filter = 'all';
 function overviewHTML() {
   $('#filters').innerHTML = filters.map(([k, l]) => `<button data-f="${k}" aria-pressed="${k === filter}">${esc(tr(l))}</button>`).join('');
-  $('#ovgrid').innerHTML = projects.map((p, k) => `<button class="oc${filter !== 'all' && !p.cats.includes(filter) ? ' dim' : ''}" data-go="${k + 1}" style="--k:${k}"><div class="th"><img src="${shot(p.shots[0][0])}" alt="" loading="lazy">${appIcon(p)}${p.live ? `<span class="live"><i></i>${t.live}</span>` : ''}</div><small>${esc(tr(p.kind))}</small><b>${esc(tr(p.name))}</b><span>${esc(tr(p.tagline))}</span></button>`).join('');
+  $('#ovgrid').innerHTML = projects.map((p, k) => `<button class="oc${filter !== 'all' && !p.cats.includes(filter) ? ' dim' : ''}" data-go="${k + 1}" style="--k:${k}"><div class="th"><img src="${shot(p.shots[0][0])}" alt="" loading="lazy">${appIcon(p)}${badge(p)}</div><small>${esc(tr(p.kind))}</small><b>${esc(tr(p.name))}</b><span>${esc(tr(p.plain))}</span></button>`).join('');
 }
-function openOv() { closeAll(); $('#ov').classList.add('open'); $('#ov-in').scrollTop = 0; setTimeout(() => $('#ov .xbtn').focus({ preventScroll: true }), 60); }
-function closeAll() { ['#ov', '#sp', '#sheet'].forEach((s) => $(s)?.classList.remove('open')); openSection = null; $$('.menubar .l .on').forEach((b) => b.classList.remove('on')); }
+function openOv() { closeAll(false); modal(true); $('#ov').classList.add('open'); $('#ov-in').scrollTop = 0; setTimeout(() => $('#ov .xbtn').focus({ preventScroll: true }), 60); }
+// Con una capa abierta, lo de detrás no recibe foco ni clics; al cerrarla, el foco vuelve a donde estaba
+let lastFocus = null;
+function modal(on) {
+  if (on && !anyOpen()) lastFocus = document.activeElement;
+  [track, dock, $('#pager')].forEach((el) => { if (el) el.inert = on; });
+}
+function closeAll(restore = true) {
+  const was = anyOpen();
+  ['#ov', '#sp', '#sheet'].forEach((s) => $(s)?.classList.remove('open'));
+  openSection = null; $$('.menubar .l .on').forEach((b) => b.classList.remove('on'));
+  modal(false);
+  if (restore && was && lastFocus?.isConnected && !lastFocus.closest('.overlay')) lastFocus.focus({ preventScroll: true });
+}
 
 /* ── Deslizar hacia abajo para cerrar (móvil) ── */
 function swipeToClose(panel, scroller) {
@@ -553,7 +592,7 @@ function pickResult(r) {
   else if (r.go !== undefined) go(r.go);
   else if (r.act) toggle(r.act);
 }
-function openSpot() { closeAll(); $('#sp').classList.add('open'); const q = $('#spq'); q.value = ''; search(''); setTimeout(() => q.focus({ preventScroll: true }), 30); }
+function openSpot() { closeAll(false); modal(true); $('#sp').classList.add('open'); const q = $('#spq'); q.value = ''; search(''); setTimeout(() => q.focus({ preventScroll: true }), 30); }
 
 /* ── Notificación ── */
 let toastT;
@@ -616,6 +655,7 @@ function mount(animate) {
   track.addEventListener('touchmove', onTouchMove, { passive: false });
   track.addEventListener('touchend', onTouchEnd);
   track.addEventListener('touchcancel', onTouchEnd);
+  track.addEventListener('scroll', onScroll, { capture: true, passive: true });
   screen.addEventListener('wheel', onWheel, { passive: false });
   screen.addEventListener('click', onClick);
   ['#ov', '#sp', '#sheet'].forEach((s) => $(s).addEventListener('click', (e) => { if (e.target === $(s) || e.target.id === 'ovgrid' || e.target.id === 'ov-in') closeAll(); }));
@@ -667,7 +707,7 @@ setTimeout(hideHint, 7000);
 setTimeout(() => { pagerHinted = true; $('#pager')?.classList.remove('first'); }, 6000);
 data.then(() => {
   // En el móvil la notificación taparía el nombre al entrar; y no sale en la imagen para compartir (?og)
-  if (mode === 'mac' && !location.search.includes('og')) setTimeout(() => notify({ icon: appIcon(projects[1]), app: t.toastApp, title: t.toastTitle, body: t.toastBody(fmt(live.lookit.products), live.lookit.brands), goTo: 2 }), 2600);
+  if (mode === 'mac' && live.lookit && !location.search.includes('og')) setTimeout(() => i === 0 && !anyOpen() && notify({ icon: appIcon(projects[1]), app: t.toastApp, title: t.toastTitle, body: t.toastBody(fmt(live.lookit.products), live.lookit.brands), goTo: 2 }), 2600);
 });
 // El escritorio se asoma al siguiente para que se descubra el gesto
 setTimeout(() => {

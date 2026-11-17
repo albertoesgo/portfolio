@@ -12,16 +12,16 @@ export const profile = {
   role: { es: 'Ingeniero de IA y automatización', en: 'AI & Automation Engineer' },
   location: { es: 'Málaga', en: 'Málaga, Spain' },
   headline: {
-    es: 'Machine learning en producción, del dato a la interfaz.',
-    en: 'Machine learning in production, from data to interface.',
+    es: 'IA y automatización que llegan a producción, del dato a la interfaz.',
+    en: 'AI and automation that ship, from data to interface.',
   },
   bio: {
     es: [
-      'Ingeniero informático por la Universidad de Málaga, con mención en Computación. Me especializo en convertir modelos —de redes neuronales para series temporales a LLMs— en sistemas fiables, medibles y en producción.',
+      'Ingeniero informático por la Universidad de Málaga, con mención en Computación. Me dedico a convertir modelos —de redes neuronales para series temporales a LLMs— en sistemas fiables, medibles y que se usan de verdad.',
       'Formo parte del equipo fundador del departamento de IA y automatización de MicroCAD, donde diseño automatizaciones e integraciones entre sistemas para las distintas áreas de negocio. En paralelo construyo y opero productos propios y plataformas para clientes, de la base de datos a la interfaz.',
     ],
     en: [
-      'Computer engineer from the University of Málaga, with a major in Computing. I specialise in turning models — from neural networks for time series to LLMs — into reliable, measurable systems running in production.',
+      'Computer engineer from the University of Málaga, specialising in Computing. I turn models — from neural networks for time series to LLMs — into reliable, measurable systems that people actually use.',
       "I am part of the founding team of MicroCAD's AI & Automation department, where I design automations and system integrations for teams across the business. Alongside that, I build and run my own products and client platforms, from database to interface.",
     ],
   },
@@ -81,7 +81,7 @@ export const experience = [
 ];
 
 export const education = [
-  { title: { es: 'Grado en Ingeniería Informática · Mención en Computación', en: 'BSc in Computer Engineering · Computing major' }, org: { es: 'Universidad de Málaga', en: 'University of Málaga' }, date: '2021 – 2026' },
+  { title: { es: 'Grado en Ingeniería Informática · Mención en Computación', en: 'BSc in Computer Engineering · Computing track' }, org: { es: 'Universidad de Málaga', en: 'University of Málaga' }, date: '2021 – 2026' },
   { title: 'Erasmus+ · Computer Science', org: { es: 'Politechnika Gdańska (Polonia) · en inglés', en: 'Gdańsk University of Technology (Poland) · taught in English' }, date: '2024 – 2025' },
 ];
 
@@ -114,7 +114,11 @@ export const filters = [
 export const projects = [
   {
     id: 'aqua', name: { es: 'Predicción espaciotemporal de embalses', en: 'Spatio-temporal reservoir forecasting' }, short: { es: 'TFG', en: 'Thesis' }, cats: ['ia'], live: false,
-    metric: { es: 'RMSE −52 % a 30 días', en: 'RMSE −52% at 30 days' },
+    metric: { es: 'Simula cinco escenarios de lluvia a 90 días', en: 'Simulate five rainfall scenarios, 90 days ahead' },
+    plain: {
+      es: '¿Cuánta agua tendrán los embalses de Málaga dentro de uno a tres meses? Un sistema que lo predice y deja simular qué pasa si no llueve.',
+      en: "How much water will Málaga's reservoirs hold one to three months from now? A system that forecasts it and lets you simulate what happens if it doesn't rain.",
+    },
     kind: { es: 'Trabajo Fin de Grado · Deep learning · 2025–2026', en: "Bachelor's thesis · Deep learning · 2025–2026" },
     logo: 'img/logos/aquaandalucia.svg', plate: '#ffffff', tint: '#2e7d46', wall: 'aqua', url: { es: 'TFG · Universidad de Málaga', en: 'Thesis · University of Málaga' },
     tagline: {
@@ -122,8 +126,8 @@ export const projects = [
       en: 'Spatio-temporal forecasting of 7 reservoirs with LSTMs and graph networks (GCN-LSTM), evaluated across horizons, with 90-day scenario simulation.',
     },
     stats: {
-      es: [['−52 %', 'RMSE a 30 días frente a persistencia'], ['0,70', 'NSE a 60 días (persistencia: 0,07)'], ['11', 'modelos en 3 familias']],
-      en: [['−52%', '30-day RMSE vs. persistence'], ['0.70', '60-day NSE (persistence: 0.07)'], ['11', 'models across 3 families']],
+      es: [['−52 %', 'de error (RMSE) a 30 días frente a persistencia, en La Concepción'], ['0,70', 'NSE a 60 días en La Concepción (persistencia: 0,07)'], ['11', 'modelos comparados en 3 familias']],
+      en: [['−52%', '30-day error (RMSE) vs. persistence, at La Concepción'], ['0.70', '60-day NSE at La Concepción (persistence: 0.07)'], ['11', 'models compared across 3 families']],
     },
     proves: {
       es: [
@@ -140,6 +144,8 @@ export const projects = [
     stack: ['Python', 'PyTorch', 'LSTM · GCN', 'statsmodels', 'XGBoost', 'FastAPI', 'React · TS', 'HPC Picasso'],
     shots: [['aqua-dashboard', 'kb'], ['aqua-map', 'kb'], ['aqua-comparativa', 'kb']],
     phone: null, link: null, linkLabel: null, aqua: true,
+    // Repositorio público del TFG (cuenta del tutor), en la rama de la entrega. Si prefieres un fork propio, cambia solo esta línea.
+    repo: 'https://github.com/jamaltoutouh/malaga-reservoirs-weather-data/tree/entrega-tfg',
     keys: 'tfg thesis python pytorch lstm gcn gnn t-gcn grafos graph series temporales time series forecasting predicción prediction espaciotemporal spatio-temporal fastapi express react hpc picasso machine learning deep learning embalses reservoirs agua water sequía drought nse rmse arima sarima xgboost prophet datos data',
     case: {
       role: { es: 'Proyecto individual: ingeniería de datos, modelado, evaluación experimental, backend de inferencia y frontend.', en: 'Solo project: data engineering, modelling, experimental evaluation, inference backend and frontend.' },
@@ -160,6 +166,8 @@ export const projects = [
           'Persistencia como línea base obligatoria: a un paso todos los modelos saturan en R² ≈ 0,999, así que la evaluación principal es autorregresiva a 7, 14, 30 y 60 días con orígenes móviles.',
           'Partición temporal estricta (70/15/15) sin barajado y escaladores ajustados solo con el conjunto de entrenamiento, para evitar fuga de información.',
           'Feature engineering hidrológico: retardos de 1 a 30 días, medias móviles, precipitación acumulada a 30 días y codificación cíclica (seno/coseno) del día del año.',
+          'La meteorología, medida y no supuesta: el LSTM univariante no supera a la persistencia a 30 días (RMSE 12,5 frente a 12,0); con variables meteorológicas baja a 5,7.',
+          'Dos modelos para dos usos: el LSTM multivariante es el más preciso embalse a embalse (5,7 frente a 9,2 del GCN-LSTM a 30 días en La Concepción); el GCN-LSTM alimenta el simulador porque predice los siete embalses de forma conjunta.',
           'Reformulación del GCN-LSTM para predecir incrementos (Δ) en lugar del nivel absoluto: elimina el sesgo de persistencia y hace coherentes las simulaciones what-if.',
           'Grafo de 7 nodos con núcleo gaussiano sobre distancias haversine y normalización de Kipf–Welling, con predicción conjunta de todos los embalses.',
           'Escenarios análogos con trayectorias meteorológicas reales (2002, 2010, 2017, 2023) y una prueba de estrés sintética (2023 con −30 % de precipitación) para no salir de la distribución de entrenamiento.',
@@ -168,38 +176,63 @@ export const projects = [
           'Persistence as a mandatory baseline: one step ahead every model saturates at R² ≈ 0.999, so the main evaluation is autoregressive at 7, 14, 30 and 60 days with rolling origins.',
           'Strict temporal split (70/15/15) without shuffling and scalers fitted on the training set only, to prevent data leakage.',
           'Hydrological feature engineering: 1–30 day lags, rolling means, 30-day cumulative precipitation and cyclical (sine/cosine) day-of-year encoding.',
-          'GCN-LSTM reformulated to predict increments (Δ) instead of absolute level: removes persistence bias and makes what-if simulations physically coherent.',
+          'Weather measured, not assumed: the univariate LSTM does not beat persistence at 30 days (RMSE 12.5 vs. 12.0); with weather variables it drops to 5.7.',
+          'Two models for two jobs: the multivariate LSTM is the most accurate reservoir by reservoir (5.7 vs. 9.2 for the GCN-LSTM at 30 days, La Concepción); the GCN-LSTM drives the simulator because it predicts all seven reservoirs jointly.',
+          'GCN-LSTM reformulated to predict increments (Δ) instead of absolute level: removes persistence bias and makes what-if simulations coherent.',
           'A 7-node graph with a Gaussian kernel over haversine distances and Kipf–Welling normalisation, predicting all reservoirs jointly.',
           'Analog scenarios using real weather trajectories (2002, 2010, 2017, 2023) plus a synthetic stress test (2023 with −30% precipitation) to stay within the training distribution.',
         ],
       },
       impact: {
         es: [
-          'LSTM multivariante: RMSE de 5,74 frente a 11,99 de la persistencia a 30 días (−52 %) y NSE de 0,70 a 60 días frente a 0,07.',
+          'LSTM multivariante en La Concepción: RMSE de 5,74 frente a 11,99 de la persistencia a 30 días (−52 %) y NSE de 0,70 a 60 días frente a 0,07.',
           'Familias complementarias: el LSTM con meteorología domina de 7 a 60 días y SARIMA mensual de 1 a 6 meses (R² de 0,45 a 3 meses frente a −0,32 de la persistencia).',
           'Inferencia what-if a 90 días para los 7 embalses con umbrales de alerta (20 % y 10 %) y un asistente que traduce lenguaje natural a parámetros de simulación.',
         ],
         en: [
-          'Multivariate LSTM: RMSE of 5.74 vs. 11.99 for persistence at 30 days (−52%) and NSE of 0.70 at 60 days vs. 0.07.',
+          'Multivariate LSTM at La Concepción: RMSE of 5.74 vs. 11.99 for persistence at 30 days (−52%) and NSE of 0.70 at 60 days vs. 0.07.',
           'Complementary families: the weather-aware LSTM leads from 7 to 60 days and monthly SARIMA from 1 to 6 months (R² of 0.45 at 3 months vs. −0.32 for persistence).',
           '90-day what-if inference for all 7 reservoirs with alert thresholds (20% and 10%) and an assistant that maps natural language to simulation parameters.',
         ],
+      },
+      code: {
+        file: 'src/prediction/gcn_predictor.py',
+        note: { es: 'El modelo predice el incremento diario y el nivel se reconstruye integrándolo sobre el día anterior.', en: 'The model predicts the daily increment and the level is rebuilt by integrating it onto the previous day.' },
+        src: String.raw`# Reconstruct the next level. A 'delta' model outputs the increment of
+# the scaled level, which we integrate onto the previous level; an
+# 'absolute' model outputs the scaled level directly.
+if self._target_is_delta:
+    level_scaled = window[-1, :, LEVEL_IDX] + model_out
+else:
+    level_scaled = model_out
+pred_pct = self.scalers["level"].inverse_transform(
+    level_scaled.reshape(1, -1)
+)[0]`,
+      },
+      check: {
+        es: ['El código, los cuadernos y los resultados están en el repositorio público del TFG (rama entrega-tfg).', 'Las cifras de esta página salen de output/neural_networks_local/autoregressive_multihorizon_comparison.csv.'],
+        en: ['The code, notebooks and results are in the public thesis repository (entrega-tfg branch).', 'The figures on this page come from output/neural_networks_local/autoregressive_multihorizon_comparison.csv.'],
       },
       next: { es: 'LSTM global multi-embalse, predicción directa multi-horizonte con covariables futuras, intervalos por conformal prediction, grafo de conectividad hidrológica real e ingesta diaria automatizada del SAIH.', en: 'A global multi-reservoir LSTM, direct multi-horizon forecasting with future covariates, conformal prediction intervals, a graph based on real hydrological connectivity and automated daily SAIH ingestion.' },
     },
   },
   {
     id: 'lookit', name: 'LOOKIT', cats: ['ia', 'prod'], live: true,
-    metric: { es: '9.000+ productos indexados', en: '9,000+ products indexed' },
+    // Las cifras de catálogo (marcas y productos) se sustituyen por las reales de data/live.json en cada build.
+    metric: { es: 'Cerca de 9.000 productos indexados', en: 'Close to 9,000 products indexed' },
+    plain: {
+      es: 'Un buscador que reúne en un solo sitio la ropa de 24 marcas españolas independientes y avisa de lanzamientos y bajadas de precio.',
+      en: 'A search engine that brings the clothing of 24 independent Spanish brands into one place and alerts you to drops and price cuts.',
+    },
     kind: { es: 'Producto propio · 2026', en: 'Own product · 2026' },
     logo: 'img/logos/lookit.svg', plate: null, tint: '#a8d400', wall: 'lookit', url: 'lookit.es',
     tagline: {
-      es: 'Agregador y motor de búsqueda de moda española: 24 catálogos Shopify normalizados en un índice único y regenerado cada hora con ISR.',
-      en: 'A Spanish fashion aggregator and search engine: 24 Shopify catalogues normalised into a single index, regenerated hourly with ISR.',
+      es: 'Agregador y motor de búsqueda de moda española: 24 catálogos Shopify normalizados en un índice único, reconstruido cada 2 horas y servido como web estática.',
+      en: 'A Spanish fashion aggregator and search engine: 24 Shopify catalogues normalised into a single index, rebuilt every 2 hours and served as a static site.',
     },
     stats: {
-      es: [['24', 'catálogos Shopify integrados'], ['9.000+', 'productos indexados'], ['1 h', 'ciclo de regeneración (ISR)']],
-      en: [['24', 'Shopify catalogues integrated'], ['9,000+', 'products indexed'], ['1 h', 'regeneration cycle (ISR)']],
+      es: [['24', 'catálogos Shopify integrados'], ['≈ 9.000', 'productos indexados'], ['2 h', 'ciclo de reconstrucción']],
+      en: [['24', 'Shopify catalogues integrated'], ['≈ 9,000', 'products indexed'], ['2 h', 'rebuild cycle']],
     },
     proves: {
       es: [
@@ -213,10 +246,10 @@ export const projects = [
         'Privacy by design: account-free identity with per-device keys, HMAC and AES-256-GCM encryption at rest.',
       ],
     },
-    stack: ['Next.js 16', 'React 19', 'TypeScript', 'Upstash Redis', 'Web Push', 'Gemini', 'Vercel'],
+    stack: ['Next.js 16', 'React 19', 'TypeScript', 'Cloudflare Pages', 'Functions', 'Upstash Redis', 'Web Push', 'Gemini'],
     shots: [['lookit-home', 'kb'], ['lookit-tall', 'tall']], phone: 'lookit-mobile',
     link: 'https://lookit.es', linkLabel: 'lookit.es',
-    keys: 'next nextjs react typescript redis vercel gemini llm búsqueda search moda fashion shopify pwa push seo isr remotion vídeo video redes social producto product cifrado encryption hmac',
+    keys: 'next nextjs react typescript redis cloudflare pages functions workers estático static export gemini llm búsqueda search moda fashion shopify pwa push seo remotion vídeo video redes social producto product cifrado encryption hmac github actions',
     case: {
       role: { es: 'Fundador e ingeniero único: arquitectura, frontend, backend, datos, despliegue y contenido.', en: 'Founder and sole engineer: architecture, frontend, backend, data, deployment and content.' },
       problem: {
@@ -224,32 +257,53 @@ export const projects = [
         en: 'Independent Spanish fashion is spread across dozens of Shopify stores with no shared index: there is no way to search, compare prices or detect drops across them.',
       },
       solution: {
-        es: 'Pipeline de ingesta que lee el catálogo público de cada tienda con concurrencia limitada, normaliza productos, variantes, tallas y precios a un esquema común y publica un catálogo estático regenerado por ISR. Sobre él se apoyan la búsqueda en lenguaje natural, el comparador, un armario compartible y un sistema de avisos (lanzamientos, bajadas de precio y reposiciones) por Web Push o correo.',
-        en: 'An ingestion pipeline that reads each store\'s public catalogue with bounded concurrency, normalises products, variants, sizes and prices into a common schema, and publishes a static catalogue regenerated via ISR. On top of it sit natural-language search, a comparison tool, a shareable wardrobe and an alert system (drops, price cuts and restocks) over Web Push or email.',
+        es: 'Pipeline de ingesta que lee el catálogo público de cada tienda con concurrencia limitada, normaliza productos, variantes, tallas y precios a un esquema común y genera en cada build una web estática con unas 9.000 fichas. Sobre ella se apoyan la búsqueda en lenguaje natural, el comparador, un armario compartible y un sistema de avisos (lanzamientos, bajadas de precio y reposiciones) por Web Push o correo.',
+        en: 'An ingestion pipeline that reads each store\'s public catalogue with bounded concurrency, normalises products, variants, sizes and prices into a common schema, and generates a static site with some 9,000 product pages on every build. On top of it sit natural-language search, a comparison tool, a shareable wardrobe and an alert system (drops, price cuts and restocks) over Web Push or email.',
       },
       arch: {
-        es: [['Ingesta', 'Endpoints públicos de Shopify · pool de concurrencia · caché por tienda (1 h)'], ['Catálogo', 'JSON estático regenerado por ISR · render en servidor de la primera página y carga diferida del resto'], ['Búsqueda', 'Parser de marca, prenda, color, talla, precio y rebajas con relajación progresiva + Gemini como fallback'], ['Avisos', 'Upstash Redis · Web Push (VAPID) · Resend · candado distribuido para la pasada horaria'], ['Plataforma', 'Next.js 16 (App Router), React 19, Tailwind 4, Zustand y Framer Motion en Vercel']],
-        en: [['Ingestion', 'Public Shopify endpoints · concurrency pool · per-store cache (1 h)'], ['Catalogue', 'Static JSON regenerated via ISR · server-rendered first page and deferred loading of the rest'], ['Search', 'Brand, item, colour, size, price and sales parser with progressive relaxation + Gemini as a fallback'], ['Alerts', 'Upstash Redis · Web Push (VAPID) · Resend · distributed lock for the hourly run'], ['Platform', 'Next.js 16 (App Router), React 19, Tailwind 4, Zustand and Framer Motion on Vercel']],
+        es: [['Ingesta', 'Endpoints públicos de Shopify · pool de concurrencia · una descarga por tienda en cada build'], ['Catálogo', 'Export estático de Next.js: inicio, marcas, categorías, rebajas y unas 9.000 fichas · catálogo como JSON estático y carga diferida en la portada'], ['Búsqueda', 'Parser de marca, prenda, color, talla, precio y rebajas con relajación progresiva + Gemini como fallback'], ['Dinámico', 'Cloudflare Pages Functions solo donde hace falta: tallas y stock en vivo (caché de 30 min), avisos, armario compartido y búsqueda con IA, con validación de origen y límite de peticiones'], ['Avisos', 'Upstash Redis · Web Push (VAPID) · Resend · pasada en cada build con candado distribuido'], ['Plataforma', 'Next.js 16 (App Router), React 19, Tailwind 4, Zustand y Framer Motion en Cloudflare Pages · reconstrucción cada 2 h con GitHub Actions']],
+        en: [['Ingestion', 'Public Shopify endpoints · concurrency pool · one download per store on every build'], ['Catalogue', 'Next.js static export: home, brands, categories, sales and some 9,000 product pages · catalogue as static JSON, lazy-loaded on the home page'], ['Search', 'Brand, item, colour, size, price and sales parser with progressive relaxation + Gemini as a fallback'], ['Dynamic', 'Cloudflare Pages Functions only where needed: live sizes and stock (30-min cache), alerts, shared wardrobe and AI search, with origin validation and rate limiting'], ['Alerts', 'Upstash Redis · Web Push (VAPID) · Resend · one run per build behind a distributed lock'], ['Platform', 'Next.js 16 (App Router), React 19, Tailwind 4, Zustand and Framer Motion on Cloudflare Pages · rebuilt every 2 h via GitHub Actions']],
       },
       decisions: {
         es: [
-          'Caché por tienda (cada entrada de la caché de datos de Next admite 2 MB) y catálogo servido como JSON estático: escala a decenas de marcas sin servidores propios y con coste casi nulo.',
+          'De servidor a estático: la primera versión regeneraba páginas con ISR en Vercel. Para eliminar el cómputo por petición la migré a un export estático en Cloudflare Pages, reconstruido cada 2 horas, con funciones solo para lo que debe ser dinámico.',
+          'Un límite convertido en diseño: Cloudflare Pages admite 20.000 archivos por despliegue y el export generaba 46.000. Un paso posterior al build elimina los datos de navegación de las fichas, que pasan a cargarse como páginas normales.',
           'Parser de intención con relajación progresiva de filtros; el LLM solo resuelve las consultas que el parser no cubre.',
           'Identidad sin cuentas: clave aleatoria por dispositivo, el servidor solo almacena su HMAC y el resto se cifra con AES-256-GCM. Doble opt-in y baja en un clic (RFC 8058).',
           'Detección de lanzamientos por umbral (≥ 10 altas en 24 h, 5 en catálogos pequeños) para filtrar las reposiciones.',
-          'Pasada horaria de avisos disparada por el propio tráfico con un candado distribuido en Redis, y Vercel Cron / GitHub Actions como respaldo.',
+          'Avisos ligados al build: en cada reconstrucción se compara el catálogo con la pasada anterior, con un candado en Redis para que no se solapen dos ejecuciones.',
         ],
         en: [
-          'Per-store caching (each Next data-cache entry allows 2 MB) and a catalogue served as static JSON: scales to dozens of brands with no servers of my own and near-zero cost.',
+          'From server to static: the first version regenerated pages with ISR on Vercel. To remove per-request compute I migrated it to a static export on Cloudflare Pages, rebuilt every 2 hours, with functions only for what must be dynamic.',
+          'A limit turned into design: Cloudflare Pages accepts 20,000 files per deployment and the export produced 46,000. A post-build step drops the navigation payloads of the product pages, which then load as regular pages.',
           'An intent parser with progressive filter relaxation; the LLM only handles queries the parser does not cover.',
           'Account-free identity: a random per-device key, the server stores only its HMAC and everything else is encrypted with AES-256-GCM. Double opt-in and one-click unsubscribe (RFC 8058).',
           'Threshold-based drop detection (≥ 10 new items in 24 h, 5 for small catalogues) to filter out restocks.',
-          'An hourly alert run triggered by traffic itself behind a distributed Redis lock, with Vercel Cron / GitHub Actions as a fallback.',
+          'Alerts tied to the build: each rebuild compares the catalogue with the previous run, behind a Redis lock so two runs never overlap.',
         ],
       },
       impact: {
-        es: ['24 catálogos y más de 9.000 productos indexados y regenerados cada hora en lookit.es.', 'Avisos por Web Push o correo sin registro de usuarios.', 'Contenido para redes generado por código: Remotion, segmentación de fondo con IA y voz alineada con Whisper.'],
-        en: ['24 catalogues and 9,000+ products indexed and regenerated hourly at lookit.es.', 'Web Push and email alerts with no user sign-up.', 'Social content generated from code: Remotion, AI background segmentation and Whisper-aligned voiceover.'],
+        es: ['24 catálogos y cerca de 9.000 productos indexados y reconstruidos cada 2 horas en lookit.es, sin servidores propios.', 'Avisos por Web Push o correo sin registro de usuarios.', 'Contenido para redes generado por código: Remotion, segmentación de fondo con IA y voz alineada con Whisper.'],
+        en: ['24 catalogues and close to 9,000 products indexed and rebuilt every 2 hours at lookit.es, with no servers of my own.', 'Web Push and email alerts with no user sign-up.', 'Social content generated from code: Remotion, AI background segmentation and Whisper-aligned voiceover.'],
+      },
+      code: {
+        file: 'src/lib/alerts/crypto.ts',
+        note: { es: 'Avisos sin cuentas: cada registro se guarda cifrado y el servidor solo conoce un hash con clave del secreto del dispositivo.', en: 'Alerts without accounts: every record is stored encrypted and the server only knows a keyed hash of the device secret.' },
+        src: String.raw`export function encrypt(plain: string): string {
+  const iv = randomBytes(12);
+  const cipher = createCipheriv("aes-256-gcm", key("record"), iv);
+  const body = Buffer.concat([cipher.update(plain, "utf8"), cipher.final()]);
+  return b64(Buffer.concat([iv, cipher.getAuthTag(), body]));
+}
+
+/** Record id for a device secret (one-way). */
+export function subscriberId(deviceToken: string): string {
+  return b64(mac("device", deviceToken)).slice(0, 32);
+}`,
+      },
+      check: {
+        es: ['Las cabeceras de lookit.es muestran el despliegue en Cloudflare, HSTS y una Content-Security-Policy.', 'El catálogo completo es un JSON público: lookit.es/api/catalog.'],
+        en: ['The response headers of lookit.es show the Cloudflare deployment, HSTS and a Content-Security-Policy.', 'The whole catalogue is a public JSON: lookit.es/api/catalog.'],
       },
       next: { es: 'Métricas de uso públicas, recomendaciones personalizadas y más catálogos.', en: 'Public usage metrics, personalised recommendations and more catalogues.' },
     },
@@ -257,6 +311,10 @@ export const projects = [
   {
     id: 'lucia', name: 'Lucía Gascón', cats: ['cli'], live: true,
     metric: { es: 'Galería WebGL · 13 obras', en: 'WebGL gallery · 13 works' },
+    plain: {
+      es: 'La web de una pintora, que se recorre como una sala de exposiciones: un gesto te lleva de un cuadro al siguiente.',
+      en: "A painter's website you walk through like an exhibition: one gesture takes you from one painting to the next.",
+    },
     kind: { es: 'Cliente · Web de artista · 2026', en: 'Client · Artist website · 2026' },
     logo: 'img/logos/lucia-gascon.png', plate: null, tint: '#8c2f28', wall: 'lucia', url: 'luciagascon.es',
     tagline: {
@@ -264,8 +322,8 @@ export const projects = [
       en: 'A WebGL (three.js) 3D gallery with rail-guided navigation, true metric scale and a serverless CMS on Cloudflare.',
     },
     stats: {
-      es: [['13', 'obras en la escena 3D'], ['1:1', 'escala métrica real'], ['KV', 'CMS serverless en el edge']],
-      en: [['13', 'works in the 3D scene'], ['1:1', 'true metric scale'], ['KV', 'serverless CMS on the edge']],
+      es: [['13', 'obras en la escena 3D'], ['1:1', 'cada cuadro, a su tamaño real'], ['4', 'espacios: entrada, dos salas y estudio']],
+      en: [['13', 'works in the 3D scene'], ['1:1', 'every painting at its real size'], ['4', 'spaces: entrance, two rooms and studio']],
     },
     proves: {
       es: [
@@ -315,12 +373,33 @@ export const projects = [
         es: ['luciagascon.es en producción, con 13 obras recorribles en 3D.', 'La artista gestiona la exposición desde el panel, sin intervención técnica.'],
         en: ['luciagascon.es is live, with 13 works to walk through in 3D.', 'The artist manages the exhibition from the panel with no technical help.'],
       },
+      code: {
+        file: 'js/galeria3d.js',
+        note: { es: 'La cámara no se mueve libre: avanza sobre una curva fija entre dos paradas, con una aceleración suave.', en: 'The camera never roams free: it travels along a fixed curve between two stops, with gentle easing.' },
+        src: String.raw`function colocarCamara(p, t) {
+  p = clamp(p, 0, N - 1);
+  const i = Math.min(Math.floor(p), N - 2), f = p - i;
+  const fe = f - 0.3 * Math.sin(2 * Math.PI * f) / (2 * Math.PI);
+  const u = THREE.MathUtils.lerp(paradaU[i], paradaU[i + 1], fe);
+  curva.getPointAt(u, camera.position);
+  const A = paradas[i], B = paradas[i + 1], tr = tramos[i];
+  // …
+}`,
+      },
+      check: {
+        es: ['Ábrela en el móvil y desliza: cada gesto avanza exactamente una obra.', 'Sin WebGL (o eligiendo «Vista clásica») la misma colección se ve en 2D.'],
+        en: ['Open it on your phone and swipe: each gesture moves exactly one work forward.', 'Without WebGL (or by choosing the classic view) the same collection is shown in 2D.'],
+      },
       next: { es: 'Vídeo del recorrido para redes y nuevas salas temáticas.', en: 'A walk-through video for social media and new themed rooms.' },
     },
   },
   {
     id: 'wild', name: 'WildCamper', cats: ['cli', 'prod'], live: true,
-    metric: { es: 'Supabase + RLS · 100 % parametrizable', en: 'Supabase + RLS · fully configurable' },
+    metric: { es: 'Supabase + RLS · 68 tests automáticos', en: 'Supabase + RLS · 68 automated tests' },
+    plain: {
+      es: 'La web con la que un taller de furgonetas camper vende, alquila y gestiona sus reservas, y que el propio taller actualiza sin tocar código.',
+      en: 'The website a camper-van workshop uses to sell, rent and manage bookings, and which the workshop itself updates without touching code.',
+    },
     kind: { es: 'Cliente · Plataforma de negocio · 2026', en: 'Client · Business platform · 2026' },
     logo: 'img/logos/wildcamper.png', plate: null, tint: '#e8892b', wall: 'wild', url: 'wildcamper.es',
     tagline: {
@@ -328,18 +407,18 @@ export const projects = [
       en: 'A sales, rental and booking platform on Supabase (PostgreSQL + RLS) with an admin panel that configures the whole site.',
     },
     stats: {
-      es: [['100 %', 'del contenido parametrizado desde el panel'], ['RLS', 'autorización en PostgreSQL'], ['PWA', 'service worker y modo sin conexión']],
-      en: [['100%', 'of content configurable from the panel'], ['RLS', 'authorisation in PostgreSQL'], ['PWA', 'service worker and offline mode']],
+      es: [['100 %', 'del contenido parametrizado desde el panel'], ['68', 'tests automáticos, incluidos los de seguridad'], ['24', 'políticas RLS en PostgreSQL']],
+      en: [['100%', 'of content configurable from the panel'], ['68', 'automated tests, security checks included'], ['24', 'RLS policies in PostgreSQL']],
     },
     proves: {
       es: [
         'Autorización en la base de datos: políticas Row Level Security (lectura pública, escritura solo para administradores) sobre Supabase Auth.',
-        'Calidad automatizada: tests con el runner nativo de Node sobre la lógica pura y la estructura, incluido uno que falla si aparecen credenciales en el código.',
+        'Calidad automatizada: 68 tests con el runner nativo de Node sobre la lógica pura y la estructura, incluido uno que falla si aparecen credenciales en el código.',
         'Frontend modular sin proceso de build: ES modules, sistema de diseño con variables CSS y escape de XSS en el renderizado.',
       ],
       en: [
         'Authorisation in the database: Row Level Security policies (public reads, admin-only writes) on top of Supabase Auth.',
-        "Automated quality: tests with Node's native runner on pure logic and structure, including one that fails if credentials ever appear in the code.",
+        "Automated quality: 68 tests with Node's native runner on pure logic and structure, including one that fails if credentials ever appear in the code.",
         'Modular build-free frontend: ES modules, a CSS-variable design system and XSS escaping at render time.',
       ],
     },
@@ -379,12 +458,33 @@ export const projects = [
         es: ['wildcamper.es en producción y gestionada por el propio cliente.', 'Reservas con calendario y disponibilidad controlada desde el panel.'],
         en: ['wildcamper.es is live and managed directly by the client.', 'Bookings with a calendar and availability managed from the panel.'],
       },
+      code: {
+        file: 'tests/structure.test.js',
+        note: { es: 'La seguridad se comprueba en cada cambio: este test falla si una clave privada llega al código del cliente.', en: 'Security is checked on every change: this test fails if a private key ever reaches the client code.' },
+        src: String.raw`test('SEGURIDAD: config.js no contiene una clave service_role (JWT)', () => {
+  const src = read('js/config.js');
+  // Una service_role key es un JWT (empieza por eyJ). La anon/publishable no lo es.
+  assert.ok(!/eyJ[A-Za-z0-9_-]{20,}/.test(src), 'config.js no debe contener un JWT (posible service_role)');
+  assert.ok(!/"role"\s*:\s*"service_role"/.test(src), 'config.js no debe incluir una service_role key');
+});`,
+      },
+      check: {
+        es: ['Las cabeceras de wildcamper.es incluyen una Content-Security-Policy estricta, HSTS y X-Content-Type-Options.', 'Se instala como app: tiene manifiesto, service worker y página sin conexión.'],
+        en: ['The response headers of wildcamper.es include a strict Content-Security-Policy, HSTS and X-Content-Type-Options.', 'It installs as an app: it ships a manifest, a service worker and an offline page.'],
+      },
       next: { es: 'Tienda online con Shopify y un comparador antes/después de las camperizaciones.', en: 'A Shopify online store and a before/after comparison of the conversions.' },
     },
   },
   {
-    id: 'detemp', name: 'DeTemporada', cats: ['prod'], live: true,
+    // Hasta que esté migrada de Vercel a Cloudflare no tiene URL pública: al migrarla, poner live: true,
+    // rellenar link / linkLabel (abajo) y borrar «status». El build avisa si el enlace de un proyecto no responde.
+    id: 'detemp', name: 'DeTemporada', cats: ['prod'], live: false,
+    status: { es: 'Próximo lanzamiento', en: 'Launching soon' },
     metric: { es: 'PWA offline · 451 comercios geocodificados', en: 'Offline PWA · 451 geocoded shops' },
+    plain: {
+      es: 'Una app que te dice qué alimentos están de temporada en tu comunidad, cuánto cuestan y dónde comprarlos cerca de ti.',
+      en: 'An app that tells you which foods are in season in your region, what they cost and where to buy them nearby.',
+    },
     kind: { es: 'Producto propio · PWA · 2026', en: 'Own product · PWA · 2026' },
     logo: 'img/logos/detemporada.svg', plate: null, tint: '#f0531c', wall: 'detemp', url: 'DeTemporada',
     tagline: {
@@ -409,7 +509,7 @@ export const projects = [
     },
     stack: ['React', 'Vite', 'PWA · Service Worker', 'Node.js (ETL)', 'Geocoding', 'Chrome headless (E2E)'],
     shots: [['detemp-home', 'kb'], ['detemp-tall', 'tall']], phone: 'detemp-mobile',
-    link: 'https://de-temporada-mauve.vercel.app', linkLabel: 'DeTemporada',
+    link: null, linkLabel: null,
     keys: 'react vite pwa offline service worker datos data etl geolocalización geocoding mapa map comercios shops alimentos food temporada seasonal recetas recipes producto product tests e2e',
     case: {
       role: { es: 'Producto, ingeniería de datos y desarrollo.', en: 'Product, data engineering and development.' },
