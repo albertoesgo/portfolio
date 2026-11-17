@@ -1,8 +1,8 @@
 // Escritorio del portfolio: Mac en pantallas grandes, iOS en el móvil.
 // Un gesto = un proyecto (como luciagascon.es). Enlaces directos: index.html#lookit · ?lang=en
-import { profile, experience, education, extras, skills, filters, projects, cvFile, cvPreview } from './data.js?v=5c869fe52a';
-import { UI, pick, classicFile } from './i18n.js?v=5c869fe52a';
-import { loadAqua, mountSimulator, mountHistory, mountHorizon } from './aqua.js?v=5c869fe52a';
+import { profile, experience, education, extras, skills, filters, projects, cvFile, cvPreview } from './data.js?v=0dc45b75b1';
+import { UI, pick, classicFile } from './i18n.js?v=0dc45b75b1';
+import { loadAqua, mountSimulator, mountHistory, mountHorizon } from './aqua.js?v=0dc45b75b1';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -58,7 +58,7 @@ const appIcon = (p) => `<span class="ai${p.plate ? ' pad' : ''}" style="--plate:
 const shot = (n) => `img/shots/${n}.webp`;
 // Vídeo en bucle (mp4) con su primer fotograma como póster (.webp del mismo nombre); solo se reproduce cuando se ve
 const clip = (n, alt = '') => `<video src="img/shots/${n}.mp4" poster="${shot(n)}" muted loop playsinline preload="none" aria-label="${esc(alt)}"></video>`;
-const visual = (n, fx, alt) => (fx === 'vid' ? clip(n, alt) : `<img src="${shot(n)}" alt="${esc(alt)}" loading="lazy" decoding="async" fetchpriority="low" draggable="false">`);
+const visual = (n, fx, alt) => (/\bvid\b/.test(fx) ? clip(n, alt) : `<img src="${shot(n)}" alt="${esc(alt)}" loading="lazy" decoding="async" fetchpriority="low" draggable="false">`);
 const SP = [{ id: 'inicio', name: 'Inicio', wall: 'home' }, ...projects];
 const spName = (k) => (k ? tr(SP[k].name) : t.home);
 
@@ -158,7 +158,7 @@ function homeHTML(cur) {
 }
 
 const linkBtns = (p, primary = false) =>
-  (p.link ? `<a class="btn${primary ? '' : ' sec'}" href="${p.link}" target="_blank" rel="noopener">${esc(primary ? t.open(p.linkLabel) : `${p.linkLabel} ↗`)}</a>` : '') +
+  (p.link ? `<a class="btn${primary ? '' : ' sec'}" href="${p.link}" target="_blank" rel="noopener">${esc(p.linkText ? `${tr(p.linkText)} ↗` : primary ? t.open(p.linkLabel) : `${p.linkLabel} ↗`)}</a>` : '') +
   (p.repo ? `<a class="btn sec" href="${p.repo}" target="_blank" rel="noopener">${t.repoBtn} ↗</a>` : '');
 
 function projectHTML(p, k, cur) {
@@ -166,7 +166,7 @@ function projectHTML(p, k, cur) {
   const slides = `<div class="shot">
       ${p.shots.map(([n, fx]) => `<div class="slide ${fx}">${visual(n, fx, t.shotOf(tr(p.name)))}</div>`).join('')}
       ${p.phone ? `<div class="slide m phone-only${p.phoneVid ? ' vid' : ''}">${visual(p.phone, p.phoneVid ? 'vid' : '', t.onPhone(tr(p.name)))}</div>` : ''}
-      <div class="pips">${p.shots.map(() => '<i></i>').join('')}</div>
+      <div class="pips">${p.shots.filter(([, fx]) => !/phone-only/.test(fx)).map(() => '<i></i>').join('')}</div>
     </div>`;
   const media = p.aqua
     ? `<div class="mtabs"><div class="seg" role="group">${t.tabs.map(([k2, l], j) => `<button data-pane="${k2}" aria-pressed="${j === 0}">${l}</button>`).join('')}</div></div>
@@ -301,7 +301,7 @@ function startSlides() {
   if (!sp || i === 0) { playVideos(); return; }
   const appPane = sp.querySelector('[data-p="app"]');
   if (appPane && !appPane.classList.contains('on')) return;
-  let slides = [...sp.querySelectorAll('.slide')].filter((s) => mode === 'phone' || !s.classList.contains('phone-only'));
+  let slides = [...sp.querySelectorAll('.slide')].filter((s) => (mode === 'phone' ? !s.classList.contains('mac-only') : !s.classList.contains('phone-only')));
   if (mode === 'phone') { const m = slides.find((s) => s.classList.contains('m')); if (m) slides = [m, ...slides.filter((s) => s !== m && !s.classList.contains('tall'))]; }
   const pips = [...sp.querySelectorAll('.pips i')];
   let k = 0;
@@ -517,6 +517,7 @@ function caseHTML(p) {
     <div class="myrole"><b>${h.role}</b><span>${esc(tr(c.role))}</span></div>
     <h3>${h.problem}</h3><p>${esc(tr(c.problem))}</p>
     <h3>${h.solution}</h3><p>${esc(tr(c.solution))}</p>
+    ${(c.extra || []).map((x) => `<h3>${esc(tr(x.h))}</h3><p>${esc(tr(x.p))}</p>`).join('')}
     <h3>${h.arch}</h3><div class="arch">${tr(c.arch).map(([k, v]) => `<div class="ar"><b>${esc(k)}</b><span>${esc(v)}</span></div>`).join('')}</div>
     <h3>${h.decisions}</h3><ol class="dec">${tr(c.decisions).map((d) => `<li>${esc(d)}</li>`).join('')}</ol>
     <h3>${h.impact}</h3><ul class="impact">${tr(c.impact).map((d) => `<li>${ICON.check}<span>${esc(d)}</span></li>`).join('')}</ul>

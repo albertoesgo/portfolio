@@ -33,6 +33,8 @@ for (const p of projects) {
     assert.equal(p.proves.es.length, p.proves.en.length);
     const c = p.case;
     for (const k of ['role', 'problem', 'solution', 'next']) assert.ok(bilingual(c[k]), `${p.id}.case.${k}`);
+    for (const x of c.extra || []) assert.ok(bilingual(x.h) && bilingual(x.p), `${p.id}.case.extra`);
+    if (p.linkText) assert.ok(bilingual(p.linkText));
     for (const k of ['arch', 'decisions', 'impact']) assert.equal(c[k].es.length, c[k].en.length, `${p.id}.case.${k}: mismo número de puntos en ES y EN`);
   });
 
@@ -40,12 +42,12 @@ for (const p of projects) {
     assert.ok(existsSync(join(SITE, p.logo)), p.logo);
     for (const n of [...p.shots.map(([s]) => s), p.phone].filter(Boolean)) assert.ok(existsSync(join(SITE, 'img', 'shots', `${n}.webp`)), n);
     // Un vídeo necesita su mp4 y su póster .webp
-    for (const n of [...p.shots.filter(([, fx]) => fx === 'vid').map(([s]) => s), p.phoneVid ? p.phone : null].filter(Boolean)) assert.ok(existsSync(join(SITE, 'img', 'shots', `${n}.mp4`)), `${n}.mp4`);
+    for (const n of [...p.shots.filter(([, fx]) => /\bvid\b/.test(fx)).map(([s]) => s), p.phoneVid ? p.phone : null].filter(Boolean)) assert.ok(existsSync(join(SITE, 'img', 'shots', `${n}.mp4`)), `${n}.mp4`);
   });
 
   test(`${p.id}: «En producción» solo con enlace público`, () => {
     if (p.live) assert.match(p.link ?? '', /^https:\/\//, 'un proyecto en producción necesita su URL');
-    else assert.ok(!p.link || p.status === undefined, 'si no está en producción, o no hay enlace o no hay etiqueta de estado');
+    else assert.ok(!p.link || p.linkText, 'sin «En producción», el enlace tiene que decir qué es (p. ej. «Probar la demo»)');
     if (p.link) assert.ok(isText(p.linkLabel));
     if (p.repo) assert.match(p.repo, /^https:\/\/github\.com\//);
   });

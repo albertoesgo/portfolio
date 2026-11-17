@@ -79,7 +79,7 @@ function classic(lang) {
     return s;
   };
   const badge = (p) => (p.live ? ` <span class="live"><i></i>${t.live}</span>` : p.status ? ` <span class="soon">${esc(tr(p.status))}</span>` : '');
-  const links = (p) => (p.link ? `<a class="btn sec" href="${p.link}" rel="noopener">${esc(t.open(p.linkLabel))}</a>` : '') + (p.repo ? `<a class="btn sec" href="${p.repo}" rel="noopener">${t.repoBtn} ↗</a>` : '');
+  const links = (p) => (p.link ? `<a class="btn sec" href="${p.link}" rel="noopener">${esc(p.linkText ? `${tr(p.linkText)} ↗` : t.open(p.linkLabel))}</a>` : '') + (p.repo ? `<a class="btn sec" href="${p.repo}" rel="noopener">${t.repoBtn} ↗</a>` : '');
   const updated = new Date(live.built).toLocaleDateString(t.locale, { day: 'numeric', month: 'long', year: 'numeric' });
   const project = (p, i) => `
     <article class="proj" id="${p.id}" style="--tint:${p.tint}">
@@ -97,6 +97,7 @@ function classic(lang) {
         <p class="myrole"><b>${c.role}</b> ${esc(tr(p.case.role))}</p>
         <h4>${c.problem}</h4><p>${esc(tr(p.case.problem))}</p>
         <h4>${c.solution}</h4><p>${esc(tr(p.case.solution))}</p>
+        ${(p.case.extra || []).map((x) => `<h4>${esc(tr(x.h))}</h4><p>${esc(tr(x.p))}</p>`).join('')}
         <h4>${c.arch}</h4><dl class="arch">${tr(p.case.arch).map(([a, b]) => `<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join('')}</dl>
         <h4>${c.decisions}</h4><ol class="dec">${tr(p.case.decisions).map((d) => `<li>${esc(d)}</li>`).join('')}</ol>
         <h4>${c.impact}</h4><ul class="checks">${tr(p.case.impact).map((d) => `<li>${CHECK}<span>${esc(d)}</span></li>`).join('')}</ul>

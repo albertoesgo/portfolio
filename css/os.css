@@ -414,6 +414,7 @@ button:disabled { cursor: default; }
 .phone .media { display: block; overflow: visible; min-height: auto; padding: calc(14px + env(safe-area-inset-top, 0px)) 14px 0; }
 .phone .shot { aspect-ratio: 4 / 5; max-height: 72dvh; margin-inline: auto; }
 .phone .slide.m img, .phone .shot img { object-position: top; }
+.phone .slide.vid video { object-position: 50% 62%; }
 .phone .phoneshot, .phone .cap { display: none; }
 .phone .pane.on { display: block; padding-bottom: 14px; }
 .phone .mtabs { margin-bottom: 12px; }
