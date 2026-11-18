@@ -20,7 +20,7 @@ export const UI = {
     highlights: 'Lo que aporta', caseBtn: 'Caso de estudio', live: 'En producción', repoBtn: 'Código en GitHub',
     toHome: 'Volver a Inicio', toAll: 'Ver todos los proyectos', maximize: 'Ampliar ventana', minimize: 'Minimizar ventana',
     // Hojas
-    focusH: 'Especialización', howWork: 'Cómo trabajo', experience: 'Experiencia', education: 'Formación', skills: 'Stack técnico', stackHint: 'El número indica en cuántos de estos proyectos la he usado: púlsala para verlos.', stackUsed: (n) => (n === 1 ? 'En 1 proyecto' : `En ${n} proyectos`), extras: 'Idiomas y voluntariado',
+    focusH: 'Especialización', howWork: 'Cómo trabajo', experience: 'Experiencia', education: 'Formación', skills: 'Stack técnico', extras: 'Idiomas y voluntariado',
     downloadCV: 'Descargar CV', viewCV: 'Ver CV', downloadPdf: 'Descargar PDF', openPdf: 'Abrir en pestaña nueva', cvSub: 'PDF · una página', cvAlt: (n) => `Currículum de ${n}`,
     caseOf: (n) => `Caso de estudio · ${n}`,
     c: { role: 'Mi papel', problem: 'El reto', solution: 'La solución', arch: 'Arquitectura', decisions: 'Decisiones técnicas', impact: 'Resultados', next: 'Siguiente paso', stack: 'Tecnologías' },
@@ -54,7 +54,7 @@ export const UI = {
     appCap: 'Real screenshots of the thesis app (React + FastAPI)', realShot: 'Real screenshot',
     highlights: 'Highlights', caseBtn: 'Case study', live: 'Live', repoBtn: 'Code on GitHub',
     toHome: 'Back to Home', toAll: 'See all projects', maximize: 'Enlarge window', minimize: 'Minimise window',
-    focusH: 'Focus areas', howWork: 'How I work', experience: 'Experience', education: 'Education', skills: 'Tech stack', stackHint: 'The number shows how many of these projects use it: click to see which.', stackUsed: (n) => (n === 1 ? 'In 1 project' : `In ${n} projects`), extras: 'Languages & volunteering',
+    focusH: 'Focus areas', howWork: 'How I work', experience: 'Experience', education: 'Education', skills: 'Tech stack', extras: 'Languages & volunteering',
     downloadCV: 'Download CV', viewCV: 'View CV', downloadPdf: 'Download PDF', openPdf: 'Open in a new tab', cvSub: 'PDF · one page', cvAlt: (n) => `${n}'s CV`,
     caseOf: (n) => `Case study · ${n}`,
     c: { role: 'My role', problem: 'The challenge', solution: 'The solution', arch: 'Architecture', decisions: 'Key technical decisions', impact: 'Results', next: 'Next step', stack: 'Technologies' },

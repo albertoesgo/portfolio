@@ -90,8 +90,7 @@ export const extras = [
   [{ es: 'Voluntariado', en: 'Volunteering' }, { es: 'Erasmus Student Network (2026 – actualidad) · Fundación Madre Coraje (2025)', en: 'Erasmus Student Network (2026 – present) · Fundación Madre Coraje (2025)' }],
 ];
 
-// Stack técnico por áreas. Cada tecnología es un chip; si aparece en algún proyecto,
-// el chip abre la búsqueda con los proyectos que la usan (os.js). [nombre, búsqueda opcional]
+// Stack técnico por áreas. [nombre, búsqueda] cuando el nombre visible no sirve para buscar
 export const skills = [
   [{ es: 'Machine learning', en: 'Machine learning' }, ['PyTorch', 'scikit-learn', 'XGBoost', 'statsmodels', 'Prophet', 'LSTM', ['GNN (T-GCN)', 'gcn'], ['HPC', 'hpc picasso']]],
   [{ es: 'IA aplicada', en: 'Applied AI' }, [['LLMs', 'llm'], 'Gemini', 'OpenAI', 'Claude Code', 'Copilot']],
