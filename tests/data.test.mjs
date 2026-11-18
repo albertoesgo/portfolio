@@ -20,7 +20,7 @@ test('perfil, experiencia y formación están en español y en inglés', () => {
   assert.equal(profile.principles.es.length, profile.principles.en.length);
   for (const e of experience) for (const k of ['role', 'date', 'text']) assert.ok(bilingual(e[k]), `experiencia ${e.org}.${k}`);
   for (const e of education) assert.ok(bilingual(e.title) && bilingual(e.org));
-  for (const [k, v] of skills) assert.ok(bilingual(k) && bilingual(v));
+  for (const [k, v] of skills) assert.ok(bilingual(k) && Array.isArray(v) && v.length, 'stack: área bilingüe con tecnologías');
 });
 
 for (const p of projects) {

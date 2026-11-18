@@ -8,7 +8,7 @@ import { tmpdir } from 'node:os';
 import { mkdtempSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { profile, experience, education, extras, skills, projects, cvFile, cvPreview } from '../js/data.js';
+import { profile, experience, education, extras, skills, tech, projects, cvFile, cvPreview } from '../js/data.js';
 import { UI, pick, classicFile } from '../js/i18n.js';
 
 const SITE = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -167,7 +167,7 @@ function classic(lang) {
     <h3>${t.focusH}</h3><div class="focus">${tr(profile.focus).map(([a, b]) => `<div><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
     <h3>${t.howWork}</h3><ul class="checks">${tr(profile.principles).map((d) => `<li>${CHECK}<span>${esc(d)}</span></li>`).join('')}</ul>
     <h3>${t.skills}</h3>
-    <dl class="kv">${[...skills, ...extras].map(([a, b]) => `<div><dt>${esc(tr(a))}</dt><dd>${esc(tr(b))}</dd></div>`).join('')}</dl>
+    <dl class="kv">${[...skills.map(([a, b]) => [a, b.map((x) => tech(x).name).join(', ')]), ...extras].map(([a, b]) => `<div><dt>${esc(tr(a))}</dt><dd>${esc(tr(b))}</dd></div>`).join('')}</dl>
   </section>
 
   <section id="contact" class="contact">

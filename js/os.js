@@ -1,8 +1,8 @@
 // Escritorio del portfolio: Mac en pantallas grandes, iOS en el móvil.
 // Un gesto = un proyecto (como luciagascon.es). Enlaces directos: index.html#lookit · ?lang=en
-import { profile, experience, education, extras, skills, filters, projects, cvFile, cvPreview } from './data.js?v=f25caeccc5';
-import { UI, pick, classicFile } from './i18n.js?v=f25caeccc5';
-import { loadAqua, mountSimulator, mountHistory, mountHorizon } from './aqua.js?v=f25caeccc5';
+import { profile, experience, education, extras, skills, tech, filters, projects, cvFile, cvPreview } from './data.js?v=07950241d0';
+import { UI, pick, classicFile } from './i18n.js?v=07950241d0';
+import { loadAqua, mountSimulator, mountHistory, mountHorizon } from './aqua.js?v=07950241d0';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -427,12 +427,14 @@ function onClick(e) {
   }
   const inDock = e.target.closest('#dock > *');
   if (inDock) bounce(inDock);
+  const tq = e.target.closest('[data-tech]');
+  if (tq) { openSpot(tq.dataset.tech); return; }
   const g = e.target.closest('[data-go]');
   if (g) { closeAll(); go(+g.dataset.go); return; }
   const a = e.target.closest('[data-act]');
   if (!a) return;
   ({
-    overview: () => toggle('overview'), spot: openSpot, about: () => toggle('about'), cv: () => toggle('cv'), contact: () => toggle('contact'),
+    overview: () => toggle('overview'), spot: () => openSpot(), about: () => toggle('about'), cv: () => toggle('cv'), contact: () => toggle('contact'),
     close: closeAll, home: () => go(0), prev: () => go(i - 1), next: () => go(i + 1),
     max: () => (a.closest('.sheet') || spaces[i]).classList.toggle('max'),
     case: () => { const p = projects[i - 1]; if (p) sheet(t.caseOf(tr(p.name)), caseHTML(p), 'case'); },
@@ -498,7 +500,10 @@ function aboutHTML() {
     </div></div>
     <h3>${t.focusH}</h3><div class="focus">${tr(profile.focus).map(([a, b]) => `<div><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
     <h3>${t.howWork}</h3><ul class="impact">${tr(profile.principles).map((d) => `<li>${ICON.check}<span>${esc(d)}</span></li>`).join('')}</ul>
-    <h3>${t.skills}</h3><div class="list two">${skills.map(([k, v]) => li(tr(k), '', tr(v))).join('')}</div>
+    <h3>${t.skills}</h3><p class="tnote">${t.stackHint}</p><div class="techs">${skills.map(([k, v]) => `<div><b>${esc(tr(k))}</b><div class="chips">${v.map((x) => {
+      const { name, q } = tech(x), n = usedIn(q).length;
+      return n ? `<button data-tech="${esc(q)}" title="${esc(t.stackUsed(n))}">${esc(name)}<i>${n}</i></button>` : `<span>${esc(name)}</span>`;
+    }).join('')}</div></div>`).join('')}</div>
     <div class="actions" style="margin-top:22px"><button class="btn" data-act="cv">${ICON.doc}${t.viewCV}</button><a class="btn sec" href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a></div>`;
 }
 // CV: primero se ve; descargarlo es una decisión de quien lo lee
@@ -610,7 +615,7 @@ function search(q) {
     { name: s.classic[0], sub: s.classic[1], keys: s.classic[2], href: classicFile(lang), icon: SYS.list },
   ];
   const all = [...projects.map((p, k) => ({ name: tr(p.name), sub: p.stack.join(' · '), keys: `${p.keys} ${tr(p.name)} ${tr(p.tagline)}`, go: k + 1, icon: appIcon(p) })), ...extra];
-  results = q2 ? all.filter((r) => q2.split(/\s+/).every((w) => norm(`${r.keys} ${r.name}`).includes(w))) : all;
+  results = q2 ? all.filter((r) => q2.split(/\s+/).every((w) => norm(`${r.keys} ${r.name} ${r.sub}`).includes(w))) : all;
   sel = 0; renderRes(q);
 }
 function renderRes(q) {
@@ -625,7 +630,9 @@ function pickResult(r) {
   else if (r.go !== undefined) go(r.go);
   else if (r.act) toggle(r.act);
 }
-function openSpot() { closeAll(false); modal(true); $('#sp').classList.add('open'); const q = $('#spq'); q.value = ''; search(''); setTimeout(() => q.focus({ preventScroll: true }), 30); }
+function openSpot(text = '') { closeAll(false); modal(true); $('#sp').classList.add('open'); const q = $('#spq'); q.value = text; search(text); setTimeout(() => q.focus({ preventScroll: true }), 30); }
+// Proyectos que usan una tecnología (la misma búsqueda que Spotlight)
+const usedIn = (q) => projects.filter((p) => norm(q).split(/\s+/).every((w) => norm(`${p.keys} ${tr(p.name)} ${p.stack.join(' ')}`).includes(w)));
 
 /* ── Notificación ── */
 let toastT;

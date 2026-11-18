@@ -90,14 +90,18 @@ export const extras = [
   [{ es: 'Voluntariado', en: 'Volunteering' }, { es: 'Erasmus Student Network (2026 – actualidad) · Fundación Madre Coraje (2025)', en: 'Erasmus Student Network (2026 – present) · Fundación Madre Coraje (2025)' }],
 ];
 
+// Stack técnico por áreas. Cada tecnología es un chip; si aparece en algún proyecto,
+// el chip abre la búsqueda con los proyectos que la usan (os.js). [nombre, búsqueda opcional]
 export const skills = [
-  ['Machine learning', { es: 'PyTorch, scikit-learn, XGBoost, statsmodels, Prophet · LSTM, GNN (T-GCN) · forecasting y evaluación', en: 'PyTorch, scikit-learn, XGBoost, statsmodels, Prophet · LSTM, GNN (T-GCN) · forecasting and evaluation' }],
-  ['LLMs', { es: 'Gemini y OpenAI vía API · extracción estructurada de intención · desarrollo con agentes (Claude Code, Copilot)', en: 'Gemini and OpenAI via API · structured intent extraction · agent-assisted development (Claude Code, Copilot)' }],
-  [{ es: 'Datos', en: 'Data' }, 'Python, pandas, NumPy, SQL (PostgreSQL, Oracle, SQLite), ETL, Power BI'],
-  [{ es: 'Backend y nube', en: 'Backend & cloud' }, 'FastAPI, Node.js, Express, Supabase, Redis · Cloudflare (Pages, Workers, KV), Vercel, GitHub Actions'],
-  ['Frontend', 'TypeScript, React, Next.js, three.js, Tailwind, PWA'],
-  [{ es: 'Automatización', en: 'Automation' }, { es: 'Power Automate, SharePoint, integraciones vía API, Oracle APEX, OutSystems', en: 'Power Automate, SharePoint, API integrations, Oracle APEX, OutSystems' }],
+  [{ es: 'Machine learning', en: 'Machine learning' }, ['PyTorch', 'scikit-learn', 'XGBoost', 'statsmodels', 'Prophet', 'LSTM', ['GNN (T-GCN)', 'gcn'], ['HPC', 'hpc picasso']]],
+  [{ es: 'IA aplicada', en: 'Applied AI' }, [['LLMs', 'llm'], 'Gemini', 'OpenAI', 'Claude Code', 'Copilot']],
+  [{ es: 'Datos', en: 'Data' }, ['Python', 'pandas', 'NumPy', 'SQL', 'PostgreSQL', 'Oracle', 'SQLite', 'ETL', 'Power BI']],
+  [{ es: 'Backend y nube', en: 'Backend & cloud' }, ['FastAPI', 'Node.js', 'Express', 'Supabase', 'Redis', ['Cloudflare', 'cloudflare'], 'Vercel', 'GitHub Actions']],
+  [{ es: 'Frontend', en: 'Frontend' }, ['TypeScript', 'React', 'Next.js', 'three.js', 'WebGL', 'Tailwind', 'PWA']],
+  [{ es: 'Automatización', en: 'Automation' }, ['Power Automate', 'SharePoint', 'Oracle APEX', 'OutSystems']],
 ];
+// Nombre visible y texto de búsqueda de una tecnología del stack
+export const tech = (x) => (Array.isArray(x) ? { name: x[0], q: x[1] } : { name: x, q: x });
 
 // Un solo CV público (perfil «automation» de ~/Proyectos/cv), en el idioma de la web.
 export const cvFile = (lang) => `cv/Alberto_Estrada_Gomez_CV_${lang.toUpperCase()}.pdf`;
