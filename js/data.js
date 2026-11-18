@@ -18,11 +18,11 @@ export const profile = {
   bio: {
     es: [
       'Ingeniero informático por la Universidad de Málaga, con mención en Computación. Me dedico a convertir modelos —de redes neuronales para series temporales a LLMs— en sistemas fiables, medibles y que se usan de verdad.',
-      'Formo parte del equipo fundador del departamento de IA y automatización de MicroCAD, donde diseño automatizaciones e integraciones entre sistemas para las distintas áreas de negocio. En paralelo construyo y opero productos propios y plataformas para clientes, de la base de datos a la interfaz.',
+      'En MicroCAD diseño automatizaciones e integraciones entre sistemas para las distintas áreas de la empresa. En paralelo construyo y opero productos propios y plataformas para clientes, de la base de datos a la interfaz.',
     ],
     en: [
       'Computer engineer from the University of Málaga, specialising in Computing. I turn models — from neural networks for time series to LLMs — into reliable, measurable systems that people actually use.',
-      "I am part of the founding team of MicroCAD's AI & Automation department, where I design automations and system integrations for teams across the business. Alongside that, I build and run my own products and client platforms, from database to interface.",
+      "At MicroCAD I design automations and system integrations for teams across the business. Alongside that, I build and run my own products and client platforms, from database to interface.",
     ],
   },
   focus: {
@@ -66,8 +66,8 @@ export const experience = [
     role: { es: 'Ingeniero de IA y automatización de procesos', en: 'AI & Process Automation Engineer' },
     org: 'MicroCAD Informática', date: { es: 'sept. 2026 – actualidad', en: 'Sep 2026 – present' },
     text: {
-      es: 'Equipo fundador del departamento de IA y automatización. Automatizaciones con Power Automate y Python, integraciones vía API con SharePoint, aplicaciones internas y cuadros de mando en Power BI.',
-      en: 'Founding team of the AI & Automation department. Automations with Power Automate and Python, API integrations with SharePoint, internal apps and Power BI dashboards.',
+      es: 'Automatizo procesos de las distintas áreas de la empresa con Power Automate y Python, integro sistemas vía API con SharePoint y desarrollo aplicaciones internas y cuadros de mando en Power BI.',
+      en: 'I automate processes across the business with Power Automate and Python, integrate systems via API with SharePoint, and build internal apps and Power BI dashboards.',
     },
   },
   {
