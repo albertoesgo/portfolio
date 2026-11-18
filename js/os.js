@@ -1,8 +1,8 @@
 // Escritorio del portfolio: Mac en pantallas grandes, iOS en el móvil.
 // Un gesto = un proyecto (como luciagascon.es). Enlaces directos: index.html#lookit · ?lang=en
-import { profile, experience, education, extras, skills, tech, filters, projects, cvFile, cvPreview } from './data.js?v=d68735a930';
-import { UI, pick, classicFile } from './i18n.js?v=d68735a930';
-import { loadAqua, mountSimulator, mountHistory, mountHorizon } from './aqua.js?v=d68735a930';
+import { profile, experience, education, extras, skills, tech, filters, projects, cvFile, cvPreview } from './data.js?v=582f5f3f6c';
+import { UI, pick, classicFile } from './i18n.js?v=582f5f3f6c';
+import { loadAqua, mountSimulator, mountHistory, mountHorizon } from './aqua.js?v=582f5f3f6c';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -151,7 +151,6 @@ function homeHTML(cur) {
       <p class="hi${rv(0)}"><i></i>${esc(tr(profile.role))} · ${esc(tr(profile.location))}</p>
       <h1 class="${rv(1)}">${esc(profile.name.split(' ')[0])}<br>${esc(profile.name.split(' ').slice(1).join(' '))}</h1>
       <p class="pitch${rv(2)}">${esc(tr(profile.headline))}</p>
-      <div class="actions${rv(3)}"><button class="btn" data-act="contact">${ICON.mail}${t.contact}</button><button class="btn sec" data-act="about">${ICON.person}${t.about}</button></div>
     </div>
     <div class="icons${rv(4)}"><h2>${t.projects}</h2><div class="irow">${projects.map((p, k) => `<button class="dicon" data-go="${k + 1}">${appIcon(p)}<span>${esc(tr(p.short || p.name))}</span></button>`).join('')}</div></div>
   </div></section>`;

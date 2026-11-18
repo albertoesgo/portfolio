@@ -438,7 +438,8 @@ button:disabled { cursor: default; }
 .phone .w-profile .hi i { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
 .phone .w-profile h1 { margin: 14px 0 0 -2px; font-size: clamp(34px, 10vw, 40px); line-height: 1; letter-spacing: -.045em; }
 .w-profile .pitch { margin: 12px 0 0; max-width: 19em; font-size: 17px; line-height: 23px; font-weight: 500; letter-spacing: -.015em; color: var(--label); opacity: .74; text-wrap: pretty; }
-.phone .w-profile .actions { display: flex; gap: 10px; margin-top: 16px; }
+/* Inicio en el móvil: sin botones (Contacto y Sobre mí ya están en el Dock) ni pager (los iconos llevan a cada proyecto), salvo la pista de deslizar de la primera visita */
+.phone .pager.athome:not(.first) { opacity: 0; pointer-events: none; }
 .phone .w-profile .btn { flex: 1; justify-content: center; }
 .phone .w-profile .btn svg { width: 18px; height: 18px; }
 .phone .w-profile .btn.sec { background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
