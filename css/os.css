@@ -413,6 +413,8 @@ button:disabled { cursor: default; }
 .phone .wbody { grid-template-columns: minmax(0, 1fr); grid-auto-rows: max-content; overflow-y: auto; padding-bottom: calc(150px + env(safe-area-inset-bottom, 0px)); scrollbar-width: none; touch-action: pan-y; align-content: start; overscroll-behavior-y: contain; }
 .phone .media { display: block; overflow: visible; min-height: auto; padding: calc(14px + env(safe-area-inset-top, 0px)) 14px 0; }
 .phone .shot { aspect-ratio: 4 / 5; max-height: 72dvh; margin-inline: auto; }
+/* Móviles de altura normal: la captura cuadrada deja ver el nombre del proyecto sobre la barra de navegación */
+@media (max-height: 780px) { .phone .shot { aspect-ratio: 1 / 1; } }
 .phone .slide.m img, .phone .shot img { object-position: top; }
 .phone .slide.vid video { object-position: 50% 62%; }
 .phone .phoneshot, .phone .cap { display: none; }

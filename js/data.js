@@ -278,16 +278,16 @@ export const projects = [
     status: { es: 'Código abierto', en: 'Open source' },
     metric: { es: 'Consumo y límites de mis agentes de IA', en: 'Usage and limits of my AI agents' },
     plain: {
-      es: 'Un panel que me dice, en tiempo real, cuánto consumen mis agentes de IA en cada proyecto, cuánto me queda del límite de mi plan y qué sesión conviene cortar. Lo dibuja como un cerebro para ver de un vistazo qué está haciendo cada uno.',
-      en: 'A dashboard that tells me, in real time, how much my AI agents use in each project, how much of my plan’s limit is left and which session I should cut short. It draws everything as a brain, so I can see at a glance what each one is doing.',
+      es: 'Un panel que me dice, en tiempo real, cuánto consumen mis agentes de IA en cada proyecto, cuánto me queda del límite de mi plan y qué sesión conviene cortar, y que le indica a la IA por qué ficheros empezar para que gaste menos. Lo dibuja como un cerebro para ver de un vistazo qué está haciendo cada uno.',
+      en: 'A dashboard that tells me, in real time, how much my AI agents use in each project, how much of my plan’s limit is left and which session I should cut short, and that tells the AI which files to start from so it spends less. It draws everything as a brain, so I can see at a glance what each one is doing.',
     },
     kind: { es: 'Herramienta propia · Código abierto · 2026', en: 'Own tool · Open source · 2026' },
     logo: 'img/logos/sinapsis.webp', plate: null, tint: '#6f6cf6', wall: 'sinapsis',
     url: 'albertoesgo.github.io/sinapsis',
     shotNote: { es: 'Demo pública · datos sintéticos', en: 'Public demo · synthetic data' },
     tagline: {
-      es: 'Observabilidad para agentes de IA: lee en local los registros de Claude Code y los convierte en consumo por proyecto y modelo, contexto por sesión, una estimación de los límites del plan Pro/Max, avisos e informe semanal, sobre un cerebro 3D en tiempo real.',
-      en: 'Observability for AI agents: it reads Claude Code’s logs locally and turns them into usage by project and model, per-session context, an estimate of the Pro/Max plan limits, alerts and a weekly report, on top of a real-time 3D brain.',
+      es: 'Observabilidad para agentes de IA: lee en local los registros de Claude Code y los convierte en consumo por proyecto y modelo, contexto por sesión, una estimación de los límites del plan Pro/Max, avisos, informe semanal y un mapa de cada proyecto que le dice a la IA dónde mirar, sobre un cerebro 3D en tiempo real.',
+      en: 'Observability for AI agents: it reads Claude Code’s logs locally and turns them into usage by project and model, per-session context, an estimate of the Pro/Max plan limits, alerts, a weekly report and a map of each project that tells the AI where to look, on top of a real-time 3D brain.',
     },
     stats: {
       es: [['2', 'límites del plan vigilados: la ventana de 5 h y la semana'], ['200 k', 'tokens de contexto: a partir de ahí avisa de compactar'], ['0', 'peticiones a internet: los datos no salen del ordenador']],
@@ -296,31 +296,31 @@ export const projects = [
     proves: {
       es: [
         'Control del consumo de IA: coste por proyecto, modelo y agente, contexto por sesión y una estimación de los límites del plan aprendida de los cortes reales del historial, con avisos al 75 % y al 90 %.',
-        'Ingesta incremental de los registros (por desplazamiento de bytes, con deduplicación y caché) emitida en directo por Server-Sent Events, con tests y CI en Node 20, 22 y 24.',
-        'Visualización 3D procedural en three.js (unas 110.000 partículas), demo pública en GitHub Pages y versión móvil por la red de casa, protegida con clave.',
+        'Menos tokens por tarea: aprende del historial qué ficheros y órdenes usó cada petición (TF-IDF) y se lo pasa a Claude Code con una skill, para que vaya directo en lugar de buscar a ciegas.',
+        'Ingeniería de extremo a extremo: ingesta incremental en directo por Server-Sent Events, cerebro 3D procedural en three.js, PWA completa, demo pública y CI con ESLint y tests en Node 20, 22 y 24.',
       ],
       en: [
         'AI usage control: cost by project, model and agent, per-session context and an estimate of the plan limits learned from the real cut-offs in the history, with alerts at 75% and 90%.',
-        'Incremental log ingestion (by byte offset, with deduplication and caching) streamed live over Server-Sent Events, with tests and CI on Node 20, 22 and 24.',
-        'Procedural 3D visualisation in three.js (some 110,000 particles), a public demo on GitHub Pages and a mobile version over the home network, protected by a key.',
+        'Fewer tokens per task: it learns from the history which files and commands each request used (TF-IDF) and hands that to Claude Code through a skill, so it goes straight there instead of searching blindly.',
+        'End-to-end engineering: incremental live ingestion over Server-Sent Events, a procedural three.js brain, a complete PWA, a public demo and CI with ESLint and tests on Node 20, 22 and 24.',
       ],
     },
-    stack: ['Node.js', 'Server-Sent Events', 'three.js', 'WebGL · shaders', 'GitHub Actions', 'PWA'],
-    shots: [['sinapsis-motion', 'vid mac-only'], ['sinapsis-home', 'kb'], ['sinapsis-report', 'kb'], ['sinapsis-plan-m', 'kb phone-only']],
+    stack: ['Node.js', 'Server-Sent Events', 'three.js', 'WebGL · shaders', 'TF-IDF', 'PWA', 'GitHub Actions'],
+    shots: [['sinapsis-motion', 'vid mac-only'], ['sinapsis-home', 'kb'], ['sinapsis-where', 'kb'], ['sinapsis-report', 'kb'], ['sinapsis-plan-m', 'kb phone-only']],
     phone: 'sinapsis-motion-m', phoneVid: true,
     link: 'https://albertoesgo.github.io/sinapsis/', linkLabel: 'albertoesgo.github.io/sinapsis',
     linkText: { es: 'Probar la demo', en: 'Try the demo' },
     repo: 'https://github.com/albertoesgo/sinapsis',
-    keys: 'sinapsis claude code agentes agents ia ai llm observabilidad observability tokens coste cost consumo usage límites limits plan pro max contexto context caché cache node sse server-sent events three threejs 3d webgl shaders cerebro brain panel dashboard tiempo real real time demo github actions ci pwa código abierto open source',
+    keys: 'sinapsis claude code agentes agents ia ai llm observabilidad observability tokens coste cost consumo usage límites limits plan pro max mapa map dónde mirar where obsidian skill tf-idf eslint contexto context caché cache node sse server-sent events three threejs 3d webgl shaders cerebro brain panel dashboard tiempo real real time demo github actions ci pwa código abierto open source',
     case: {
-      role: { es: 'Proyecto individual: idea, servidor de ingesta, estimación de límites, visualización 3D, paneles y demo pública.', en: 'Solo project: concept, ingestion server, limit estimation, 3D visualisation, dashboards and public demo.' },
+      role: { es: 'Proyecto individual: idea, servidor de ingesta, estimación de límites, mapa de proyectos, visualización 3D, paneles y demo pública.', en: 'Solo project: concept, ingestion server, limit estimation, project map, 3D visualisation, dashboards and public demo.' },
       problem: {
-        es: 'Trabajo a diario con agentes de IA en varios proyectos a la vez y el consumo no se ve: en cada paso el modelo relee todo el contexto de la sesión —cientos de tokens leídos por cada uno que escribe— y una sesión larga se encarece sin avisar. En los planes Pro y Max, además, quedarse sin límite a mitad de una tarea corta el trabajo. Los registros existen, pero son miles de líneas JSON por proyecto.',
-        en: 'I work with AI agents every day across several projects at once, and usage is invisible: on every step the model re-reads the whole session context — hundreds of tokens read for each one it writes — and a long session gets expensive without warning. On Pro and Max plans, running out of limit halfway through a task also stops the work. The logs exist, but they are thousands of JSON lines per project.',
+        es: 'Trabajo a diario con agentes de IA en varios proyectos a la vez y el consumo no se ve: en cada paso el modelo relee todo el contexto de la sesión —cientos de tokens leídos por cada uno que escribe— y una sesión larga se encarece sin avisar. Y lo que más gasta no es escribir, sino buscar: abrir ficheros y rastrear el repositorio hasta dar con el sitio. En los planes Pro y Max, además, quedarse sin límite a mitad de una tarea corta el trabajo. Los registros existen, pero son miles de líneas JSON por proyecto.',
+        en: 'I work with AI agents every day across several projects at once, and usage is invisible: on every step the model re-reads the whole session context — hundreds of tokens read for each one it writes — and a long session gets expensive without warning. And what costs most is not writing but searching: opening files and combing the repository until the right spot turns up. On Pro and Max plans, running out of limit halfway through a task also stops the work. The logs exist, but they are thousands of JSON lines per project.',
       },
       solution: {
-        es: 'Un servidor Node siempre encendido que lee los registros de Claude Code de forma incremental y los convierte en lo que necesito decidir: cuánto llevo del límite de 5 horas y del semanal (y si, a este ritmo, llegaré antes del reinicio), qué sesión relee demasiado contexto, cuánto cuesta cada proyecto y un informe semanal con qué cambiar. Todo se ve sobre un cerebro 3D donde cada petición real viaja como un impulso, con búsqueda (⌘K) y el comando listo para retomar cualquier sesión.',
-        en: 'An always-on Node server that incrementally reads Claude Code’s logs and turns them into what I need to decide: how much of the 5-hour and weekly limits I have used (and whether, at this pace, I will hit them before the reset), which session re-reads too much context, what each project costs and a weekly report with what to change. It all sits on a 3D brain where every real request travels as an impulse, with search (⌘K) and a ready-to-copy command to resume any session.',
+        es: 'Un servidor Node siempre encendido que lee los registros de Claude Code de forma incremental y los convierte en lo que necesito decidir: cuánto llevo del límite de 5 horas y del semanal (y si, a este ritmo, llegaré antes del reinicio), qué sesión relee demasiado contexto, cuánto cuesta cada proyecto y un informe semanal con qué cambiar. Además aprende un mapa de cada proyecto (ficheros clave, órdenes de prueba y dónde empezar cada tarea) que Claude Code consulta mediante una skill y que también se exporta como vault de Obsidian. Todo se ve sobre un cerebro 3D donde cada petición real viaja como un impulso, con búsqueda (⌘K) y el comando listo para retomar cualquier sesión.',
+        en: 'An always-on Node server that incrementally reads Claude Code’s logs and turns them into what I need to decide: how much of the 5-hour and weekly limits I have used (and whether, at this pace, I will hit them before the reset), which session re-reads too much context, what each project costs and a weekly report with what to change. It also learns a map of each project (key files, test commands and where to start each task) that Claude Code queries through a skill and that is also exported as an Obsidian vault. It all sits on a 3D brain where every real request travels as an impulse, with search (⌘K) and a ready-to-copy command to resume any session.',
       },
       extra: [{
         h: { es: 'Por qué un cerebro', en: 'Why a brain' },
@@ -330,12 +330,14 @@ export const projects = [
         },
       }],
       arch: {
-        es: [['Ingesta', 'Lectura incremental de los .jsonl por desplazamiento de bytes · deduplicación por id de mensaje · caché en disco'], ['Plan', 'Ventana de 5 h y límite semanal estimados con los cortes reales del historial · avisos al 75 % y al 90 % · previsión al ritmo actual'], ['Consumo', 'Coste a precios públicos de la API por proyecto, modelo y agente · contexto por sesión con avisos a 200 k, 400 k y 600 k · informe semanal'], ['Tiempo real', 'Server-Sent Events al navegador · impulsos agrupados por petición · reproducción acelerada de las últimas 24 h'], ['Visualización', 'three.js: anatomía procedural (ruido de Perlin, surcos, cerebelo), ~110.000 partículas y ondas de activación en el shader'], ['Calidad y acceso', 'Tests con node --test y CI en Node 20, 22 y 24 · demo estática por GitHub Actions · en casa, con clave y código QR']],
-        en: [['Ingestion', 'Incremental reading of the .jsonl logs by byte offset · message-id deduplication · on-disk cache'], ['Plan', '5-hour window and weekly limit estimated from the real cut-offs in the history · alerts at 75% and 90% · forecast at the current pace'], ['Usage', 'Cost at public API prices by project, model and agent · per-session context with alerts at 200 k, 400 k and 600 k · weekly report'], ['Real time', 'Server-Sent Events to the browser · impulses grouped by request · accelerated replay of the last 24 h'], ['Visualisation', 'three.js: procedural anatomy (Perlin noise, sulci, cerebellum), ~110,000 particles and activation waves in the shader'], ['Quality & access', 'Tests with node --test and CI on Node 20, 22 and 24 · static demo via GitHub Actions · at home, with a key and QR code']],
+        es: [['Ingesta', 'Lectura incremental de los .jsonl por desplazamiento de bytes · deduplicación por id de mensaje · caché en disco'], ['Plan', 'Ventana de 5 h y límite semanal estimados con los cortes reales del historial · avisos al 75 % y al 90 % · previsión al ritmo actual'], ['Consumo', 'Coste a precios públicos de la API por proyecto, modelo y agente · contexto por sesión con avisos a 200 k, 400 k y 600 k · informe semanal'], ['Mapa', 'TF-IDF sobre las peticiones pasadas: ficheros leídos y editados, órdenes de prueba y pasos de búsqueda · skill para Claude Code · vault de Obsidian regenerado cada 10 min'], ['Tiempo real', 'Server-Sent Events al navegador · impulsos agrupados por petición · reproducción acelerada de las últimas 24 h'], ['Visualización', 'three.js: anatomía procedural (ruido de Perlin, surcos, cerebelo), ~110.000 partículas y ondas de activación en el shader'], ['Calidad y acceso', 'ESLint y tests con node --test, CI en Node 20, 22 y 24 · PWA completa (sin conexión, instalable, «atrás» por capas) · demo estática por GitHub Actions · en casa, con clave y código QR']],
+        en: [['Ingestion', 'Incremental reading of the .jsonl logs by byte offset · message-id deduplication · on-disk cache'], ['Plan', '5-hour window and weekly limit estimated from the real cut-offs in the history · alerts at 75% and 90% · forecast at the current pace'], ['Usage', 'Cost at public API prices by project, model and agent · per-session context with alerts at 200 k, 400 k and 600 k · weekly report'], ['Map', 'TF-IDF over past requests: files read and edited, test commands and search steps · a skill for Claude Code · an Obsidian vault regenerated every 10 min'], ['Real time', 'Server-Sent Events to the browser · impulses grouped by request · accelerated replay of the last 24 h'], ['Visualisation', 'three.js: procedural anatomy (Perlin noise, sulci, cerebellum), ~110,000 particles and activation waves in the shader'], ['Quality & access', 'ESLint and tests with node --test, CI on Node 20, 22 and 24 · complete PWA (offline, installable, layered «back») · static demo via GitHub Actions · at home, with a key and QR code']],
       },
       decisions: {
         es: [
           'El límite se aprende, no se supone: Anthropic no publica su tamaño, pero el historial guarda cada corte. Sinapsis mide lo consumido justo antes de cada uno y lo usa como presupuesto, y avisa de que es una estimación.',
+          'Una skill y no un conector MCP: un conector carga sus definiciones en cada paso de cada sesión; una skill solo ocupa su descripción (unos 60 tokens) hasta que se usa.',
+          'El mapa es una pista, no la verdad: si no hay peticiones parecidas en el historial, la IA explora como siempre.',
           'El contexto como métrica principal, porque es lo que más consume: cada sesión abierta lleva un medidor verde, ámbar o rojo y avisa cuando conviene compactar o empezar de nuevo.',
           'Privacidad y seguridad: nada sale del ordenador, por defecto solo escucha en local, desde el móvil exige una clave y solo responde a nombres de host conocidos (protección frente a DNS rebinding).',
           'Ingesta incremental en lugar de releer el historial: la primera pasada queda en caché y después solo se procesa lo nuevo, cada poco más de un segundo.',
@@ -344,6 +346,8 @@ export const projects = [
         ],
         en: [
           'The limit is learned, not assumed: Anthropic does not publish its size, but the history records every cut-off. Sinapsis measures the usage right before each one, uses it as the budget and says that it is an estimate.',
+          'A skill rather than an MCP connector: a connector loads its definitions on every step of every session; a skill only takes up its description (about 60 tokens) until it is used.',
+          'The map is a hint, not the truth: if there are no similar requests in the history, the AI explores as usual.',
           'Context as the main metric, because it drives usage: every open session gets a green, amber or red gauge and an alert when it is time to compact or start fresh.',
           'Privacy and security: nothing leaves the computer, it listens locally by default, phone access requires a key and it only answers known host names (protection against DNS rebinding).',
           'Incremental ingestion instead of re-reading the history: the first pass is cached and from then on only new data is processed, every second or so.',
@@ -352,8 +356,8 @@ export const projects = [
         ],
       },
       impact: {
-        es: ['Lo uso a diario: corre siempre en mi Mac y lo consulto también desde el móvil.', 'Sé cuánto me queda del plan y cuándo se reinicia, y me avisa antes de agotarlo o de que una sesión se dispare.', 'Código abierto (MIT) con demo pública: se prueba en el navegador sin instalar nada.'],
-        en: ['I use it every day: it runs permanently on my Mac and I check it from my phone too.', 'I know how much of my plan is left and when it resets, and it warns me before I run out or a session spikes.', 'Open source (MIT) with a public demo: you can try it in the browser without installing anything.'],
+        es: ['Lo uso a diario: corre siempre en mi Mac y lo consulto también desde el móvil.', 'Sé cuánto me queda del plan y cuándo se reinicia, y me avisa antes de agotarlo o de que una sesión se dispare.', 'Mi Claude Code consulta el mapa antes de explorar mis proyectos, en lugar de buscar a ciegas.', 'Código abierto (MIT) con demo pública: se prueba en el navegador sin instalar nada.'],
+        en: ['I use it every day: it runs permanently on my Mac and I check it from my phone too.', 'I know how much of my plan is left and when it resets, and it warns me before I run out or a session spikes.', 'My Claude Code checks the map before exploring my projects, instead of searching blindly.', 'Open source (MIT) with a public demo: you can try it in the browser without installing anything.'],
       },
       next: { es: 'Acceso seguro fuera de casa y comparativas por tipo de tarea entre semanas.', en: 'Secure access away from home and week-over-week comparisons by type of task.' },
     },

@@ -1,8 +1,8 @@
 // Escritorio del portfolio: Mac en pantallas grandes, iOS en el móvil.
 // Un gesto = un proyecto (como luciagascon.es). Enlaces directos: index.html#lookit · ?lang=en
-import { profile, experience, education, extras, skills, filters, projects, cvFile, cvPreview } from './data.js?v=0dc45b75b1';
-import { UI, pick, classicFile } from './i18n.js?v=0dc45b75b1';
-import { loadAqua, mountSimulator, mountHistory, mountHorizon } from './aqua.js?v=0dc45b75b1';
+import { profile, experience, education, extras, skills, filters, projects, cvFile, cvPreview } from './data.js?v=d9682702de';
+import { UI, pick, classicFile } from './i18n.js?v=d9682702de';
+import { loadAqua, mountSimulator, mountHistory, mountHorizon } from './aqua.js?v=d9682702de';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
