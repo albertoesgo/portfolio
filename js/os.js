@@ -1,8 +1,8 @@
 // Escritorio del portfolio: Mac en pantallas grandes, iOS en el móvil.
 // Un gesto = un proyecto (como luciagascon.es). Enlaces directos: index.html#lookit · ?lang=en
-import { profile, experience, education, extras, skills, tech, filters, projects, cvFile, cvPreview } from './data.js?v=3baeaeac89';
-import { UI, pick, classicFile } from './i18n.js?v=3baeaeac89';
-import { loadAqua, mountSimulator, mountHistory, mountHorizon } from './aqua.js?v=3baeaeac89';
+import { profile, experience, education, extras, skills, tech, filters, projects, cvFile, cvPreview } from './data.js?v=d07b429389';
+import { UI, pick, classicFile } from './i18n.js?v=d07b429389';
+import { loadAqua, mountSimulator, mountHistory, mountHorizon } from './aqua.js?v=d07b429389';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -219,6 +219,18 @@ function render(animate) {
   applyTheme();
   if (animate) void track.offsetWidth; // fija el estado inicial para que la entrada se anime
   go(i, true, animate);
+  fitHero();
+}
+// La presentación del inicio cabe siempre entre la barra de menús y el Dock: en pantallas
+// bajas primero se quitan las preguntas rápidas y, si aún no cabe, se reduce un poco
+function fitHero() {
+  const home = $('.home'), hero = home && $('.hero', home);
+  if (!hero || mode !== 'mac') return;
+  hero.classList.remove('noask'); hero.style.removeProperty('--hk');
+  const room = home.clientHeight;
+  let h = hero.offsetHeight;
+  if (h * 0.86 > room) { hero.classList.add('noask'); h = hero.offsetHeight; }
+  if (h > room) hero.style.setProperty('--hk', (room / h).toFixed(3));
 }
 
 function dockHTML() {
@@ -243,7 +255,7 @@ function applyMode() {
 }
 const scale = () => (mode === 'mac' ? +getComputedStyle(document.documentElement).getPropertyValue('--s') || 1 : 1);
 mq.addEventListener('change', () => { applyMode(); go(i, true); });
-addEventListener('resize', () => { if (mode === 'mac') applyMode(); });
+addEventListener('resize', () => { if (mode === 'mac') { applyMode(); fitHero(); } });
 
 /* ── Navegación ── */
 function go(n, instant, reveal) {

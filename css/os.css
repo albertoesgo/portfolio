@@ -220,6 +220,8 @@ button:disabled { cursor: default; }
 /* Inicio (Mac): portada a la izquierda y mosaico de proyectos a la derecha */
 .home { position: absolute; inset: 56px 64px 168px; display: grid; grid-template-columns: minmax(0, 520px) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); gap: 48px; align-items: center; }
 .mac .w-profile, .mac .icons, .qs { display: none; }
+.hero { transform: scale(var(--hk, 1)); transform-origin: 0 50%; }
+.hero.noask .ask { display: none; }
 .hero .hi { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 18px; padding: 6px 12px; border-radius: 980px; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); font-size: 14px; font-weight: 600; color: var(--label); }
 .hero .hi i { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
 .hero h1 { margin: 6px 0 0 -3px; font-size: 60px; line-height: 1; font-weight: 700; letter-spacing: -.045em; }
