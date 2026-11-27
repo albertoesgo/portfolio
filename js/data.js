@@ -15,6 +15,8 @@ export const profile = {
     es: 'IA y automatización que llegan a producción, del dato a la interfaz.',
     en: 'AI and automation that ship, from data to interface.',
   },
+  // Trozo del titular que se resalta con rotulador
+  headlineMark: { es: 'llegan a producción', en: 'ship' },
   bio: {
     es: [
       'Ingeniero informático por la Universidad de Málaga, con mención en Computación. Me dedico a convertir modelos —de redes neuronales para series temporales a LLMs— en sistemas fiables, medibles y que se usan de verdad.',

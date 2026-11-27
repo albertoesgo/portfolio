@@ -11,7 +11,14 @@ export const UI = {
     hintMac: 'Desliza con dos dedos, usa la rueda o ← → para pasar de proyecto', hintPhone: 'Desliza para ver mis proyectos',
     homeX: {
       lookitM: (n) => `${n} prendas en directo`,
-      facts: (n, live) => [['Proyectos', `${n} · ${live} en producción`], ['Formación', 'Ing. Informática · UMA · Erasmus+']],
+      askH: '¿Qué quieres saber?',
+      ask: {
+        live: ['¿Qué tienes en producción?', (n, total) => `${n} de mis ${total} proyectos están publicados y con usuarios reales:`],
+        ai: ['¿Qué has hecho con IA?', 'Un modelo de redes de grafos que predice los embalses de Málaga (mi TFG), la búsqueda con Gemini de LOOKIT y Sinapsis, que mide qué hacen mis agentes de IA y cuánto gastan.'],
+        work: ['¿Dónde trabajas?', (role, org, since) => `Soy ${role[0].toLowerCase() + role.slice(1)} en ${org} desde ${since}. Antes, prácticas en Babel modernizando un sistema de gestión con Oracle APEX y OutSystems.`],
+        study: ['¿Qué estudiaste?', 'Ingeniería Informática en la Universidad de Málaga, con mención en Computación, y un año de Erasmus+ en Gdańsk (Polonia), todo en inglés.'],
+      },
+      more: 'Más sobre mí',
     },
     // Proyecto
     shotOf: (n) => `Captura de ${n}`, onPhone: (n) => `${n} en el móvil`,
@@ -47,7 +54,14 @@ export const UI = {
     hintMac: 'Swipe with two fingers, scroll or use ← → to change project', hintPhone: 'Swipe to see my projects',
     homeX: {
       lookitM: (n) => `${n} items, live`,
-      facts: (n, live) => [['Projects', `${n} · ${live} live`], ['Education', 'Computer Eng. · UMA · Erasmus+']],
+      askH: 'What would you like to know?',
+      ask: {
+        live: ['What’s in production?', (n, total) => `${n} of my ${total} projects are live, with real users:`],
+        ai: ['What have you built with AI?', 'A graph neural network that forecasts Málaga’s reservoirs (my thesis), LOOKIT’s Gemini-powered search, and Sinapsis, which tracks what my AI agents do and what they cost.'],
+        work: ['Where do you work?', (role, org, since) => `I’m an ${role} at ${org} since ${since}. Before that, an internship at Babel modernising a business management system with Oracle APEX and OutSystems.`],
+        study: ['What did you study?', 'Computer Engineering at the University of Málaga, specialising in Computing, plus an Erasmus+ year in Gdańsk (Poland), taught in English.'],
+      },
+      more: 'More about me',
     },
     shotOf: (n) => `Screenshot of ${n}`, onPhone: (n) => `${n} on mobile`,
     tabs: [['sim', 'Simulator'], ['hist', 'History'], ['prec', 'Accuracy'], ['app', 'The app']],

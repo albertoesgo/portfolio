@@ -1,8 +1,8 @@
 // Escritorio del portfolio: Mac en pantallas grandes, iOS en el móvil.
 // Un gesto = un proyecto (como luciagascon.es). Enlaces directos: index.html#lookit · ?lang=en
-import { profile, experience, education, extras, skills, tech, filters, projects, cvFile, cvPreview } from './data.js?v=ef9bef285c';
-import { UI, pick, classicFile } from './i18n.js?v=ef9bef285c';
-import { loadAqua, mountSimulator, mountHistory, mountHorizon } from './aqua.js?v=ef9bef285c';
+import { profile, experience, education, extras, skills, tech, filters, projects, cvFile, cvPreview } from './data.js?v=3baeaeac89';
+import { UI, pick, classicFile } from './i18n.js?v=3baeaeac89';
+import { loadAqua, mountSimulator, mountHistory, mountHorizon } from './aqua.js?v=3baeaeac89';
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -128,6 +128,21 @@ function chromeHTML() {
 }
 
 const rv = (k) => ` rv" style="--k:${k}`;
+// Titular con el trozo clave resaltado con rotulador
+const headline = () => esc(tr(profile.headline)).replace(esc(tr(profile.headlineMark)), (m) => `<mark>${m}</mark>`);
+// Respuestas rápidas del inicio (escritorio): salen de los datos, así no se quedan viejas
+function askHTML(k) {
+  const a = t.homeX.ask[k], chip = (p) => `<button class="achip" data-go="${projects.indexOf(p) + 1}">${appIcon(p)}${esc(tr(p.short || p.name))}</button>`;
+  const pick = (...ids) => ids.map((id) => projects.find((p) => p.id === id)).filter(Boolean);
+  const e = experience[0];
+  const body = {
+    live: () => [a[1](projects.filter((p) => p.live).length, projects.length), projects.filter((p) => p.live)],
+    ai: () => [a[1], pick('aqua', 'lookit', 'sinapsis')],
+    work: () => [a[1](tr(e.role), e.org, tr(e.date).split(' –')[0]), null],
+    study: () => [a[1], null],
+  }[k]();
+  return `<p>${esc(body[0])}</p><div class="achips">${body[1] ? body[1].map(chip).join('') : `<button class="achip" data-act="about">${ICON.person}${t.homeX.more}</button>`}</div>`;
+}
 
 function homeHTML(cur) {
   const h = t.homeX;
@@ -142,15 +157,15 @@ function homeHTML(cur) {
     <div class="hero">
       <p class="hi${rv(0)}"><i></i>${esc(tr(profile.role))} · ${esc(tr(profile.location))}</p>
       <h1 class="${rv(1)}">${esc(profile.name)}</h1>
-      <p class="hline${rv(3)}">${esc(tr(profile.headline))}</p>
+      <p class="hline${rv(3)}">${headline()}</p>
       <div class="actions${rv(4)}"><button class="btn" data-act="cv">${ICON.doc}${t.viewCV}</button><button class="btn sec" data-act="contact">${t.contact}</button></div>
-      <dl class="facts${rv(5)}">${h.facts(projects.length, projects.filter((p) => p.live).length).map(([a, b]) => `<div><dt>${a}</dt><dd>${b}</dd></div>`).join('')}</dl>
+      <div class="ask${rv(5)}"><p>${h.askH}</p><div class="askq" role="tablist" aria-label="${esc(h.askH)}">${Object.entries(h.ask).map(([k, [q]], n) => `<button role="tab" data-ask="${k}" aria-selected="${n === 0}">${esc(q)}</button>`).join('')}</div><div class="askans" role="tabpanel" aria-live="polite">${askHTML('live')}</div></div>
     </div>
     <div class="feat${rv(2)}" aria-label="${t.projects}">${projects.map(card).join('')}</div>
     <div class="w-profile">
       <p class="hi${rv(0)}"><i></i>${esc(tr(profile.role))} · ${esc(tr(profile.location))}</p>
       <h1 class="${rv(1)}">${esc(profile.name.split(' ')[0])}<br>${esc(profile.name.split(' ').slice(1).join(' '))}</h1>
-      <p class="pitch${rv(2)}">${esc(tr(profile.headline))}</p>
+      <p class="pitch${rv(2)}">${headline()}</p>
     </div>
     <div class="icons${rv(4)}"><h2>${t.projects}</h2><div class="irow">${projects.map((p, k) => `<button class="dicon" data-go="${k + 1}">${appIcon(p)}<span>${esc(tr(p.short || p.name))}</span></button>`).join('')}</div></div>
   </div></section>`;
@@ -426,6 +441,12 @@ function onClick(e) {
   }
   const inDock = e.target.closest('#dock > *');
   if (inDock) bounce(inDock);
+  const ask = e.target.closest('[data-ask]');
+  if (ask) {
+    ask.parentElement.querySelectorAll('[data-ask]').forEach((b) => b.setAttribute('aria-selected', b === ask));
+    ask.closest('.ask').querySelector('.askans').innerHTML = askHTML(ask.dataset.ask);
+    return;
+  }
   const g = e.target.closest('[data-go]');
   if (g) { closeAll(); go(+g.dataset.go); return; }
   const a = e.target.closest('[data-act]');
